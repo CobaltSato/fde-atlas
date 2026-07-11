@@ -5,7 +5,7 @@ type: 必殺技
 sor: 書き起こし・メモの原本
 approval_line: なし(このスキルは抽出・提案まで。反映の実行は各SoRの承認線に従う)
 autonomy: L1
-validated:
+validated: 2026-07-11 / kaiki-cases K02 / claude-sonnet-5(headless)
 updated: 2026-07-11
 ---
 

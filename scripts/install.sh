@@ -51,11 +51,14 @@ fi
 # hook は実行権限が無いと無反応になる(典型事故)
 chmod +x "$DST/.claude/hooks/"*.sh 2>/dev/null || true
 
-# Git = セーブデータ(fde-guide.md §8)
+# Git = セーブデータ(fde-guide.md §8)。新規initのときだけ導入時点のセーブポイントも作る
+# (既存リポジトリのstaging状態には触れない)
 if ! git -C "$DST" rev-parse --git-dir >/dev/null 2>&1; then
   git -C "$DST" init >/dev/null
+  git -C "$DST" add -A
+  git -C "$DST" commit -q -m "chore: fde-kit導入(テンプレ一式)" >/dev/null 2>&1 || true
   echo ""
-  echo "git init しました(セーブデータ置き場)。"
+  echo "git init + 導入時点のセーブポイント(commit)を作りました。"
 fi
 
 echo ""

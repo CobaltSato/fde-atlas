@@ -5,7 +5,7 @@ type: 必殺技
 sor: source-map.md・daichou.md・context/rules.md
 approval_line: 原本の削除・上書き/SoR側ファイルの移動改名/外部送信/機密原本の取込み
 autonomy: L1
-validated:
+validated: 2026-07-11 / kaiki-cases K01 / claude-sonnet-5(headless)
 updated: 2026-07-11
 ---
 

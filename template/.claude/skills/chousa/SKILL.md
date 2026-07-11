@@ -5,7 +5,7 @@ type: 必殺技
 sor: source-map.mdのSoR・repo内ファイル・Web(最後の手段)
 approval_line: 有料購入・フォーム送信・ログイン・認証情報入力
 autonomy: L1
-validated:
+validated: 2026-07-11 / kaiki-cases K03 / claude-sonnet-5(headless)
 updated: 2026-07-11
 ---
 

@@ -8,13 +8,20 @@
 
 | フェーズ | 内容 | 状態 | commit |
 |---|---|---|---|
-| P0 | このblueprint | 完了 | docs: FW構築方針資料 |
-| P1 | 末端ファイル(templates/checklists/fixtures/地図系/.gitignore/CLAUDE.md) | 未着手 | feat: テンプレ・地図系・骨格 |
-| P2 | AGENTS.md+template/README.md | 未着手 | feat: 入口文書 |
-| P3 | skills 10本 | 未着手 | feat: スキル10本 |
-| P4 | settings.json+hooks 3本 | 未着手 | feat: hooksと権限設定 |
-| P5 | install.sh+FW本体README.md | 未着手 | feat: 導入スクリプトとREADME |
-| P6 | E2Eドライラン+検証+回帰ケース初期化 | 未着手 | test: E2E検証と回帰ケース初期化 |
+| P0 | このblueprint | 完了 | a5163dd |
+| P1 | 末端ファイル32点(Sonnet生成→Fableレビュー) | 完了 | cd37b83 |
+| P2 | AGENTS.md(4,199字)+template/README.md | 完了 | c4da14d |
+| P3 | skills 10本(型2本=Fable、8本=Sonnet生成→Fableレビュー) | 完了 | cb4f57a |
+| P4 | settings.json+hooks 3本 | 完了 | 5a959e0 |
+| P5 | install.sh+FW本体README.md | 完了 | 67e5e0c |
+| P6 | E2E検証+回帰ケース初期化 | 完了 | (本commit) |
+
+### P6 検証結果(2026-07-11)
+- hooks単体: guard-bash(rm -rf/-fr・force push遮断、安全系通過、壊れJSONはfail-open)/secret-scan(AKIA検知・除外パス)/session-start(注入18行≤30) — 全合格
+- install.sh: コピー41・再実行全スキップ・git init+導入commit・+x付与・design/非配布・内容一致 — 全合格
+- 実セッション(headless・**claude-sonnet-5**で最弱実行者検証を兼ねる): SessionStart注入=素のstdoutで動作確認/CLAUDE.md→@AGENTS.md import動作確認/回帰K01〜K03全合格(指示混入の検知停止・台帳照合の重複判定・機密の参照のみ登録・提案で止まる承認線・Web検索0回)
+- 曖昧語lint: skills+AGENTS.mdでゼロ件/AGENTS.md 4,199字(≤5,500)
+- validatedはK01〜K03で検証済みの3スキル(shorui/gijiroku/chousa)のみ記入。未検証スキルは空欄のまま(§9捏造しない)。K04/K05を今後のケースとして台帳に登録済み
 
 ## 設計原則(全フェーズ共通)
 
