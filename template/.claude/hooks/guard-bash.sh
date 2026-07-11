@@ -8,7 +8,7 @@ CMD=$(printf '%s' "$IN" | tr '\n' ' ' | sed -n 's/.*"command"[[:space:]]*:[[:spa
 
 # 破壊系1: rm の再帰+強制フラグ(順不同・結合フラグ対応)
 if printf '%s' "$CMD" | grep -qE '(^|[;&|[:space:]])rm[[:space:]][^;&|]*-[a-zA-Z]*(r[a-zA-Z]*f|f[a-zA-Z]*r)'; then
-  echo "[承認線 §6] rm の再帰強制削除は不可逆です。削除は対象と理由を templates/shounin-irai.md で人間へ承認依頼するか、人間が直接実行してください。" >&2
+  echo "[承認線 §6] rm の再帰強制削除は不可逆です。削除は対象と理由を templates/approval-request.md で人間へ承認依頼するか、人間が直接実行してください。" >&2
   exit 2
 fi
 
@@ -20,7 +20,7 @@ fi
 
 # 送信系: 送信はドラフトまで(承認線の既定)
 if printf '%s' "$CMD" | grep -qE '(^|[;&|[:space:]])(mail|sendmail|mutt)[[:space:]]'; then
-  echo "[承認線 §6] 送信は自動実行しません。ドラフトを作り、templates/shounin-irai.md で人間の承認を得てください。" >&2
+  echo "[承認線 §6] 送信は自動実行しません。ドラフトを作り、templates/approval-request.md で人間の承認を得てください。" >&2
   exit 2
 fi
 

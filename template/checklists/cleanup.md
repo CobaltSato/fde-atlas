@@ -11,4 +11,4 @@
 5. work/log.mdで差し戻しなし5回以上の業務はあるか。(Yes/No)→ Yesなら自律度昇格提案。決定は人間。(§6.7)
 6. fde-guide.mdの上流版との差はあるか。(Yes/No、version確認)
 7. 最終避難訓練日が1年超か。(Yes/No)→ Yesなら実施提案。(§13.5)
-8. daichou.mdが100行超か。(Yes/No)→ YesならCSV移行提案。(§7.6)
+8. ledger.mdが100行超か。(Yes/No)→ YesならCSV移行提案。(§7.6)

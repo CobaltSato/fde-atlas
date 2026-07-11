@@ -23,19 +23,19 @@ updated: 2026-07-11
 2. templates/skill.md(§14.2)へ転記する: いつ/入力/手順/確認順序/実行済み確認/禁止/出力/完了条件/失敗時の更新先。
 3. 共通規格をチェックする(Yes/No: 150行以内/手順10以内/曖昧語なし/停止線あり)。
 4. `.claude/skills/<name>/SKILL.md` へ保存する(nameは小文字ローマ字)。
-5. **checklists/kaiki-cases.mdへ回帰ケースを1行登録する**(入力fixtureが無ければ作る)。
+5. **checklists/regression-cases.mdへ回帰ケースを1行登録する**(入力fixtureが無ければ作る)。
 6. 別セッションでの再実行検証を人間に依頼する(自己評価を検証にしない。§9)。validatedは検証後に記入する。
 
 ## ゲート(Yes/Noで自己確認)
 - [ ] 150行以内・手順10ステップ以内か
 - [ ] 程度・条件を曖昧にする語が無いか(誰が読んでも同じ動作になる文か。迷う語は数字か Yes/No 条件へ置き換える)
-- [ ] checklists/kaiki-cases.mdへ回帰ケースを登録したか
+- [ ] checklists/regression-cases.mdへ回帰ケースを登録したか
 
 ## 停止線(MUST NOT)
 - validatedを自己評価だけで記入しない(別セッションでの再実行検証を経てから記入する)
 
 ## 出力形式
-`.claude/skills/<name>/SKILL.md`(templates/skill.md形式)+checklists/kaiki-cases.mdへの追記行。
+`.claude/skills/<name>/SKILL.md`(templates/skill.md形式)+checklists/regression-cases.mdへの追記行。
 
 ## 完了条件
 新しいSKILL.mdが共通規格チェックを通過して保存され、回帰ケースが1行登録され、人間への検証依頼が出されている。

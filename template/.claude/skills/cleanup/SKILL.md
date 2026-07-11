@@ -1,25 +1,25 @@
 ---
-name: tanaoroshi
+name: cleanup
 description: 棚卸し(§13.2・§13.5)。work/・Skill・templates等の運用資産を点検し、アーカイブ・削除・昇格を提案する。「棚卸しして」「整理して」「古いファイルを片付けて」で使う。
 type: 必殺技
-sor: checklists/tanaoroshi.md・work/log.md
+sor: checklists/cleanup.md・work/log.md
 approval_line: 削除・アーカイブの実行/自律度昇格の決定
 autonomy: L1
 validated:
 updated: 2026-07-11
 ---
 
-# /tanaoroshi — 棚卸し
+# /cleanup — 棚卸し
 
 ## いつ使うか
 運用資産(work/ログ・Skill・templates・生成物)が増え、整理・点検が要るとき。
 根拠: fde-guide.md §13.2(作業フォルダの棚卸し)・§13.5(避難訓練)。
 
 ## 入力
-- なし(checklists/tanaoroshi.mdの8点検を対象へ適用する)
+- なし(checklists/cleanup.mdの8点検を対象へ適用する)
 
 ## 手順
-1. checklists/tanaoroshi.md の8点検を順に実行する(work/古ログ・Skill鮮度・未参照物・SoR矛盾・昇格候補・guide上流差・避難訓練・台帳肥大)。
+1. checklists/cleanup.md の8点検を順に実行する(work/古ログ・Skill鮮度・未参照物・SoR矛盾・昇格候補・guide上流差・避難訓練・台帳肥大)。
 2. 提案リスト(対象|判定|提案|理由)を提示する。**自律度昇格の提案(項目5)は「人間レビュー要」と明記する**(§6.7: 昇格を決めるのは人間)。
 3. **人間承認後にのみ**削除・アーカイブ(work/archive/へ移動)を実行する。
 4. 実行結果をdiffで提示する。

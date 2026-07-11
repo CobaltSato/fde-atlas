@@ -1,5 +1,5 @@
 ---
-name: shime
+name: wrap-up
 description: セッションの終了手順(§5.4)。作業を終える・中断するとき、状態の書き出しとcommitまでを行う。「しめて」「終わり」「今日はここまで」「中断する」「セーブして」「クローズ」で使う。
 type: 必殺技
 sor: work/STATUS.md・Git
@@ -9,7 +9,7 @@ validated:
 updated: 2026-07-11
 ---
 
-# /shime — 終了手順
+# /wrap-up — 終了手順
 
 ## いつ使うか
 セッションを終える・中断するとき。作業が完了していなくても使う(中断も終了手順で閉じる)。
@@ -42,7 +42,7 @@ updated: 2026-07-11
 - ファイル削除を承認なしに実行しない
 
 ## 出力形式
-締めの報告3行(到達点/次アクション/未解決)。長い完了報告が必要な業務では templates/kanryou-houkoku.md を使う。
+締めの報告3行(到達点/次アクション/未解決)。長い完了報告が必要な業務では templates/completion-report.md を使う。
 
 ## 完了条件
 commit が作られ、`git status --porcelain` が空で、STATUS.md の1行目が次アクションになっている。

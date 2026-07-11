@@ -1,7 +1,7 @@
 #!/bin/sh
 # 対の規範: AGENTS.md 中核規則8「機密・個人情報を作業フォルダに置かない」(fde-guide.md §3.3)
 # 検知するのは定型 credential のみ。日本語の個人情報は正規表現では守れないため検知しない
-# (checklists/gate.md の機密区分判定と /shime の機密チェック、.gitignore が担当)。
+# (checklists/gate.md の機密区分判定と /wrap-up の機密チェック、.gitignore が担当)。
 # PostToolUse は実行後に走るため、これはブロックではなく是正フィードバックである。
 IN=$(cat 2>/dev/null || true)
 FP=$(printf '%s' "$IN" | tr '\n' ' ' | sed -n 's/.*"file_path"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p')

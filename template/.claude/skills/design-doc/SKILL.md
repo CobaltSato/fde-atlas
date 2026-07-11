@@ -1,5 +1,5 @@
 ---
-name: sekkeisho
+name: design-doc
 description: 設計書の作成・レビュー・更新(§9・§14.2)。要件定義書・基本設計書を書く、または既存の設計書をレビューするときに使う。「設計書を作って」「要件定義を書いて」「この設計書をレビューして」で使う。
 type: 必殺技
 sor: 元ネタ文書(前工程文書)・context/glossary.md
@@ -9,7 +9,7 @@ validated:
 updated: 2026-07-11
 ---
 
-# /sekkeisho — 設計書(作成・レビュー)
+# /design-doc — 設計書(作成・レビュー)
 
 ## いつ使うか
 設計書(要件定義書・基本設計書)を作る、またはレビューするとき。
@@ -24,16 +24,16 @@ updated: 2026-07-11
 1. モードを宣言する(作成/レビュー/更新)。
 2. **作成モード**:
    1. 入力を確認する(対象/工程/元ネタパス/読者/完了条件)。
-   2. テンプレを選ぶ(templates/youken-teigi.md または templates/kihon-sekkei.md)。合わない場合は章構成案を提示し承認を得る。
+   2. テンプレを選ぶ(templates/requirements.md または templates/basic-design.md)。合わない場合は章構成案を提示し承認を得る。
    3. context/glossary.md で用語を統一する。新出用語は追記案を提示する。
    4. **元ネタに書かれた内容だけで書く**。無い内容は`【未確定】`と書く(§9)。数値は由来を注記する。
    5. **章単位で書き**、章ごとにdiffを提示する。
    6. 図はMermaid(flowchart/erDiagram)で描く。
-   7. セルフレビュー(checklists/sekkeisho-review.md)を実行する。
+   7. セルフレビュー(checklists/design-doc-review.md)を実行する。
    8. docs/へ保存し、【未確定】一覧と完了報告を出す。
 3. **レビューモード**:
    1. 対象・工程・比較対象(前工程文書)を確認する。
-   2. checklists/sekkeisho-review.md をR01〜R10でY/N/NA判定する。
+   2. checklists/design-doc-review.md をR01〜R10でY/N/NA判定する。
    3. 指摘は**原文引用+観点ID+修正案**の3点セットで書く。
    4. checklist外の判断(業務妥当性・実現可能性・コスト)は「人間レビュー要」と明記する。
    5. docs/review/へ保存する。**本文は修正しない**。

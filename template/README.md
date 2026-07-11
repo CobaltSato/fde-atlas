@@ -20,15 +20,15 @@
 
 | コマンド | 用途 |
 |---|---|
-| /kabeuchi | 壁打ち(曖昧な依頼を作業地図にする) |
-| /chousa | 調査(出典付きメモ) |
-| /shorui | 書類の分類・命名・台帳記帳 |
-| /sekkeisho | 設計書の作成・レビュー |
-| /gijiroku | 会議メモ→決定・宿題の抽出 |
-| /shime | 終了手順(保存+commit) |
+| /brainstorm | 壁打ち(曖昧な依頼を作業地図にする) |
+| /research | 調査(出典付きメモ) |
+| /filing | 書類の分類・命名・台帳記帳 |
+| /design-doc | 設計書の作成・レビュー |
+| /minutes | 会議メモ→決定・宿題の抽出 |
+| /wrap-up | 終了手順(保存+commit) |
 
 ## AIなしで回すとき(最終縮退)
 
 AIが使えなくても、この順で読めば人間だけで業務を1周できます:
-`source-map.md`(どこに正本があるか)→ `daichou.md`(書類の現状)→ `checklists/`(確認観点)→ `work/STATUS.md`(次にやること)。
+`source-map.md`(どこに正本があるか)→ `ledger.md`(書類の現状)→ `checklists/`(確認観点)→ `work/STATUS.md`(次にやること)。
 手順の詳細は各 `.claude/skills/<名前>/SKILL.md` に番号付きで書いてあり、人間がそのまま実行できます。

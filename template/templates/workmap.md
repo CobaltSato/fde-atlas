@@ -1,4 +1,4 @@
-> 用途: 業務1件ごとの作業地図テンプレ。fde-guide.md §14.1準拠。kabeuchiスキルが `work/<業務名>/map.md` として使う。
+> 用途: 業務1件ごとの作業地図テンプレ。fde-guide.md §14.1準拠。brainstormスキルが `work/<業務名>/map.md` として使う。
 
 # 作業地図: <未設定>
 

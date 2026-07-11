@@ -152,7 +152,7 @@
 <h3>3-1. 情報の置き場は3層</h3>
 <table>
   <tr><th>層</th><th>場所</th><th>置くもの</th></tr>
-  <tr><td><b>地図</b>(何を信じ、どう判断するか)</td><td>ルート: AGENTS.md記入欄・source-map.md・daichou.md・context/</td><td>SoRの所在・承認線・命名規則・判断ログ・用語</td></tr>
+  <tr><td><b>地図</b>(何を信じ、どう判断するか)</td><td>ルート: AGENTS.md記入欄・source-map.md・ledger.md・context/</td><td>SoRの所在・承認線・命名規則・判断ログ・用語</td></tr>
   <tr><td><b>成果物</b>(人に渡すもの)</td><td>docs/(レビューは docs/review/)</td><td>設計書・議事録・調査メモ。mdが正、共有用に自己完結HTML</td></tr>
   <tr><td><b>状態</b>(AIが再開するためのもの)</td><td>work/</td><td>STATUS.md(次の一手)・業務ごとの作業地図 map.md・計測 log.md</td></tr>
 </table>
@@ -176,14 +176,14 @@
   <div class="arrow">▼</div>
   <div class="step">どの業務かを宣言(1セッション1業務)<small>迷ったら AGENTS.md の現在地表から次の一手を引く</small></div>
   <div class="arrow">▼</div>
-  <div class="step ai">スキルで作業<small>/kabeuchi /chousa /shorui /sekkeisho /gijiroku …</small></div>
+  <div class="step ai">スキルで作業<small>/brainstorm /research /filing /design-doc /minutes …</small></div>
   <div class="arrow">▼</div>
   <div class="branch">
-    <div><div class="lbl">承認線に触れる操作(送信・登録・削除…)</div><div class="step human">人間へ承認依頼して停止<small>templates/shounin-irai.md</small></div></div>
+    <div><div class="lbl">承認線に触れる操作(送信・登録・削除…)</div><div class="step human">人間へ承認依頼して停止<small>templates/approval-request.md</small></div></div>
     <div><div class="lbl">それ以外(読取・下書き)</div><div class="step ai">diffを提示して続行</div></div>
   </div>
   <div class="arrow">▼</div>
-  <div class="step ai">/shime — 終了手順<small>STATUS更新(次の一手を1行目に)→計測1行→機密チェック→commit</small></div>
+  <div class="step ai">/wrap-up — 終了手順<small>STATUS更新(次の一手を1行目に)→計測1行→機密チェック→commit</small></div>
   <div class="arrow">▼ 翌日、続きから</div>
   <div class="step">セーブポイント(Git)<small>失敗してもここへ戻れる</small></div>
 </div>
@@ -193,7 +193,7 @@
   <span><i style="background:var(--warn-soft);border:1.5px solid var(--warn)"></i>停止・警告</span>
 </div>
 
-<h3>4-2. 書類処理の例(/shorui) — 最も守りが厚い流れ</h3>
+<h3>4-2. 書類処理の例(/filing) — 最も守りが厚い流れ</h3>
 <div class="flow">
   <div class="step">書類を受け取る(4件以上なら一括モードを宣言・上限20件)</div>
   <div class="arrow">▼ 1件ごとに checklists/gate.md</div>
@@ -205,7 +205,7 @@
     <div><div class="lbl">通常</div><div class="step ai">命名規則を適用<small>context/rules.md</small></div></div>
   </div>
   <div class="arrow">▼</div>
-  <div class="step ai">台帳(daichou.md)と照合 — 実行済み確認<small>一致 → 「重複」報告、再登録しない(二重処理の防止)</small></div>
+  <div class="step ai">台帳(ledger.md)と照合 — 実行済み確認<small>一致 → 「重複」報告、再登録しない(二重処理の防止)</small></div>
   <div class="arrow">▼ 一括時</div>
   <div class="step human">3件だけ先行 → diff提示 → 人間の承認 → 残りを続行<small>エラー2件連続で全体停止。中断後は台帳で確認して続きから</small></div>
 </div>
@@ -214,24 +214,24 @@
 <div class="flow">
   <div class="step">モデル・Agent・ツールが変わった → /model-change</div>
   <div class="arrow">▼</div>
-  <div class="step ai">回帰テスト — kaiki-cases.md を fixtures/(架空データ)で再実行<small>K01: 指示混入を検知できるか / K02: 議事録抽出 / K03: 出典付き調査</small></div>
+  <div class="step ai">回帰テスト — regression-cases.md を fixtures/(架空データ)で再実行<small>K01: 指示混入を検知できるか / K02: 議事録抽出 / K03: 出典付き調査</small></div>
   <div class="arrow">▼</div>
   <div class="branch">
     <div><div class="lbl">合格</div><div class="step ai">クセをSkillへ追記 → registry.mdへ交代記録<small>自律度は一段下げて再スタート、昇格は実績で</small></div></div>
     <div><div class="lbl">不合格・強いモデルが使えない</div><div class="step stop">縮退モードへ<small>タスクを小さく割る・checklist厳守・人間レビュー増。業務は止めない</small></div></div>
   </div>
   <div class="arrow">▼ 最終縮退(避難訓練: 年1回)</div>
-  <div class="step human">AIゼロでも回る — source-map → daichou → checklists → STATUS の順に人間が読む</div>
+  <div class="step human">AIゼロでも回る — source-map → ledger → checklists → STATUS の順に人間が読む</div>
 </div>
 
 <h2 id="t5"><span class="no">5</span>進行の型 — 迷いを減らす4段階</h2>
 <p class="lead-s">雑に頼める良さは活かしつつ、手戻り(=最大のコスト)を減らすための順序。AIは失敗を怖がらないぶん、方向合わせを先にやるほど安くなります。</p>
 <div class="hflow">
-  <div class="hstep"><b>① 言語化</b><small>質問攻めで目的・SoR・停止線を引き出す<br>= /kabeuchi</small></div>
+  <div class="hstep"><b>① 言語化</b><small>質問攻めで目的・SoR・停止線を引き出す<br>= /brainstorm</small></div>
   <div class="hsep">▶</div>
   <div class="hstep"><b>② 方針確認</b><small>読む対象・範囲・停止条件を先に見せて方向修正</small></div>
   <div class="hsep">▶</div>
-  <div class="hstep"><b>③ 自走</b><small>完了条件と上限を持って実行<br>= /chousa /shorui /sekkeisho …</small></div>
+  <div class="hstep"><b>③ 自走</b><small>完了条件と上限を持って実行<br>= /research /filing /design-doc …</small></div>
   <div class="hsep">▶</div>
   <div class="hstep"><b>④ 道具化</b><small>うまくいった手順を固定<br>= /skill-create</small></div>
 </div>
@@ -244,7 +244,7 @@
   <div class="card"><b>Skillの再利用回数</b><small>道具化が効いているか</small></div>
   <div class="card"><b>1業務あたりのAIコスト</b><small>金額または呼び出し回数</small></div>
 </div>
-<p class="lead-s">記録は /shime が work/log.md へ1行ずつ残し、/tanaoroshi が読んで自律度の昇格を提案します(決定は人間)。</p>
+<p class="lead-s">記録は /wrap-up が work/log.md へ1行ずつ残し、/cleanup が読んで自律度の昇格を提案します(決定は人間)。</p>
 
 <h3>うまくいかない時の見立て — AIが悪いのではなく地図が足りない</h3>
 <table>
@@ -252,7 +252,7 @@
   <tr><td>一般論しか返らない</td><td>SoR・Contextの指定不足(source-map.md・context/)</td></tr>
   <tr><td>勝手に判断して進む</td><td>承認線・停止線の定義不足(AGENTS.md 記入欄)</td></tr>
   <tr><td>毎回同じ説明が必要</td><td>Skill・テンプレ不足 → /skill-create</td></tr>
-  <tr><td>前回の続きから再開できない</td><td>/shime の実施漏れ(STATUS.md の1行目)</td></tr>
+  <tr><td>前回の続きから再開できない</td><td>/wrap-up の実施漏れ(STATUS.md の1行目)</td></tr>
   <tr><td>書類の文面に操られて動く</td><td>指示とデータの分離(gate.md ④・違和感報告)</td></tr>
 </table>
 

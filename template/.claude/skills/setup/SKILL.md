@@ -20,7 +20,7 @@ updated: 2026-07-11
 
 ## 手順
 1. 前提を確認する: fde-guide.mdがあるか(Yes/No)。`.git`があるか(Yes/No、無ければ`git init`を提案する)。
-2. templates/shitsumon.md の形式で一括質問する: 業務名/目的・完了条件/主なSoRと**書類原本の置き場**/承認線への追加/自律度(既定L1)/上限/運転モード(既定: 通常)/責任者。
+2. templates/question.md の形式で一括質問する: 業務名/目的・完了条件/主なSoRと**書類原本の置き場**/承認線への追加/自律度(既定L1)/上限/運転モード(既定: 通常)/責任者。
 3. 回答をAGENTS.mdの記入欄へ反映する(`<未設定>`を置換する)。答えが無い項目は「未設定」のまま残すことを宣言する。
 4. source-map.md・context/rules.md(命名規則)・README.md・work/STATUS.mdへ反映する。
 5. diffを提示する。

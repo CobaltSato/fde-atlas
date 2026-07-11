@@ -18,7 +18,7 @@ claude        # 初回は「信頼しますか?」の確認 → 内容を見て�
 ```mermaid
 flowchart LR
     A["claude を起動<br/>(日付と前回の続きが自動表示)"] --> B["仕事をする<br/>(下の表のコマンドで)"]
-    B --> C["/shime で締める<br/>(記録とセーブが残る)"]
+    B --> C["/wrap-up で締める<br/>(記録とセーブが残る)"]
     C -->|翌日も同じ| A
 ```
 
@@ -28,14 +28,14 @@ flowchart LR
 
 | したいこと | コマンド |
 |---|---|
-| 頭の中を整理したい・仕事の頼み方を決めたい | `/kabeuchi`(壁打ち) |
-| 調べてほしい(出典つきで) | `/chousa` |
-| 書類・ファイルを分類して台帳につけたい | `/shorui` |
-| 設計書を作りたい・レビューしてほしい | `/sekkeisho` |
-| 会議メモから決定事項と宿題を出したい | `/gijiroku` |
-| 今日の作業を終える・中断する | `/shime` |
+| 頭の中を整理したい・仕事の頼み方を決めたい | `/brainstorm`(壁打ち) |
+| 調べてほしい(出典つきで) | `/research` |
+| 書類・ファイルを分類して台帳につけたい | `/filing` |
+| 設計書を作りたい・レビューしてほしい | `/design-doc` |
+| 会議メモから決定事項と宿題を出したい | `/minutes` |
+| 今日の作業を終える・中断する | `/wrap-up` |
 | うまくいったやり方を次回も使いたい | `/skill-create` |
-| ファイルが増えて散らかってきた | `/tanaoroshi`(棚卸し) |
+| ファイルが増えて散らかってきた | `/cleanup`(棚卸し) |
 | AIのモデル・ツールが変わった | `/model-change` |
 
 ## AIとの約束事(このFWの設計)
@@ -57,7 +57,7 @@ A. フォルダに `.claude/skills/` があるか確認してください。Clau
 A. `chmod +x .claude/hooks/*.sh` を実行してください。Windowsは Git Bash が必要です。
 
 **Q. AIがまったく使えなくなったら?**
-A. `source-map.md`(正本の場所)→ `daichou.md`(台帳)→ `checklists/`(確認観点)→ `work/STATUS.md`(次にやること)の順に読めば、人間だけで業務を回せる設計です。年1回はこの「避難訓練」を。
+A. `source-map.md`(正本の場所)→ `ledger.md`(台帳)→ `checklists/`(確認観点)→ `work/STATUS.md`(次にやること)の順に読めば、人間だけで業務を回せる設計です。年1回はこの「避難訓練」を。
 
 ## 設定を変えたいとき
 
@@ -65,7 +65,7 @@ A. `source-map.md`(正本の場所)→ `daichou.md`(台帳)→ `checklists/`(確
 |---|---|
 | AIに任せてよい範囲(承認線・自律度) | 導入先の AGENTS.md「1. このプロジェクトの定義」 |
 | 書類の名前の付け方 | context/rules.md |
-| 設計書のレビュー観点 | checklists/sekkeisho-review.md |
+| 設計書のレビュー観点 | checklists/design-doc-review.md |
 | ブロックするコマンド | .claude/settings.json と .claude/hooks/guard-bash.sh |
 
 ## もっと詳しく

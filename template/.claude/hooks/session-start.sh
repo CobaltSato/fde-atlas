@@ -23,7 +23,7 @@ echo "[セーブ] 直近のcommit:"
 git log --oneline -5 2>/dev/null
 
 if [ -n "$(git status --porcelain 2>/dev/null)" ]; then
-  echo "[注意] 未commitの変更があります(前回の /shime 未実施の可能性)。git diff で差分確認から始めてください(§5.4)。"
+  echo "[注意] 未commitの変更があります(前回の /wrap-up 未実施の可能性)。git diff で差分確認から始めてください(§5.4)。"
   git diff --stat 2>/dev/null | tail -5
 fi
 

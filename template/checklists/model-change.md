@@ -6,7 +6,7 @@
 
 ## 実行手順
 
-1. kaiki-cases.mdの各ケースをfixtures/で再実行し、期待要点と比較する。
+1. regression-cases.mdの各ケースをfixtures/で再実行し、期待要点と比較する。
 2. 差があれば該当SkillのvalidatedをクリアしAGENTS.mdの運転モードを「縮退」へ変更する。
 3. 影響業務の自律度を一段下げ、registry.mdの昇降格ログへ記録する。
 4. 新モデルのクセを各Skillの「失敗時の更新先」へ追記する。
