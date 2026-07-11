@@ -70,6 +70,7 @@ A. `source-map.md`(正本の場所)→ `daichou.md`(台帳)→ `checklists/`(確
 
 ## もっと詳しく
 
+- **設計思想とワークフロー図の解説書(ブラウザで開く)**: [design/kaisetsu.html](design/kaisetsu.html)
 - 考え方の全体像(なぜこう設計されているか): [fde-guide.md](fde-guide.md)
 - FW自体の設計資料と今後の作業: [design/blueprint.md](design/blueprint.md)
 - 導入先にコピーされる中身: `template/`
