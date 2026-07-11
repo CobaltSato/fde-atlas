@@ -1,5 +1,7 @@
 # FDE Atlas — AIに仕事を安心して手伝ってもらうための道具一式
 
+![FDE Atlas](image.png)
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Coding不要](https://img.shields.io/badge/対象-非エンジニア業務-blue.svg)](#)
 [![Claude Code](https://img.shields.io/badge/works%20with-Claude%20Code-5A4FCF.svg)](https://github.com/anthropics/claude-code)
