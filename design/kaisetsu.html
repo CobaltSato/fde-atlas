@@ -1,74 +1,127 @@
-<!-- fde-kit 設計思想・ワークフロー解説書(人間向け)。自己完結HTML: 外部読込なし・オフラインで開ける -->
+<!-- FDE Atlas 設計思想・ワークフロー解説書 v2(人間向け)。自己完結HTML: 外部読込なし・オフラインで開ける -->
 <!doctype html>
 <html lang="ja">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>fde-kit 解説書 — 設計思想とワークフロー</title>
+<title>FDE Atlas 解説書 — 理論・思想・設計・ワークフロー</title>
 <style>
   :root{
     --bg:#faf9f7; --card:#ffffff; --ink:#1f2430; --sub:#5b6472; --line:#d9d5cd;
-    --acc:#0f6f5c; --acc-soft:#e3f0ec; --warn:#a4562a; --warn-soft:#f7e9df; --human:#3d5aa8; --human-soft:#e7ecf8;
+    --acc:#0f6f5c; --acc-soft:#e3f0ec; --warn:#a4562a; --warn-soft:#f7e9df;
+    --human:#3d5aa8; --human-soft:#e7ecf8; --hero1:#0f3d33; --hero2:#155e4e; --shadow:0 1px 3px rgba(0,0,0,.06);
   }
   @media (prefers-color-scheme: dark){
     :root{ --bg:#14171c; --card:#1d222a; --ink:#e8e6e1; --sub:#9aa3b0; --line:#39404b;
-      --acc:#5fc2a8; --acc-soft:#1e3630; --warn:#e09067; --warn-soft:#3a2a20; --human:#8ea8e8; --human-soft:#242e44; }
+      --acc:#5fc2a8; --acc-soft:#1e3630; --warn:#e09067; --warn-soft:#3a2a20;
+      --human:#8ea8e8; --human-soft:#242e44; --hero1:#0d2b25; --hero2:#12433a; --shadow:none; }
   }
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hiragino Sans","Yu Gothic UI","Noto Sans JP",system-ui,sans-serif;line-height:1.75}
-  main{max-width:880px;margin:0 auto;padding:40px 20px 80px}
-  h1{font-size:1.7rem;margin:0 0 4px}
-  h2{font-size:1.2rem;margin:56px 0 12px;padding-left:12px;border-left:4px solid var(--acc)}
+  main{max-width:900px;margin:0 auto;padding:0 20px 80px}
+  /* hero */
+  .hero{background:linear-gradient(135deg,var(--hero1),var(--hero2));color:#f2efe9;border-radius:0 0 18px 18px;padding:44px 28px 30px;margin:0 -20px}
+  .hero h1{font-size:1.9rem;margin:0}
+  .hero p{margin:10px 0 0;color:#cfe4dc;max-width:640px}
+  .badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+  .badge{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:2px 12px;font-size:.78rem}
+  /* toc */
+  .toc{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0 0;font-size:.84rem}
+  .toc a{color:var(--acc);text-decoration:none;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:3px 12px}
+  /* sections */
+  h2{font-size:1.25rem;margin:60px 0 4px;display:flex;align-items:center;gap:10px}
+  h2 .no{background:var(--acc);color:#fff;border-radius:8px;min-width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;font-size:.95rem}
+  h3{font-size:1.02rem;margin:28px 0 6px;color:var(--acc)}
   p{margin:8px 0}
-  .lead{color:var(--sub)}
-  .sec-note{color:var(--sub);font-size:.86rem}
+  .lead-s{color:var(--sub);margin:0 0 14px;font-size:.92rem}
   code{background:var(--acc-soft);padding:1px 6px;border-radius:4px;font-size:.9em}
-  /* 原則カード */
-  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;margin:16px 0}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+  /* cards */
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:12px;margin:16px 0}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;box-shadow:var(--shadow)}
   .card b{display:block;margin-bottom:4px}
   .card small{color:var(--sub)}
-  /* フロー図(CSSのみ) */
+  .card .n{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--acc-soft);color:var(--acc);font-size:.78rem;font-weight:700;margin-right:6px}
+  /* funnel(回答空間) */
+  .funnel{display:flex;flex-direction:column;align-items:center;margin:18px 0}
+  .fun-wide{width:min(560px,100%);background:var(--warn-soft);border:1.5px dashed var(--warn);border-radius:12px;padding:10px;text-align:center}
+  .fun-chips{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin:10px 0;max-width:560px}
+  .fun-chips span{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:2px 11px;font-size:.8rem}
+  .fun-narrow{width:min(300px,100%);background:var(--acc-soft);border:1.5px solid var(--acc);border-radius:12px;padding:10px;text-align:center;font-weight:600}
+  .arrow{color:var(--sub);padding:3px 0;font-size:.95rem;text-align:center}
+  /* flow */
   .flow{display:flex;flex-direction:column;align-items:center;margin:20px 0}
-  .step{background:var(--card);border:1.5px solid var(--line);border-radius:10px;padding:10px 18px;text-align:center;min-width:260px;max-width:560px}
+  .step{background:var(--card);border:1.5px solid var(--line);border-radius:10px;padding:10px 18px;text-align:center;min-width:260px;max-width:580px;box-shadow:var(--shadow)}
   .step small{display:block;color:var(--sub)}
   .step.ai{border-color:var(--acc);background:var(--acc-soft)}
   .step.human{border-color:var(--human);background:var(--human-soft)}
   .step.stop{border-color:var(--warn);background:var(--warn-soft)}
-  .arrow{color:var(--sub);padding:2px 0;font-size:.95rem}
-  .branch{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;align-items:stretch}
-  .branch>div{display:flex;flex-direction:column;align-items:center;flex:1;min-width:240px}
+  .branch{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+  .branch>div{display:flex;flex-direction:column;align-items:center;flex:1;min-width:230px}
   .lbl{font-size:.8rem;color:var(--sub);padding:2px 0}
   .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.82rem;color:var(--sub);justify-content:center;margin-top:6px}
   .legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:4px;vertical-align:-1px}
-  /* 層図 */
+  /* 横の型フロー */
+  .hflow{display:flex;gap:6px;align-items:stretch;flex-wrap:wrap;margin:14px 0}
+  .hstep{flex:1;min-width:170px;background:var(--card);border:1.5px solid var(--acc);border-radius:10px;padding:10px 12px;text-align:center}
+  .hstep b{display:block}
+  .hstep small{color:var(--sub)}
+  .hsep{display:flex;align-items:center;color:var(--sub)}
+  /* layer */
   .layer{display:flex;flex-direction:column;gap:8px;margin:16px 0}
   .layer .row{display:flex;gap:8px;flex-wrap:wrap}
-  .chip{flex:1;min-width:140px;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 12px;text-align:center;font-size:.92rem}
+  .chip{flex:1;min-width:140px;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 12px;text-align:center;font-size:.92rem;box-shadow:var(--shadow)}
   .chip small{display:block;color:var(--sub);font-size:.78rem}
   .band{border-radius:8px;padding:10px 12px;text-align:center}
   .band.human{background:var(--human-soft);border:1.5px solid var(--human)}
   .band.sor{background:var(--warn-soft);border:1.5px solid var(--warn)}
-  table{border-collapse:collapse;width:100%;margin:12px 0;background:var(--card);font-size:.92rem}
+  table{border-collapse:collapse;width:100%;margin:12px 0;background:var(--card);font-size:.9rem}
   th,td{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}
   th{background:var(--acc-soft)}
+  .vs td:first-child{color:var(--sub);white-space:nowrap}
   footer{margin-top:64px;padding-top:16px;border-top:1px solid var(--line);color:var(--sub);font-size:.84rem}
-  @media print{ body{background:#fff} .card,.step,.chip,table{break-inside:avoid} }
+  @media print{ body{background:#fff} .hero{background:#155e4e} .card,.step,.chip,table{break-inside:avoid} }
 </style>
 </head>
 <body>
 <main>
 
-<h1>fde-kit 解説書</h1>
-<p class="lead">設計思想とワークフロー — なぜこの形なのか、日々どう回るのか。<br>
-対象読者: このFWを導入・運用する人間(事務職・PM・情シス)。AI向けの規範は AGENTS.md / fde-guide.md にあります。</p>
+<div class="hero">
+  <h1>FDE Atlas 解説書</h1>
+  <p>AIに業務を任せるとき、成果を決めるのはモデルの賢さではなく「地図」。何を信じ、どこで止まり、何を残すか — その全部を道具にしたのが FDE Atlas です。</p>
+  <div class="badges">
+    <span class="badge">規範 fde-guide v2.1</span><span class="badge">スキル10本</span><span class="badge">hooks+permissions 2段防壁</span><span class="badge">回帰テスト3件 合格(Sonnet実証)</span>
+  </div>
+  <div class="toc">
+    <a href="#t1">1 理論</a><a href="#t2">2 思想(六原則)</a><a href="#t3">3 設計</a><a href="#t4">4 ワークフロー</a><a href="#t5">5 進行の型</a><a href="#t6">6 運用と計測</a>
+  </div>
+</div>
 
-<h2>1. 出発点 — 成果はモデルの賢さでは決まらない</h2>
-<p>同じAIモデルでも、<b>何を信じ(SoR)・どこで止まり(承認線)・何を残すか(Git)</b>が決まっている環境と、決まっていない環境では成果がまるで違います。この「環境」がハーネスです。fde-kit はハーネスを部品一式として配布します。</p>
+<h2 id="t1"><span class="no">1</span>理論 — AIはなぜ「そのまま」では仕事にならないか</h2>
 
+<h3>1-1. 回答空間 — AIは正解を計算していない</h3>
+<p>AIは「あり得る回答の広がり(回答空間)」の中から出力しています。曖昧な依頼は空間を広げ、<b>誰にでも当てはまる凡庸な答え</b>に落ちる。良い依頼とは、この空間を実務で使える範囲まで絞り込む入力のことです。</p>
+<div class="funnel">
+  <div class="fun-wide">あり得る回答の広がり(広い=凡庸・的外れが混ざる)</div>
+  <div class="arrow">▼ 入力で絞り込む</div>
+  <div class="fun-chips"><span>目的・背景</span><span>SoR(何を信じるか)</span><span>制約・禁止</span><span>出力形式</span><span>完了条件</span><span>検証方法</span></div>
+  <div class="arrow">▼</div>
+  <div class="fun-narrow">実務で使える出力</div>
+</div>
+<p class="lead-s">Atlasではこの絞り込みを毎回手で書かず、AGENTS.md(常時)+スキル(作業時)+テンプレ(出力時)が自動で供給します。</p>
+
+<h3>1-2. ChatのAIと、働くAI(エージェント)は別物</h3>
+<table class="vs">
+  <tr><th></th><th>Chat AI</th><th>エージェント(Atlasが支える対象)</th></tr>
+  <tr><td>出力</td><td>回答・要約</td><td>作業状態の変更(ファイル・台帳・下書き)</td></tr>
+  <tr><td>記憶</td><td>会話履歴(流れて消える)</td><td>ファイルとGit(残る・戻れる・再開できる)</td></tr>
+  <tr><td>検証</td><td>読んだ人の感覚</td><td>diff・ログ・チェックリスト・人間承認</td></tr>
+</table>
+<p class="lead-s">「チャットは流れる。Gitは残る。」— 長い仕事を支えるには、会話の外に記憶と検証の置き場が要ります。</p>
+
+<h3>1-3. ハーネスの層構造 — 成果は層全体で決まる</h3>
 <div class="layer">
-  <div class="band human"><b>人間</b> — 方向づけ・承認・最終責任(Humans steer)</div>
-  <div class="arrow" style="text-align:center">▲ 承認依頼・質問・報告 ▼ 依頼・承認</div>
+  <div class="band human"><b>人間</b> — 方向づけ・承認・最終責任(Humans steer. Agents execute.)</div>
+  <div class="arrow">▲ 承認依頼・質問・報告 ▼ 依頼・承認</div>
   <div class="row">
     <div class="chip"><b>AGENTS.md</b><small>規範=薄い憲法(19則+記入欄)</small></div>
     <div class="chip"><b>skills/ 10本</b><small>番号付き手順+Yes/Noゲート</small></div>
@@ -79,21 +132,45 @@
     <div class="chip"><b>work/ + Git</b><small>状態とセーブデータ(記憶)</small></div>
     <div class="chip"><b>fixtures + 回帰台帳</b><small>モデル交代時の点検材料</small></div>
   </div>
-  <div class="arrow" style="text-align:center">▼ 読取と下書きが既定(L1)。書込み・送信は承認線の向こう側</div>
+  <div class="arrow">▼ 読取と下書きが既定(自律度L1)。書込み・送信は承認線の向こう側</div>
   <div class="band sor"><b>SoR(正本)</b> — Drive・会計SaaS・契約管理など。<b>原本は外部に残し、フォルダには参照と判断だけを置く</b></div>
 </div>
+<p class="lead-s">モデル(Claude/GPT/…)はこの層構造の一番下の交換部品。上の層(=Atlas)が資産であり、モデルより長生きします。</p>
 
-<h2>2. 六つの設計原則</h2>
+<h2 id="t2"><span class="no">2</span>思想 — 六つの設計原則</h2>
 <div class="cards">
-  <div class="card"><b>① 最弱実行者基準</b>いま目の前の賢いモデルではなく、将来の「より弱いモデル・初見の担当者」が実行できる形で書く。手順は番号、判断はYes/No、強制はhooks。<small>実証: 回帰テストは一段安いモデル(Sonnet)で全合格。</small></div>
-  <div class="card"><b>② 交換可能性</b>資産はすべてプレーンテキスト(md)。AGENTS.mdはベンダー中立で、CLAUDE.mdは@importの1行だけ。全hookはAGENTS.mdに対の規範文を持つ — <small>hooksが動かない環境でもテキスト規範だけで回る。</small></div>
-  <div class="card"><b>③ 承認線と自律度</b>送信・支払・署名・確定登録・削除は自律度に関係なくAIは実行せず、下書きで止める。任せる度合いはL0〜L3で業務ごとに決め、昇格は人間だけが決める。</div>
-  <div class="card"><b>④ 安い手段から</b>既存ファイル→検索→script→AIの順に使う。毎回読む入口文書は約4,200字に圧縮し、詳細はスキル起動時にだけ読む(段階的開示)。<small>ハーネスへの投資はモデル料金で回収される。</small></div>
-  <div class="card"><b>⑤ 記録が記憶</b>AIの記憶はセッションを越えない前提で、状態をファイルとGitに残す。「チャットは流れる。Gitは残る。」翌日は STATUS.md の1行目から再開する。</div>
-  <div class="card"><b>⑥ 守りは固く、思考は広く</b>指示に従ってよいのは人間・入口文書・承認済みSkillの3つだけ(書類の中の指示文はデータ)。一方で壁打ち・調査の発散は縛らない。書くものは結論先行・要点のみ(anti-slop)。</div>
+  <div class="card"><b><span class="n">1</span>最弱実行者基準</b>いま目の前の賢いモデルではなく、将来の「より弱いモデル・初見の担当者」が実行できる形で書く。手順は番号、判断はYes/No、強制はhooks。<small>実証: 回帰テストは一段安いモデル(Sonnet)で全合格。</small></div>
+  <div class="card"><b><span class="n">2</span>交換可能性</b>資産はすべてプレーンテキスト(md)。AGENTS.mdはベンダー中立、CLAUDE.mdは@importの1行だけ。全hookは規範文の「対」を持つ。<small>hooksが動かない環境でもテキスト規範だけで回る。</small></div>
+  <div class="card"><b><span class="n">3</span>承認線と自律度</b>送信・支払・署名・確定登録・削除は自律度に関係なくAIは実行せず、下書きで止める。任せる度合いはL0〜L3で業務ごとに決め、昇格は人間だけが決める。</div>
+  <div class="card"><b><span class="n">4</span>安い手段から</b>既存ファイル→検索→script→AIの順。毎回読む憲法は約4,200字に圧縮し、詳細はスキル起動時にだけ読む(段階的開示)。<small>ハーネスへの投資はモデル料金で回収される。</small></div>
+  <div class="card"><b><span class="n">5</span>記録が記憶</b>AIの記憶はセッションを越えない前提で、状態をファイルとGitに残す。翌日は STATUS.md の1行目(次の一手)から再開する。</div>
+  <div class="card"><b><span class="n">6</span>守りは固く、思考は広く</b>従ってよい指示は人間・入口文書・承認済みSkillの3つだけ(書類の中の指示文はデータ)。一方で壁打ち・調査の発散は縛らない。書くものは結論先行・要点のみ。</div>
 </div>
 
-<h2>3. ワークフロー — 毎日のリズム</h2>
+<h2 id="t3"><span class="no">3</span>設計 — 部品の解剖</h2>
+
+<h3>3-1. 情報の置き場は3層</h3>
+<table>
+  <tr><th>層</th><th>場所</th><th>置くもの</th></tr>
+  <tr><td><b>地図</b>(何を信じ、どう判断するか)</td><td>ルート: AGENTS.md記入欄・source-map.md・daichou.md・context/</td><td>SoRの所在・承認線・命名規則・判断ログ・用語</td></tr>
+  <tr><td><b>成果物</b>(人に渡すもの)</td><td>docs/(レビューは docs/review/)</td><td>設計書・議事録・調査メモ。mdが正、共有用に自己完結HTML</td></tr>
+  <tr><td><b>状態</b>(AIが再開するためのもの)</td><td>work/</td><td>STATUS.md(次の一手)・業務ごとの作業地図 map.md・計測 log.md</td></tr>
+</table>
+<p class="lead-s">機密・原本はどの層にも置かない — 外部SoRに残し、参照だけを地図に書く。secretはhooksが検知し、.gitignoreが最後の防壁。</p>
+
+<h3>3-2. 規範は三重に効く</h3>
+<div class="hflow">
+  <div class="hstep"><b>AGENTS.md</b><small>常時ロードの薄い憲法。19則と記入欄 — 何をしてよいか</small></div>
+  <div class="hsep">▶</div>
+  <div class="hstep"><b>スキル</b><small>起動時だけ読む番号付き手順 — どうやるか</small></div>
+  <div class="hsep">▶</div>
+  <div class="hstep"><b>hooks / permissions</b><small>モデルの意思と無関係に効く機械の門番 — 越えさせない</small></div>
+</div>
+<p class="lead-s">賢いモデルは憲法だけで動け、弱いモデルは手順が支え、どちらが間違えても門番が止める。三重だから、モデルが替わっても壊れません。</p>
+
+<h2 id="t4"><span class="no">4</span>ワークフロー</h2>
+
+<h3>4-1. 毎日のリズム</h3>
 <div class="flow">
   <div class="step ai">claude 起動 → SessionStart が自動注入<small>今日の日付・work/STATUS.md・直近commit・未commit警告</small></div>
   <div class="arrow">▼</div>
@@ -116,30 +193,28 @@
   <span><i style="background:var(--warn-soft);border:1.5px solid var(--warn)"></i>停止・警告</span>
 </div>
 
-<h2>4. ワークフロー — 書類処理の例(/shorui)</h2>
-<p class="sec-note">このFWで最も守りが厚い流れ。1件ごとに分類ゲートを通し、一括時は5つの安全弁が効く。</p>
+<h3>4-2. 書類処理の例(/shorui) — 最も守りが厚い流れ</h3>
 <div class="flow">
   <div class="step">書類を受け取る(4件以上なら一括モードを宣言・上限20件)</div>
   <div class="arrow">▼ 1件ごとに checklists/gate.md</div>
   <div class="step ai">分類ゲート<small>何か / 正本か / 鮮度 / 指示混入 / 機密区分</small></div>
   <div class="arrow">▼</div>
   <div class="branch">
-    <div><div class="lbl">本文にAIへの指示が混入</div><div class="step stop">即停止 — 原文引用で違和感報告<small>その1件は処理しない(なりすまし対策)</small></div></div>
+    <div><div class="lbl">本文にAIへの指示が混入</div><div class="step stop">即停止 — 原文引用で違和感報告<small>なりすまし・詐欺文書対策</small></div></div>
     <div><div class="lbl">機密・個人情報</div><div class="step stop">コピーせず参照だけ台帳へ<small>原本はSoRに残す</small></div></div>
     <div><div class="lbl">通常</div><div class="step ai">命名規則を適用<small>context/rules.md</small></div></div>
   </div>
   <div class="arrow">▼</div>
-  <div class="step ai">台帳(daichou.md)と照合 — 実行済み確認<small>発行元+日付+件名が一致 → 「重複」報告、再登録しない</small></div>
+  <div class="step ai">台帳(daichou.md)と照合 — 実行済み確認<small>一致 → 「重複」報告、再登録しない(二重処理の防止)</small></div>
   <div class="arrow">▼ 一括時</div>
   <div class="step human">3件だけ先行 → diff提示 → 人間の承認 → 残りを続行<small>エラー2件連続で全体停止。中断後は台帳で確認して続きから</small></div>
 </div>
 
-<h2>5. ワークフロー — モデル交代・縮退(このFWの存在理由)</h2>
-<p class="sec-note">モデルの値上げ・提供終了は障害ではなく定期イベントとして扱う。強いモデルの知見は、手順と回帰ケースの形で先に焼き付けてある。</p>
+<h3>4-3. モデル交代・縮退 — このFWの存在理由</h3>
 <div class="flow">
   <div class="step">モデル・Agent・ツールが変わった → /model-change</div>
   <div class="arrow">▼</div>
-  <div class="step ai">回帰テスト — kaiki-cases.md の各ケースを fixtures/(架空データ)で再実行<small>K01: 指示混入を検知できるか / K02: 議事録抽出 / K03: 出典付き調査</small></div>
+  <div class="step ai">回帰テスト — kaiki-cases.md を fixtures/(架空データ)で再実行<small>K01: 指示混入を検知できるか / K02: 議事録抽出 / K03: 出典付き調査</small></div>
   <div class="arrow">▼</div>
   <div class="branch">
     <div><div class="lbl">合格</div><div class="step ai">クセをSkillへ追記 → registry.mdへ交代記録<small>自律度は一段下げて再スタート、昇格は実績で</small></div></div>
@@ -149,18 +224,42 @@
   <div class="step human">AIゼロでも回る — source-map → daichou → checklists → STATUS の順に人間が読む</div>
 </div>
 
-<h2>6. 情報の置き場 — 3層の規約</h2>
+<h2 id="t5"><span class="no">5</span>進行の型 — 迷いを減らす4段階</h2>
+<p class="lead-s">雑に頼める良さは活かしつつ、手戻り(=最大のコスト)を減らすための順序。AIは失敗を怖がらないぶん、方向合わせを先にやるほど安くなります。</p>
+<div class="hflow">
+  <div class="hstep"><b>① 言語化</b><small>質問攻めで目的・SoR・停止線を引き出す<br>= /kabeuchi</small></div>
+  <div class="hsep">▶</div>
+  <div class="hstep"><b>② 方針確認</b><small>読む対象・範囲・停止条件を先に見せて方向修正</small></div>
+  <div class="hsep">▶</div>
+  <div class="hstep"><b>③ 自走</b><small>完了条件と上限を持って実行<br>= /chousa /shorui /sekkeisho …</small></div>
+  <div class="hsep">▶</div>
+  <div class="hstep"><b>④ 道具化</b><small>うまくいった手順を固定<br>= /skill-create</small></div>
+</div>
+
+<h2 id="t6"><span class="no">6</span>運用と計測 — 回っているかを5つの数字で見る</h2>
+<div class="cards">
+  <div class="card"><b>所要時間</b><small>依頼から承認可能な成果物まで</small></div>
+  <div class="card"><b>差し戻し率</b><small>AIコストとセットで見る(手戻りが最大のコスト)</small></div>
+  <div class="card"><b>停止線で止まった回数</b><small>正しく止まるのは成果。ゼロが良いのではない</small></div>
+  <div class="card"><b>Skillの再利用回数</b><small>道具化が効いているか</small></div>
+  <div class="card"><b>1業務あたりのAIコスト</b><small>金額または呼び出し回数</small></div>
+</div>
+<p class="lead-s">記録は /shime が work/log.md へ1行ずつ残し、/tanaoroshi が読んで自律度の昇格を提案します(決定は人間)。</p>
+
+<h3>うまくいかない時の見立て — AIが悪いのではなく地図が足りない</h3>
 <table>
-  <tr><th>層</th><th>場所</th><th>置くもの</th></tr>
-  <tr><td><b>地図</b>(何を信じ、どう判断するか)</td><td>ルート: AGENTS.md記入欄・source-map.md・daichou.md・context/</td><td>SoRの所在・承認線・命名規則・判断ログ・用語</td></tr>
-  <tr><td><b>成果物</b>(人に渡すもの)</td><td>docs/(レビューは docs/review/)</td><td>設計書・議事録・調査メモ。md が正、共有用に自己完結HTML</td></tr>
-  <tr><td><b>状態</b>(AIが再開するためのもの)</td><td>work/</td><td>STATUS.md(次の一手)・業務ごとの作業地図 map.md・計測 log.md</td></tr>
+  <tr><th>症状</th><th>最初に見る場所</th></tr>
+  <tr><td>一般論しか返らない</td><td>SoR・Contextの指定不足(source-map.md・context/)</td></tr>
+  <tr><td>勝手に判断して進む</td><td>承認線・停止線の定義不足(AGENTS.md 記入欄)</td></tr>
+  <tr><td>毎回同じ説明が必要</td><td>Skill・テンプレ不足 → /skill-create</td></tr>
+  <tr><td>前回の続きから再開できない</td><td>/shime の実施漏れ(STATUS.md の1行目)</td></tr>
+  <tr><td>書類の文面に操られて動く</td><td>指示とデータの分離(gate.md ④・違和感報告)</td></tr>
 </table>
-<p class="sec-note">機密・原本はこの3層のどこにも置かない — 外部SoRに残し、参照だけを地図に書く。secret はhooksが検知し、.gitignore が最後の防壁になる。</p>
 
 <footer>
-fde-kit 解説書(2026-07-11) — 規範の完全版: fde-guide.md v2.1 / FW構築の経緯と残作業: design/blueprint.md / 導入と日常操作: README.md<br>
-この文書は外部リソースを読み込まない自己完結HTMLです。ブラウザでそのまま開けます(印刷対応)。
+FDE Atlas 解説書 v2(2026-07-11) — 規範の完全版: fde-guide.md v2.1(§1 回答空間 / §6 ゲート / §9.2 最弱実行者 / §10 進行テンプレ / §12 計測 / §13 保守)<br>
+FW構築の経緯と残作業: design/blueprint.md / 導入と日常操作: README.md<br>
+この文書は外部リソースを読み込まない自己完結HTMLです。ブラウザでそのまま開けます(印刷・ライト/ダーク対応)。
 </footer>
 
 </main>

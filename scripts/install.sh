@@ -1,5 +1,5 @@
 #!/bin/sh
-# fde-kit 導入スクリプト: template/ 一式 + fde-guide.md を導入先PJへコピーする。
+# FDE Atlas 導入スクリプト: template/ 一式 + fde-guide.md を導入先PJへコピーする。
 # 使い方: scripts/install.sh <導入先パス>
 # 方針: 既存ファイルは上書きせずスキップして報告。design/ は配布しない。依存は git/cp/find のみ。
 set -eu
@@ -12,14 +12,14 @@ fi
 
 SRC=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 if [ ! -d "$SRC/template" ]; then
-  echo "エラー: $SRC/template が見つかりません(fde-kit リポジトリの scripts/ から実行してください)" >&2
+  echo "エラー: $SRC/template が見つかりません(FDE Atlas リポジトリの scripts/ から実行してください)" >&2
   exit 1
 fi
 
 mkdir -p "$1"
 DST=$(CDPATH= cd -- "$1" && pwd)
 if [ "$DST" = "$SRC" ]; then
-  echo "エラー: 導入先が fde-kit 自身です" >&2
+  echo "エラー: 導入先が FDE Atlas 自身です" >&2
   exit 1
 fi
 
@@ -56,7 +56,7 @@ chmod +x "$DST/.claude/hooks/"*.sh 2>/dev/null || true
 if ! git -C "$DST" rev-parse --git-dir >/dev/null 2>&1; then
   git -C "$DST" init >/dev/null
   git -C "$DST" add -A
-  git -C "$DST" commit -q -m "chore: fde-kit導入(テンプレ一式)" >/dev/null 2>&1 || true
+  git -C "$DST" commit -q -m "chore: FDE Atlas導入(テンプレ一式)" >/dev/null 2>&1 || true
   echo ""
   echo "git init + 導入時点のセーブポイント(commit)を作りました。"
 fi
