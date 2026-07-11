@@ -1,12 +1,18 @@
 # FDE Atlas — AIに業務を安全に任せるための道具一式
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Coding不要](https://img.shields.io/badge/対象-非エンジニア業務-blue.svg)](#)
+[![Claude Code](https://img.shields.io/badge/works%20with-Claude%20Code-5A4FCF.svg)](https://github.com/anthropics/claude-code)
+
 **Claude Code などのAIエージェントに、書類管理・調査・議事録・設計書づくりを安心して手伝わせるためのフレームワーク**です。
 AIへの指示書(規範)・作業手順(スキル)・安全装置(ゲート)・記録の仕組み(Git)がセットになっていて、仕事のフォルダにコピーするだけで使えます。コーディング用ではありません。
+
+> なぜ作ったか — 「AIに任せたいが、送信・削除・確定登録まで暴走されると困る」「わからないことは推測せず質問してほしい」という、非エンジニアの日常業務にありがちな不安を、規範(AGENTS.md)・強制(hooks)・記録(Git)の3層で解決します。
 
 ## 3分で導入
 
 ```sh
-git clone <このリポジトリ> fde-atlas
+git clone https://github.com/CobaltSato/fde-atlas.git
 fde-atlas/scripts/install.sh ~/仕事のフォルダ    # 既存ファイルは上書きしません
 cd ~/仕事のフォルダ
 claude        # 初回は「信頼しますか?」の確認 → 内容を見て承認
@@ -74,3 +80,11 @@ A. `source-map.md`(正本の場所)→ `ledger.md`(台帳)→ `checklists/`(確�
 - 考え方の全体像(なぜこう設計されているか): [fde-guide.md](fde-guide.md)
 - FW自体の設計資料と今後の作業: [design/blueprint.md](design/blueprint.md)
 - 導入先にコピーされる中身: `template/`
+
+## コントリビュート
+
+Issue・PR歓迎です。詳しくは [CONTRIBUTING.md](CONTRIBUTING.md) を参照してください。
+
+## License
+
+[MIT](LICENSE)
