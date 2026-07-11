@@ -1,0 +1,143 @@
+<!--
+  用途: 自己完結HTMLレポート雛形。外部CDN読込なし・インラインCSSのみ・A4印刷対応。
+  共有時に使う。生成資料はmdが正、このhtmlは従(md正・html従)。
+  Mermaid図はこのHTML内に描画しない。図はmdでMermaidとして描き、
+  共有が必要なときはSVG/画像へ書き出してから <img> として貼り付けること。
+  ライト/ダーク切替は実装しない(印刷前提のためライトのみ)。
+-->
+<meta charset="UTF-8">
+<title>報告書: <未設定></title>
+<style>
+  :root {
+    color-scheme: light;
+  }
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    font-family: "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+    color: #1a1a1a;
+    background: #ffffff;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 24px;
+    line-height: 1.7;
+  }
+  header {
+    border-bottom: 3px solid #1a1a1a;
+    padding-bottom: 12px;
+    margin-bottom: 20px;
+  }
+  h1 {
+    font-size: 1.6rem;
+    margin: 0 0 8px 0;
+  }
+  .date {
+    color: #555555;
+    font-size: 0.9rem;
+  }
+  h2 {
+    font-size: 1.15rem;
+    margin-top: 28px;
+    border-left: 6px solid #1a1a1a;
+    padding-left: 10px;
+  }
+  section.conclusion {
+    background: #f4f4f4;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    padding: 16px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 8px;
+    font-size: 0.92rem;
+  }
+  th, td {
+    border: 1px solid #999999;
+    padding: 6px 10px;
+    text-align: left;
+    vertical-align: top;
+  }
+  th {
+    background: #eaeaea;
+  }
+  .placeholder {
+    color: #b00020;
+  }
+  footer {
+    margin-top: 32px;
+    padding-top: 12px;
+    border-top: 1px solid #cccccc;
+    font-size: 0.85rem;
+    color: #555555;
+  }
+
+  /* A4印刷対応 */
+  @media print {
+    body {
+      max-width: none;
+      padding: 0;
+      margin: 12mm;
+    }
+    @page {
+      size: A4;
+      margin: 18mm 16mm;
+    }
+    section.conclusion {
+      background: none;
+      border: 1px solid #1a1a1a;
+    }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+  }
+</style>
+
+<header>
+  <h1>報告書: <span class="placeholder"><未設定></span></h1>
+  <div class="date">日付: <span class="placeholder"><未設定></span>(YYYY-MM-DD)</div>
+</header>
+
+<section class="conclusion">
+  <h2>結論</h2>
+  <p class="placeholder"><未設定>(3行以内・結論先行)</p>
+</section>
+
+<section>
+  <h2>本文</h2>
+  <p class="placeholder"><未設定></p>
+</section>
+
+<section>
+  <h2>根拠表</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>事実</th>
+        <th>出典</th>
+        <th>区分</th>
+        <th>確認日</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="placeholder"><未設定></td>
+        <td class="placeholder"><未設定></td>
+        <td class="placeholder"><未設定>(Source・Related・Interpretation)</td>
+        <td class="placeholder"><未設定></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<section>
+  <h2>出典</h2>
+  <p class="placeholder"><未設定></p>
+</section>
+
+<footer>
+  本レポートはtemplates/report.htmlから生成された。正本はMarkdown版(該当work/またはdocs/配下)である。
+</footer>
