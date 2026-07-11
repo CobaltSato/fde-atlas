@@ -23,6 +23,17 @@
 - 曖昧語lint: skills+AGENTS.mdでゼロ件/AGENTS.md 4,199字(≤5,500)
 - validatedはK01〜K03で検証済みの3スキル(shorui/gijiroku/chousa)のみ記入。未検証スキルは空欄のまま(§9捏造しない)。K04/K05を今後のケースとして台帳に登録済み
 
+## 今後の作業(引き継ぎ・2026-07-11時点。FW自体は完成済み)
+
+次セッション(モデル問わず)の最初の一手: 下の1を実施する。
+
+1. **実運用の初回導入**: `scripts/install.sh <実PJ>` → 実PJで `/setup` → 実業務を1周(/kabeuchi→実務→/shime)。これが K04(kabeuchi)/K05(shime) の検証を兼ねる。合格したら kaiki-cases.md と各SKILL.mdのvalidatedへ記入
+2. **未検証スキル7本のvalidated記入**: kabeuchi/shime/sekkeisho/setup/skill-create/tanaoroshi/model-change — 実使用1回ずつで埋める(自己評価では埋めない)
+3. **push/公開の判断**(人間): 現在ローカルmasterのみ。公開するなら機密スキャンを一度通す
+4. **Windows(Git Bash)でのhooks動作確認**: READMEの前提条件の裏取り。動かなくてもAGENTS.mdのテキスト規範だけで運用可(設計原則3)
+5. **規範改訂の運用**: fde-guide.md改訂時はversionを上げる。導入先は /tanaoroshi の上流version差検知で追随
+6. **モデル交代時**: /model-change がK01〜K03をfixtures/で再実行(手順は checklists/model-koutai.md)
+
 ## 設計原則(全フェーズ共通)
 
 1. **最弱実行者基準(§9.2)**: 手順は番号付き、判断はYes/No、曖昧語(「適切に」「必要に応じて」「柔軟に」)禁止。チェックリストに落とせない判断は「人間レビュー要」と出力する設計にする。
