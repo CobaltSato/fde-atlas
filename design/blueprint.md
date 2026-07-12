@@ -19,7 +19,7 @@
 
 ### P6 検証結果(2026-07-11)
 - hooks単体: guard-bash(rm -rf/-fr・force push遮断、安全系通過、壊れJSONはfail-open)/secret-scan(AKIA検知・除外パス)/session-start(注入18行≤30) — 全合格
-- install.sh: コピー41・再実行全スキップ・git init+導入commit・+x付与・design/非配布・内容一致 — 全合格
+- install.sh: コピー41・再実行全スキップ・git init+導入commit・+x付与・design/非配布・内容一致 — 全合格(**2026-07-12: install.shを新規フォルダ作成専用に仕様変更したため、この検証結果は旧仕様のもの。再実行スキップ挙動は廃止済み。要再検証**)
 - 実セッション(headless・**claude-sonnet-5**で最弱実行者検証を兼ねる): SessionStart注入=素のstdoutで動作確認/CLAUDE.md→@AGENTS.md import動作確認/回帰K01〜K03全合格(指示混入の検知停止・台帳照合の重複判定・機密の参照のみ登録・提案で止まる承認線・Web検索0回)
 - 曖昧語lint: skills+AGENTS.mdでゼロ件/AGENTS.md 4,199字(≤5,500)
 - validatedはK01〜K03で検証済みの3スキル(filing/minutes/research)のみ記入。未検証スキルは空欄のまま(§9捏造しない)。K04/K05を今後のケースとして台帳に登録済み
@@ -213,7 +213,7 @@ hooks共通: POSIX sh(`#!/bin/sh`)・冒頭コメントに「対の規範: AGENT
 
 ## P5仕様: scripts/install.sh + README.md(FW本体)
 
-**install.sh**: 使い方 `scripts/install.sh <導入先パス>`。①引数検証(無ければusage) ②導入先をmkdir -p ③template/以下の全ファイル(ドットファイル込み)を、**導入先に同名ファイルが無いものだけ**コピー(スキップしたものは一覧表示) ④fde-guide.mdもコピー(同条件) ⑤`.claude/hooks/*.sh`へchmod +x ⑥導入先に.gitが無ければ`git init` ⑦次手順を表示(「cd <導入先> && claude を起動 → 初回trustダイアログで内容を確認して承認 → /setup を実行」)。`set -eu`・POSIX sh・依存はgit/cp/findのみ。design/はコピーしない。
+**install.sh**: 使い方 `scripts/install.sh <新規に作る導入先パス>`。**新規フォルダ作成専用**(既存フォルダ・ファイルとの混在事故を防ぐため)。①引数検証(無ければusage) ②導入先が既に存在するならエラーで停止(何もコピーしない) ③導入先をmkdir -p ④template/以下の全ファイル(ドットファイル込み)を無条件コピー ⑤fde-guide.mdもコピー ⑥`.claude/hooks/*.sh`へchmod +x ⑦`git init`(新規フォルダなので常に実行)+導入時点のセーブポイントcommit ⑧次手順を表示(「cd <導入先> && claude を起動 → 初回trustダイアログで内容を確認して承認 → /setup を実行」)。`set -eu`・POSIX sh・依存はgit/cp/findのみ。design/はコピーしない。既存プロジェクトへ混ぜたい場合は、別の新規フォルダに導入してから中身を手動で移動/参照する運用とする。
 
 **README.md(FW本体)**: ①これは何か(3行: fde-guide.mdの規範を、そのまま使える形にしたFW。壁打ち・調査・書類管理・設計書向け。コーディング用ではない) ②Mermaid構成図(Human→[AGENTS.md=規範/skills=手順/hooks=強制/templates=形式]→SoR) ③クイックスタート(3手順) ④スキル10本の表 ⑤Hooksとpermissionsが守るもの(+「secret-scanは定型credentialのみ。個人情報は手順とレビューで守る」と期待値明記) ⑥カスタマイズ(承認線・自律度・命名規則の変え方=どのファイルのどこ) ⑦前提条件(macOS/Linux、WindowsはGit Bash。Claude Code以外のエージェントではhooksが効かないためAGENTS.mdのテキスト規範で運用) ⑧**AIなしで回す**(最終縮退§1.5: source-map→ledger→checklistsの読み順で人間が1周) ⑨fde-guide.mdとの関係(規範=guide、運用=template。version pin方針)
 
