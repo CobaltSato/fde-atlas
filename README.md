@@ -88,6 +88,7 @@ A. 大丈夫なように作ってあります。`source-map.md`(大事なファ�
 - **設計の考え方と仕事の流れの図解(ブラウザで開けます)**: [design/kaisetsu.html](design/kaisetsu.html)
 - なぜこういう作りにしたのか(読みもの): [fde-guide.md](fde-guide.md)
 - このセット自体の設計メモと今後の予定: [design/blueprint.md](design/blueprint.md)
+- 実案件での運用フィードバック(改善提案の記録): [design/feedback/](design/feedback/)
 - コピーされる中身そのもの: `template/` フォルダ
 
 ## 改善の提案・不具合の報告
