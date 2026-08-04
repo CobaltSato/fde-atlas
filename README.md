@@ -5,12 +5,12 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Coding不要](https://img.shields.io/badge/対象-非エンジニア業務-blue.svg)](#)
 [![Claude Code](https://img.shields.io/badge/works%20with-Claude%20Code-5A4FCF.svg)](https://github.com/anthropics/claude-code)
-[![軽量](https://img.shields.io/badge/中身-196KB%2F48ファイル-brightgreen.svg)](template/)
+[![軽量](https://img.shields.io/badge/中身-196KB%2F47ファイル-brightgreen.svg)](template/)
 
 **書類の整理・調べもの・議事録・設計書づくりを、Claude Code などのAIに安心して任せるためのセット**です。
 「AIへのお願いごとのルール」「よく使う作業の手順書」「危ない操作を止める安全装置」「作業の記録」がひとまとめになっていて、**新規フォルダを1つ作るだけ**で使えます。プログラミングの知識はいりません。
 
-中身は `template/` フォルダひとつ、196KB・48ファイルだけの薄い構成です。余計な依存もセットアップも増えないので、まず新規フォルダで試し、合わなければフォルダごと消すだけで元に戻せます。
+中身は `template/` フォルダひとつ、196KB・47ファイルだけの薄い構成です。余計な依存もセットアップも増えないので、まず新規フォルダで試し、合わなければフォルダごと消すだけで元に戻せます。
 
 > **なぜ作ったか。** AIに仕事を手伝ってほしい。でも「勝手にメールを送られたら?」「ファイルを消されたら?」「わからないことを、それらしくでっち上げられたら?」——そんな不安で任せきれない人のために、「AIがやってよいこと・いけないこと」を最初から決めてある状態を用意しました。
 
@@ -72,7 +72,7 @@ A. フォルダの中に `.claude/skills/` があるか確認してください�
 A. ターミナルで `chmod +x .claude/hooks/*.sh` を実行してみてください。Windowsの場合は Git Bash というアプリが必要です。
 
 **Q. もしAIがまったく使えなくなったら?**
-A. 大丈夫なように作ってあります。`source-map.md`(大事なファイルの場所一覧)→ `ledger.md`(書類の一覧表)→ `checklists/`(チェックリスト)→ `work/STATUS.md`(次にやること)の順に読めば、人間だけで仕事を続けられます。年に1回はAIなしで1周してみる「避難訓練」をおすすめします。
+A. 大丈夫なように作ってあります。`source-map.md`(大事なファイルの場所一覧)→ `ledger.md`(書類の一覧表。書類の仕事を始めたフォルダにだけあります)→ `checklists/`(チェックリスト)→ `work/STATUS.md`(次にやること)の順に読めば、人間だけで仕事を続けられます。年に1回はAIなしで1周してみる「避難訓練」をおすすめします。
 
 ## 設定を変えたいとき
 

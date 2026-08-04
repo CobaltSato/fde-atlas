@@ -22,7 +22,7 @@ updated: 2026-07-25
 1. 前提を確認する: fde-guide.mdがあるか(Yes/No)。`.git`があるか(Yes/No、無ければ`git init`を提案する)。
 2. templates/question.md の形式で一括質問する: 業務名/目的・完了条件/主なSoRと**書類原本の置き場**/承認線への追加/自律度(既定L1)/上限/運転モード(既定: 通常)/責任者。
 3. 回答をAGENTS.mdの記入欄へ反映する(`<未設定>`を置換する)。答えが無い項目は「未設定」のまま残すことを宣言する。
-4. 同梱資産のうちこのPJで使わないもの(例: 書類を扱わないなら ledger.md、交代管理が不要なら context/registry.md)を質問で確認し、AGENTS.md 12.4「非該当の同梱資産」へ明示する(棚卸しノイズから外す。ファイル自体は削除しない)。
+4. 同梱資産のうちこのPJで使わないもの(例: 書類を扱わないなら /filing 一式、会議が無ければ /minutes)を質問で確認し、AGENTS.md 12.4「非該当の同梱資産」へ明示する(棚卸しノイズから外す。ファイル自体は削除しない)。台帳類(ledger.md・context/registry.md)は同梱されず、必要になったとき各Skillが作ることを案内する。
 5. source-map.md・context/rules.md(命名規則)・README.md・work/STATUS.mdへ反映する。
 6. diffを提示する。
 7. 初回commitを提案する。

@@ -30,5 +30,5 @@
 ## AIなしで回すとき(最終縮退)
 
 AIが使えなくても、この順で読めば人間だけで業務を1周できます:
-`source-map.md`(どこに正本があるか)→ `ledger.md`(書類の現状)→ `checklists/`(確認観点)→ `work/STATUS.md`(次にやること)。
+`source-map.md`(どこに正本があるか)→ `ledger.md`(書類の現状。書類業務を始めたPJにだけある)→ `checklists/`(確認観点)→ `work/STATUS.md`(次にやること)。
 手順の詳細は各 `.claude/skills/<名前>/SKILL.md` に番号付きで書いてあり、人間がそのまま実行できます。

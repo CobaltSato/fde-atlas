@@ -118,6 +118,7 @@ sequenceDiagram
 
 - 既存ディレクトリは**移動しない**(work/等の物理移動はガイド全§のパス参照を壊すため見送り。分離は「desk/の新設 + 見なくてよい宣言」で達成する)
 - 新規: `desk/TODAY.md`・`templates/review-ticket.md`・hooks の件数チェック
+- **相殺(資産を純増させない)**: `templates/approval-request.md`(11行・第1期で使用実績なし)は review-ticket.md に統合して廃止する。質問(question.md)は一括質問用として別役割なので残す
 - 変更: AGENTS.md(§11・承認線)・wrap-up/SKILL.md・work/STATUS.md(手作業待ちの移管)・README.md・fde-guide.md(§6・§10)・install.sh(desk/作成)
 
 ---

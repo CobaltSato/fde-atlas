@@ -125,8 +125,8 @@ status: 入口文書(毎セッション最初に読む)
 | 場所 | 何があるか |
 |---|---|
 | source-map.md | 情報→SoR対応表(何を信じるか) |
-| ledger.md | 書類台帳(実行済み確認の照合先) |
-| context/ | rules(規則・命名)・decisions(判断ログ)・glossary(用語)・registry(交代・権限台帳) |
+| ledger.md | 書類台帳(実行済み確認の照合先)。同梱されない — /filing が初回に作る |
+| context/ | rules(規則・命名)・decisions(判断ログ)・glossary(用語)・registry(交代・権限台帳。同梱されない — /model-change が初回に作る) |
 | checklists/ | gate(分類)・design-doc-review・cleanup・model-change・regression-cases(回帰)・deliverable-review(外部向け成果物) |
 | templates/ | 質問・承認依頼・完了報告・違和感報告・議事録・調査メモ・設計書・指示書(モデル分業)・report.html |
 | fixtures/ | 回帰テスト用の架空データ(業務データではない) |
@@ -147,7 +147,7 @@ status: 入口文書(毎セッション最初に読む)
 <未設定>
 
 ### 12.4 非該当の同梱資産(/setup が記入)
-このPJで使わない同梱資産をここに明示し、棚卸し対象から外す: <未設定>(例: ledger.md・context/registry.md)
+このPJで使わない同梱資産をここに明示し、棚卸し対象から外す: <未設定>(例: 書類を扱わないなら /filing 一式、会議が無ければ /minutes)。台帳類(ledger.md・context/registry.md)はそもそも同梱されず、必要になったとき各Skillが作る
 
 ---
 
