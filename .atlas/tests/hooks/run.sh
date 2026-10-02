@@ -3,7 +3,7 @@
 # 出力: PASS|FAIL <ケースID> <説明>(仕様の H<nn> 表記は本書 10章の <ケースID> が優先)。FAIL があれば exit 1。
 # FAIL の行があれば、その ID を cases.json で探し、← の後ろが理由。stdin = hook に渡す入力、exit = 終了コード、staged = git add 済みの変更。
 # stdin の中身は cases.json の stdin 欄にそのまま書く(tool 欄は、入力なし(/dev/null)で動かす session-start / staged の判別にだけ使う)。
-# 含む/含まない判定は stdout と stderr を合わせた文字列に対して行う。各ケースは perl の alarm で 5秒に制限し、超えたら FAIL。
+# 含む/含まない判定は stdout と stderr を合わせた文字列に対して行う。各ケースは perl の alarm で 5秒に制限し、超えたら FAIL。max_seconds があれば、その秒数を超えても FAIL。
 HERE=$(cd "$(dirname "$0")" && pwd)
 REPO=$(cd "$HERE/../../.." && pwd)
 T=$(mktemp -d) || exit 1
@@ -73,6 +73,9 @@ def apply_op(wd, op):
         for i in range(int(rest)):
             put(wd, "c%d.txt" % i, "x\n")
             git(wd, "add", "-A"); git(wd, "commit", "-q", "-m", "chore: c%d" % i)
+    elif kind == "agents_lines":  # AGENTS.md を N 行にする(末尾に足す)
+        p = os.path.join(wd, "AGENTS.md"); cur = open(p, encoding="utf-8").read().rstrip("\n").split("\n")
+        put(wd, "AGENTS.md", "\n".join(cur + ["- 追記"] * (int(rest) - len(cur))) + "\n")
     elif kind == "stage":  # stage:<パス>:<本文> を git add する
         path, _, body = rest.partition(":")
         put(wd, path, sub(body.replace("\\n", "\n"))); git(wd, "add", "-f", path)
@@ -126,9 +129,10 @@ def main():
         try:
             wd = make_wd(c) if c["hook"] == "session-start" or "setup" in c else plain
             stdin = stdin_for(c)
-            p = exec_hook(c, wd, stdin)
+            t0 = time.time(); p = exec_hook(c, wd, stdin); dt = time.time() - t0
             so, se = p.stdout.decode("utf-8", "replace"), p.stderr.decode("utf-8", "replace")
             errs = judge(c, p, so, se)
+            if dt > c.get("max_seconds", 10**9): errs.append("%.2f秒 > 上限 %s秒" % (dt, c["max_seconds"]))  # 遅いと FAIL(hang の回帰用)
             if c["hook"] == "session-start":
                 table.append((c["id"], STATE.get(c["id"], ""), len(p.stdout)))
                 if c.get("same_as_devnull"):  # JSON を渡しても出力が同じか

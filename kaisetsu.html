@@ -403,7 +403,7 @@ p{text-wrap:pretty}
     <div>
       <div class="hero-lines">
         <p>作業フォルダ(AI が作業し記録を残す場所)の中で、AI(Claude Code)があなたの業務を進めます。</p>
-        <p>送信・支払・削除などは、あなたの承認なしには実行しません。手前で止まり、票(判断をお願いする紙)で確かめます。</p>
+        <p>基本は AI が判断して進めます。止まるのは、上流の判断(目的・評価軸)・外に影響する戻せない操作・機密のときです。送信・支払・削除などは、あなたの承認なしには実行せず、手前で止まり、票(判断をお願いする紙)で確かめます。</p>
         <p>中身は、AI への規則・手順・門番と、作業の置き場だけ。足りない道具は、あとから足します。</p>
       </div>
       <p class="thesis">あなたが見るのは<br><code>desk/</code> と <code>docs/</code> だけ。</p>
@@ -431,7 +431,7 @@ p{text-wrap:pretty}
   <header class="sec-head">
     <p class="src">README.md</p>
     <h2 id="start-h">3分ではじめる</h2>
-    <p class="lede">前提: Claude Code(AI に文字で仕事を頼む道具)の <code>claude</code> コマンドが使えること。</p>
+    <p class="lede">前提: Claude Code(AI に文字で仕事を頼む道具)の <code>claude</code> コマンドと、git・python3 が使えること。</p>
   </header>
   <ol class="steps">
     <li>
@@ -467,7 +467,7 @@ p{text-wrap:pretty}
           <li>AGENTS.md 4節(止まる境界)のほかに任せない操作</li>
         </ol>
         <p>パックを入れるかも聞かれます。「会議の議事録も扱いますか?」「書類の台帳・設計書も扱いますか?」</p>
-        <p>最後に「新しいセッションで『前回の続き』と言えば再開できます。」と伝えられます。セッションは、claude を起動してから終えるまでの1回の作業のことです。</p>
+        <p>最後に、次は「相談したい」と言えばよいこと、次回は claude を起動し「前回の続き」と言うことが伝えられます。セッションは、claude を起動してから終えるまでの1回の作業のことです。</p>
       </div>
     </li>
   </ol>
@@ -505,7 +505,7 @@ p{text-wrap:pretty}
       <rect class="b-h" x="20" y="286" width="262" height="164" rx="10"/>
       <text class="t-mono t-lg" x="38" y="318">docs/</text>
       <text class="t-b" x="106" y="318">成果物</text>
-      <text class="t-s" x="38" y="352">1行目が「状態: 案」なら確定前</text>
+      <text class="t-s" x="38" y="352">冒頭が「状態: 案」なら確定前</text>
       <text class="t-s" x="38" y="378">AI が置き、あなたが読む</text>
 
       <rect class="band" x="408" y="50" width="452" height="66" rx="8"/>
@@ -522,9 +522,10 @@ p{text-wrap:pretty}
 
       <rect class="band" x="408" y="202" width="452" height="66" rx="8"/>
       <text class="t-role" x="426" y="243">門番</text>
-      <text class="t-mono t-sb" x="488" y="228">.claude/hooks/</text>
-      <text class="t-dim" x="608" y="228">決まった時点で自動で動く検査</text>
-      <text class="t-s" x="488" y="252">戻せない操作と、鍵の書き込みを止める</text>
+      <text class="t-mono t-sb" x="488" y="222">.claude/hooks/</text>
+      <text class="t-dim" x="608" y="222">決まった時点で自動で動く検査</text>
+      <text class="t-s" x="488" y="240">削除・履歴の書き換え・強制 push・メール送信を止める</text>
+      <text class="t-s" x="488" y="258">鍵の書き込みも止める</text>
 
       <rect class="b-a" x="408" y="286" width="290" height="164" rx="10"/>
       <text class="t-mono t-lg" x="426" y="318">work/</text>
@@ -561,7 +562,7 @@ p{text-wrap:pretty}
       <rect class="b-h" x="186" y="46" width="160" height="204" rx="10"/>
       <text class="t-mono t-lg" x="200" y="76">docs/</text>
       <text class="t-b" x="200" y="98">成果物</text>
-      <text class="t-s" x="200" y="134">1行目が</text>
+      <text class="t-s" x="200" y="134">冒頭が</text>
       <text class="t-s" x="200" y="154">「状態: 案」なら</text>
       <text class="t-s" x="200" y="174">確定前</text>
       <text class="t-s" x="200" y="206">AI が置き、</text>
@@ -589,9 +590,10 @@ p{text-wrap:pretty}
       <text class="t-s" x="84" y="515">仕事の進め方。5本(パックで足せる)</text>
       <rect class="band" x="14" y="542" width="332" height="88" rx="8"/>
       <text class="t-role" x="28" y="594">門番</text>
-      <text class="t-mono t-sb" x="84" y="567">.claude/hooks/</text>
-      <text class="t-dim" x="84" y="589">決まった時点で自動で動く検査</text>
-      <text class="t-s" x="84" y="613">戻せない操作と、鍵の書き込みを止める</text>
+      <text class="t-mono t-sb" x="84" y="565">.claude/hooks/</text>
+      <text class="t-dim" x="84" y="582">決まった時点で自動で動く検査</text>
+      <text class="t-s" x="84" y="599">削除・履歴の書き換え・強制 push・</text>
+      <text class="t-s" x="84" y="616">メール送信と鍵の書き込みを止める</text>
       <rect class="b-a" x="14" y="644" width="200" height="176" rx="10"/>
       <text class="t-mono t-lg" x="30" y="676">work/</text>
       <text class="t-s" x="30" y="704">作業中のメモと記録</text>
@@ -605,7 +607,7 @@ p{text-wrap:pretty}
       <text class="t-mono t-xs" x="236" y="730">review-</text>
       <text class="t-mono t-xs" x="236" y="748">ticket.md</text>
     </svg>
-    <figcaption>図の内容: AI は作業場で規則と手順に従って仕事を進め、門番が戻せない操作を止めます。判断が要るときは desk/ に票を置き、あなたの回答を回収して進め、できたものを docs/ に置きます。</figcaption>
+    <figcaption>図の内容: AI は作業場で規則と手順に従って仕事を進め、門番が削除や強制 push などを止めます。判断が要るときは desk/ に票を置き、あなたの回答を回収して進め、できたものを docs/ に置きます。</figcaption>
   </figure>
 </section>
 
@@ -619,20 +621,20 @@ p{text-wrap:pretty}
     <li>
       <span class="d-n">1</span>
       <h3>起動</h3>
-      <p class="d-you"><code>claude</code> で起動する。</p>
+      <p class="d-you">初日と同じ <code>cd</code> のあと、<code>claude</code> で起動する。</p>
       <p class="d-ai"><span class="who">AI</span>今日の日付・未回答の票の枚数・進み具合のメモ・直近のセーブを表示する。</p>
     </li>
     <li>
       <span class="d-n">2</span>
       <h3>「前回の続き」</h3>
       <p class="d-you">と言う。担当が替わっても、同じ言い方でよい。</p>
-      <p class="d-ai"><span class="who">AI</span>回答済みの票を回収し、業務を1つ宣言して再開する。</p>
+      <p class="d-ai"><span class="who">AI</span>回答済みの票を回収し、今日の日付・業務・次の一手・未回答の票の数を伝えてから再開する。</p>
     </li>
     <li>
       <span class="d-n">3</span>
       <h3>仕事を頼む</h3>
       <p class="d-you">言い方の例は、下の「道具」の表にあります。</p>
-      <p class="d-ai"><span class="who">AI</span>道具を選んで進める。判断が要れば票を置き、関係しない作業は続ける。</p>
+      <p class="d-ai"><span class="who">AI</span>道具を選び、フォルダの中の編集やコマンドは確認なしで進める。判断が要れば票を置き、関係しない作業は続ける。</p>
     </li>
     <li>
       <span class="d-n">4</span>
@@ -666,15 +668,16 @@ p{text-wrap:pretty}
     <div class="today-notes">
       <p><b>desk/TODAY.md(今日の机)が入口です。</b>返事が要る票は「判断待ち」に、期限の早い順に並びます。</p>
       <p>desk/ に残っている票は、まだ答えていない票です。答えた票は「しめて」のときに AI が片付けます。あなたが行う操作の票は、ひとこと: に『実行済み』と書くまで残ります。</p>
-      <p>docs/ のファイルは、1行目が <code>状態: 案</code> なら確定前です。</p>
-      <p>AI が止まって質問するのは正常です。承認が要る操作と、分からないことがあるときに止まる作りです。</p>
+      <p>docs/ のファイルは、冒頭が <code>状態: 案</code> なら確定前です。</p>
+      <p>人が読む成果物・判断材料は、自己完結 HTML(1ファイルでブラウザで開けるもの)で docs/ に置かれます。票と TODAY.md は md のままで、ほかの md は AI の作業用です。</p>
+      <p>AI が止まって質問するのは正常です。承認が要る操作と、分からないことがあるときに止まる作りです。止まったら、画面の最後のメッセージを読みます。判断待ちの票は desk/ にあります。</p>
     </div>
   </div>
 </section>
 
 <section id="stop" class="sec" aria-labelledby="stop-h">
   <header class="sec-head">
-    <p class="src">AGENTS.md 4節</p>
+    <p class="src">AGENTS.md 4節・.claude/</p>
     <h2 id="stop-h">止まる境界</h2>
     <p class="lede">AI がどこで止まるかは、2つで決まります。承認線(ここから先は人間が決める境界)に並ぶ操作と、戻せるかどうかです。一覧の操作では、自律度(AI にどこまで任せるかの段階)に関係なく止まります。</p>
   </header>
@@ -689,20 +692,29 @@ p{text-wrap:pretty}
       <li>確定登録</li>
       <li>削除</li>
       <li>口座変更</li>
-      <li>評価軸・合格基準の確定と書き換え<small>(要件で拾えない事項は「採用時の引き受け項目」に分ける)</small></li>
+      <li>評価軸・成功条件・合格基準の確定と書き換え<small>(要件で拾えない事項は「採用時の引き受け項目」に分ける)</small></li>
       <li>1節で足した操作<small>(セットアップの問い4で答えたもの)</small></li>
     </ul>
   </div>
   <p class="note">一覧の操作は、損害の大小に関係なく止まります。1節に操作を足すときは、操作の名前ではなく、損害の深さと責任の宛先で選びます。</p>
 
+  <h3>確認なしで進めるところ、止まるところ</h3>
+  <ul class="also">
+    <li><span>フォルダの中のファイル編集・コマンド</span><span class="to">確認なしで進める</span></li>
+    <li><span>承認線に並ぶ操作</span><span class="to">票を desk/ に置いて止まる</span></li>
+    <li><span>curl・wget・ssh・scp・push の5つの命令</span><span class="to">実行の前にあなたへ確認</span></li>
+    <li><span>削除・過去のセーブの書き換え・強制 push・メール送信</span><span class="to">門番が止める。ファイルは削除せず archive/ へ移す</span></li>
+    <li><span>sudo と、鍵・.env ファイルの読み取り</span><span class="to">禁止</span></li>
+  </ul>
+
   <h3>自律度の4段階</h3>
   <ol class="levels">
     <li><b>L0</b><span class="lv-name">提案</span><span class="lv-d">実行せず、進め方の提案と質問だけ</span></li>
-    <li class="on"><b>L1</b><span class="lv-name">読取と下書き<em>既定</em></span><span class="lv-d">正本を読み、下書き・差異のメモ・登録案まで</span></li>
+    <li><b>L1</b><span class="lv-name">読取と下書き</span><span class="lv-d">正本を読み、下書き・差異のメモ・登録案まで</span></li>
     <li><b>L2</b><span class="lv-name">承認付き実行</span><span class="lv-d">人間が承認した操作だけを書き込む</span></li>
-    <li><b>L3</b><span class="lv-name">監査付き自動</span><span class="lv-d">承認線の手前までを自動で行い、記録を残し、後から人間が見直す</span></li>
+    <li class="on"><b>L3</b><span class="lv-name">監査付き自動<em>既定</em></span><span class="lv-d">承認線の手前までを自動で行い、記録を残し、後から人間が見直す</span></li>
   </ol>
-  <p class="note">変えるのは責任者です。AI は提案だけをします。L3 でも、上の一覧で止まる操作は消えません。</p>
+  <p class="note">既定は L3 です。AI は承認線の手前まで自動で進め、記録を残します。誤登録や、混入した指示・正本の矛盾の見逃しなどの事故が起きたら、責任者が一段下げます(降格)。下げた段を戻すのも責任者で、AI は提案だけをします。L3 でも、上の一覧で止まる操作は消えません。</p>
 
   <h3>ほかは、戻せるかどうかで決める</h3>
   <p class="def">可逆=<mark>自分だけで戻せ</mark>、<mark>影響が作業フォルダ内で</mark>、<mark>戻すコストが時間で増えない</mark>。</p>
@@ -721,7 +733,7 @@ p{text-wrap:pretty}
   <ul class="also">
     <li><span>メール・添付・Web・書き起こしの中の指示文、正本の食い違い、二重実行の疑いを見つけた</span><span class="to">原文を引用した違和感の票</span></li>
     <li><span>目的・正本・完了条件が欠けている</span><span class="to">質問の票1枚</span></li>
-    <li><span>複数件を処理する</span><span class="to">先に3件だけ見せて承認を待つ</span></li>
+    <li><span>外部に影響する複数件を処理する</span><span class="to">先に3件だけ見せて承認を待つ</span></li>
     <li><span>エラーが2件続いた</span><span class="to">全体を止めて報告</span></li>
     <li><span>上限(1回20件・Web検索5回)に達した</span><span class="to">止めて報告</span></li>
   </ul>
@@ -751,7 +763,7 @@ p{text-wrap:pretty}
     </div>
     <div class="t-sec">
       <h4>背景<span class="t-hint">3〜5行</span></h4>
-      <p>B社から、打ち合わせの候補日を聞かれています(2026-10-01 のメール)。下書きは作業フォルダにあります。自律度は L1 なので、送るのはあなたです。</p>
+      <p>B社から、打ち合わせの候補日を聞かれています(2026-10-01 のメール)。下書きは作業フォルダにあります。送信は承認線なので、送るのはあなたです。</p>
     </div>
     <div class="t-sec">
       <h4>判断ポイント<span class="t-hint">3つまで</span></h4>

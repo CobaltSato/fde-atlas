@@ -1,24 +1,26 @@
-"""E2E の前提づくり。使い方: prep.py <case> <dest> --today YYYY-MM-DD [--stage 2]"""
+"""E2E の前提づくり。使い方: prep.py <case> <dest> --today YYYY-MM-DD [--stage 2]
+case の正規形は K01a・K01b(K01'a・K01'b も受け付けて正規形にそろえる)。base.json・commit メッセージも正規形。"""
 import argparse, hashlib, json, re, shutil, subprocess, sys
 from pathlib import Path
 ROOT = Path(__file__).resolve().parents[3]
 FIX = ROOT / ".atlas/tests/fixtures"
 PLACE = {  # case -> [(fixture, 置き場。{d}=YYYYMMDD)]
-    "K01'a": [("notice_injection.md", "work/inbox/notice_injection.md")], "K03": [("research_question.md", "work/inbox/research_question.md")],
+    "K01a": [("notice_injection.md", "work/inbox/notice_injection.md")], "K03": [("research_question.md", "work/inbox/research_question.md")],
     "K05": [("ticket_answered.md", "desk/{d}-提出先の変更.md"), ("ticket_open.md", "desk/{d}-4月分請求書の送付.md")],
     "KS1": [("@notes", "work/{g}/notes-{d}.md")], "KP3": [("sample_requirements.md", "docs/sample-requirements.md")],
     "K06": [("mail_draft.md", "work/mail/draft.md")], "K07": [(None, f"work/tmp/{n}.txt") for n in "abc"],
     "KP1": [("ledger_seed.md", "context/ledger.md")] + [(f"{n}.md", f"work/inbox/{n}.md") for n in ("invoice_dummy", "contract_dummy", "notice_injection")],
     "KP2": [("minutes_transcript.md", "work/inbox/minutes_transcript.md")]}
-PLACE["K01'b"], PLACE["K05b"] = PLACE["K01'a"], PLACE["K05"]
+PLACE["K01b"], PLACE["K05b"] = PLACE["K01a"], PLACE["K05"]
 PACKS = {"KP1": "si-documents", "KP2": "minutes", "KP3": "si-documents"}
-COPY_ONLY = {"K00", "cold-start"}; CASES = set(PLACE) | COPY_ONLY | {"blank", "K04"}
+COPY_ONLY = {"K00", "cold-start"}; CASES = set(PLACE) | COPY_ONLY | {"blank", "K04", "KH1"}
+def canon(case): return case.replace("'", "").replace("\u2019", "").replace("\u2032", "")
 def run(dest, *cmd):
     return subprocess.run(cmd, cwd=dest, check=True, capture_output=True, text=True).stdout
 KEEP = {"desk/TODAY.md", "work/STATUS.md", "docs/.gitkeep"}  # desk/ work/ docs/ は製品に含まれるファイルだけ
 def copy_root(case, dest):
     out = (".git/", ".atlas/", ".github/", ".claude/settings.local.json")
-    ls = run(ROOT, "git", "ls-files", "--cached", "--others", "--exclude-standard", "-z")
+    ls = run(ROOT, "git", "-c", "core.quotepath=false", "ls-files", "--cached", "--others", "--exclude-standard", "-z")
     for rel in sorted(set(ls.split("\0")) - {""}):
         if not (rel.startswith(out) or not (ROOT / rel).is_file() or (rel.startswith(("desk/", "work/", "docs/")) and rel not in KEEP)):
             (dest / rel).parent.mkdir(parents=True, exist_ok=True)
@@ -99,7 +101,7 @@ def check(case, dest, today, stage):
         stage == 2 or (FIX / fx).exists() or sys.exit(f"fixture がありません: {fx}")
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument("case"); ap.add_argument("dest"); ap.add_argument("--today", required=True)
-    ap.add_argument("--stage", type=int, choices=[1, 2], default=1); a = ap.parse_args(); dest = Path(a.dest).resolve(); check(a.case, dest, a.today, a.stage)
+    ap.add_argument("--stage", type=int, choices=[1, 2], default=1); a = ap.parse_args(); a.case = canon(a.case); dest = Path(a.dest).resolve(); check(a.case, dest, a.today, a.stage)
     if a.stage == 2: return stage2(dest)
     copy_root(a.case, dest)
     if a.case in COPY_ONLY: return write_base(a.case, dest)

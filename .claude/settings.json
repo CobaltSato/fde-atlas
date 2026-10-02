@@ -1,32 +1,17 @@
 {
   "permissions": {
+    "defaultMode": "acceptEdits",
     "allow": [
-      "Bash(git status*)",
-      "Bash(git log*)",
-      "Bash(git diff*)",
-      "Bash(git show*)",
-      "Bash(ls*)",
-      "Bash(date*)",
-      "Bash(wc *)",
-      "Bash(head *)",
-      "Bash(tail *)",
-      "Bash(grep *)",
-      "Bash(cat *)",
-      "Bash(echo *)",
-      "Bash(git add *)",
-      "Bash(git commit *)",
-      "Bash(git mv *)",
-      "Bash(mkdir *)",
-      "Bash(sh .claude/hooks/secret-guard.sh --staged)",
-      "Bash(python3 *)",
-      "Bash(git init*)",
-      "Bash(git config user.name *)",
-      "Bash(git config user.email *)"
+      "Bash",
+      "Edit(.claude/skills/**)",
+      "Write(.claude/skills/**)"
     ],
     "ask": [
       "Bash(curl *)",
       "Bash(wget *)",
-      "Bash(git push*)"
+      "Bash(git push*)",
+      "Bash(ssh *)",
+      "Bash(scp *)"
     ],
     "deny": [
       "Bash(sudo *)",

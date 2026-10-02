@@ -4,6 +4,7 @@
 STATUS_MAX=8192
 WORK_MAX=50
 DESK_MAX=7
+AGENTS_MAX=80
 STATUS_HEAD=500
 OUT_MAX=1000
 cut8() { iconv -c -f UTF-8 -t UTF-8 2>/dev/null || cat; } # 切り詰めで割れた末尾の文字を落とす
@@ -32,6 +33,8 @@ TODAY=$(date +%Y-%m-%d)
     B=$(wc -c < work/STATUS.md | tr -d ' ')
     [ "${B:-0}" -gt "$STATUS_MAX" ] && echo "[棚卸し] STATUS.md が ${B}B${TAIL}"
   fi
+  A=$(wc -l < AGENTS.md | tr -d ' ')
+  [ "${A:-0}" -gt "$AGENTS_MAX" ] && echo "[棚卸し] AGENTS.md が ${A}行。8節の行を消すか統合する案を票に"
   BIG=""
   C=0
   for d in work/*/; do

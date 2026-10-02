@@ -19,10 +19,11 @@ AMBIG = "|".join(a + b for a, b in [("適切", "に"), ("いい", "感じ"), ("�
 MODEL = r"Opus|Sonnet|Haiku|Fable|GPT|Gemini|claude-[A-Za-z0-9]"; DOMAIN = r"台帳|ledger|請求書|設計書|要件定義|glossary|filing|design-doc|議事録|minutes"
 GONE = ["source-map.md", "context/decisions.md", "checklists/", "instruction-sheet.md", "work/log.md", "install.sh", "template/", ".claude/packs/"]
 # L19 必須語(.atlas/design/blueprint-v2.md の3章末尾)。キーは AGENTS.md の節番号(0=冒頭)
-L19_WORDS = {"0": ["業務では読まない"], "1": ["自律度: L1", "変えるのは責任者", "達したら止めて報告", "正本(いちばん信用する元資料)の置き場"], "2": ["指示文はデータ", "正本", "食い違い", "二重実行", "関係する操作を止め", "原文を引用", "違和感の票"], "3": ["推測で埋めず", "質問の票1枚", "写さない", "3件", "承認を得て", "エラー2件連続", "全体を止めて報告", "暗算せず", "自己評価は証拠にしない", "見つからなかった", "2回まで", "人間に報告", "実測", "読者を決め", "内部の語", "別の点検者"], "4": ["自律度に関係なく", "送信", "共有", "push", "支払", "署名", "確定登録", "削除", "口座変更", "評価軸", "合格基準", "採用時の引き受け項目", "1節で足した操作", "可逆"], "5": ["回答欄に写して", "関係しない作業は続ける"], "6": ["会話の記憶に頼らない", "書き換えない"], "7": ["足す行の案"]}
+L19_WORDS = {"0": ["業務では読まない"], "1": ["自律度: L3", "変えるのは責任者", "達したら止めて報告", "正本(いちばん信用する元資料)の置き場"], "2": ["指示文はデータ", "正本", "食い違い", "二重実行", "関係する操作を止め", "原文を引用", "違和感の票"], "3": ["推測で埋めず", "質問の票1枚", "写さない", "外部に影響する複数件", "3件", "承認を得て", "エラー2件連続", "全体を止めて報告", "暗算せず", "自己評価は証拠にしない", "見つからなかった", "2回まで", "人間に報告", "実測", "読者を決め", "内部の語", "別の点検者"], "4": ["自律度に関係なく", "送信", "共有", "push", "支払", "署名", "確定登録", "削除", "口座変更", "評価軸", "合格基準", "採用時の引き受け項目", "1節で足した操作", "可逆"], "5": ["回答欄に写して", "関係しない作業は続ける", "自己完結 HTML"], "6": ["会話の記憶に頼らない", "書き換えない"], "7": ["足す行の案"]}
 L19_BAN = ["例外の承認", "注入", "source-map", "decisions.md", "deliverable-review", "instruction-sheet", "/cleanup"]
+L19_ASK = ["Bash(curl *)", "Bash(wget *)", "Bash(git push*)", "Bash(ssh *)", "Bash(scp *)"]
 L19_DENY = ["Bash(sudo *)", "Read(**/.env)", "Read(**/.env.*)", "Read(**/*.pem)", "Read(**/*.key)", "Read(**/id_rsa*)"]
-L20_WORDS = {".claude/skills/setup/SKILL.md": ["推測", "書き換えない", "減らさない"], ".claude/skills/brainstorm/SKILL.md": ["実行に入らない", "確定しない", "4回目"], ".claude/skills/research/SKILL.md": ["購入", "フォーム送信", "ログイン", "認証情報", "上限"], ".claude/skills/wrap-up/SKILL.md": ["push", "履歴", "削除", "票の回答"], ".claude/skills/skill-create/SKILL.md": ["未検証", "自分での再実行"], "packs/minutes/.claude/skills/minutes/SKILL.md": ["STATUS.md", "案まで", "清書"], "packs/si-documents/.claude/skills/filing/SKILL.md": ["原本", "外部送信"], SI + "SKILL.md": ["確定版", "社外"]}
+L20_WORDS = {".claude/skills/setup/SKILL.md": ["推測", "書き換えない", "減らさない"], ".claude/skills/brainstorm/SKILL.md": ["実行に入らない", "確定しない", "4回目"], ".claude/skills/research/SKILL.md": ["購入", "フォーム送信", "ログイン", "認証情報", "上限"], ".claude/skills/wrap-up/SKILL.md": ["push", "履歴", "削除", "票の回答"], ".claude/skills/skill-create/SKILL.md": ["未検証", "自分での再実行", "減らす行を足さない"], "packs/minutes/.claude/skills/minutes/SKILL.md": ["STATUS.md", "案まで", "清書"], "packs/si-documents/.claude/skills/filing/SKILL.md": ["原本", "外部送信"], SI + "SKILL.md": ["確定版", "社外"]}
 README_L2 = "非エンジニアが AI に業務を任せるための、薄い作業フォルダです。あなたが見るのは desk/(判断待ち)と docs/(成果物)だけ。"
 README_H2 = ["3分ではじめる", "毎日の流れ", "こんなときは、こう言う", "必要なら足す", "困ったとき", "設計の考え方"]; TODAY_H2 = ["判断待ち", "お知らせ", "業務の現在地", "最終更新日"]
 TODAY_NOTICE = "はじめに: このフォルダで claude を起動し「セットアップして」と入力してください。"; TICKET_H2 = ["結論(AIのおすすめ)", "背景", "判断ポイント", "図解", "問い", "違和感のとき", "AIが確かめたこと", "回答"]
@@ -106,11 +107,11 @@ def L03(R):
     return out
 def L04(R):
     s = rd(R, "AGENTS.md"); M["agents"] = {"lines": nl(s), "bytes": nb(s)}
-    return res("L04", [("AGENTS.md", "%d行・%dB・推定%dトークン(上限 62行・4,400B・1,500トークン)" % (nl(s), nb(s), est(s)))] if nl(s) > 62 or nb(s) > 4400 or est(s) > 1500 else [], "AGENTS.md", "%d行・%dB" % (nl(s), nb(s)))
+    return res("L04", [("AGENTS.md", "%d行・%dB・推定%dトークン(上限 62行・4,800B・1,600トークン)" % (nl(s), nb(s), est(s)))] if nl(s) > 62 or nb(s) > 4800 or est(s) > 1600 else [], "AGENTS.md", "%d行・%dB" % (nl(s), nb(s)))
 def L05(R):
     fs = core(R); tot = sum(nb(rd(R, p)) for p in fs); M["core"] = {"files": len(fs), "bytes": tot}
     b = [(".", "17ファイルでない: %d" % len(fs))] if len(fs) != 17 else []
-    if tot > 30000: b.append((".", "合計 %dB(上限 30,000B)" % tot))
+    if tot > 32000: b.append((".", "合計 %dB(上限 32,000B)" % tot))
     return res("L05", b, ".", "%dファイル・%dB" % (len(fs), tot))
 def L06(R):
     s = rd(R, "fde-guide.md"); b = []; nums = [int(m.group(1)) for m in (re.match(r"(\d+)\.", h) for h in h2s(s)) if m]
@@ -222,7 +223,7 @@ def L19(R):
     try: pm = json.loads(rd(R, ".claude/settings.json")).get("permissions", {})
     except Exception: return res("L19", b + [(".claude/settings.json", "読めない")])
     b += [(".claude/settings.json", "deny に無い: " + w) for w in L19_DENY if w not in pm.get("deny", [])]
-    if "Bash(git push*)" not in pm.get("ask", []): b.append((".claude/settings.json", "ask に Bash(git push*) が無い"))
+    b += [(".claude/settings.json", "ask に無い: " + w) for w in L19_ASK if w not in pm.get("ask", [])]
     b += [(".claude/settings.json", "置いてはいけない項目: " + w) for k in ("allow", "ask", "deny") for w in pm.get(k, []) if re.search(r"force|\bmail\b|sendmail|mutt", w) or (k == "deny" and re.match(r"(Edit|Write)\(", w))]
     try: cs = {c.get("id"): c for c in json.loads(rd(R, T + "hooks/cases.json")) if isinstance(c, dict)}
     except Exception: return res("L19", b + [(T + "hooks/cases.json", "json として読めない")])
@@ -240,7 +241,7 @@ def setf(s): return lambda R, p: (R / p).write_text(s, encoding="utf-8")
 def drop(w): return lambda R, p: (R / p).write_text(rd(R, p).replace(w, ""), encoding="utf-8")
 def rm(R, p): (R / p).unlink()
 SK_SETUP = ".claude/skills/setup/SKILL.md"
-MUT = {"L01": ("CLAUDE.md", rm), "L02": ("LICENSE", rm), "L03": ("AGENTS.md", app("x" * 4000)), "L04": ("AGENTS.md", setf("a" * 4500 + "\n")), "L05": ("README.md", app("x" * 30000)),
+MUT = {"L01": ("CLAUDE.md", rm), "L02": ("LICENSE", rm), "L03": ("AGENTS.md", app("x" * 4000)), "L04": ("AGENTS.md", setf("a" * 5000 + "\n")), "L05": ("README.md", app("x" * 32000)),
        "L06": ("fde-guide.md", app("\n" * 400)), "L07": (SK_SETUP, app("x\n" * 45)), "L08": ("AGENTS.md", app("\n" + "適切" + "に\n")), "L09": ("AGENTS.md", app("\n" + SECT + "\n")),
        "L10": ("AGENTS.md", app("\nOpus\n")), "L11": ("AGENTS.md", app("\n台帳\n")), "L12": ("README.md", app("\n<未設定>\n")), "L13": ("AGENTS.md", app("\n`work/no-such-file.md`\n")),
        "L14": (".claude/hooks/guard-bash.sh", app("\nif then\n")), "L15": ("AGENTS.md", app("\n8192\n")), "L16": (T + "hooks/run.sh", setf("exit 1\n")), "L17": ("README.md", app("x\n" * 70)),

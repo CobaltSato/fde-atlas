@@ -25,7 +25,7 @@ updated: 2026-10-02
 - 1行目の `状態: 案` を自分で外さない。
 
 ## 出力
-- `docs/minutes-YYYYMMDD-<会議>.md`
+- `docs/minutes-YYYYMMDD-<会議>.md`(この型は原稿が md。AGENTS.md 5節の HTML の規則より、この手順が先)
 - 1行目: `状態: 案`
 - 2行目: `# 議事録: <会議名>(YYYY-MM-DD)`
 - 3行目: `出席者: <名前を並べる>`
