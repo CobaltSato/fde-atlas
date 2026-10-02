@@ -42,7 +42,7 @@ def fill(dest):
     ag.write_text("\n".join(out) + "\n", encoding="utf-8")
     st = dest / "work/STATUS.md"
     rows = st.read_text(encoding="utf-8").splitlines()
-    rows[0] = f"次の一手: 「壁打ちしたい」と頼み {a['業務名']} の作業地図を作る"
+    rows[0] = f"次の一手: 「相談したい」と頼み {a['業務名']} の作業地図を作る"  # /setup 手順3の文面と一字一句そろえる
     st.write_text("\n".join(rows) + "\n", encoding="utf-8")
     t = dest / "desk/TODAY.md"
     for n, x in (("AGENTS.md 1節", ag.read_text(encoding="utf-8").split("## 1.")[1].split("\n## ")[0]), ("work/STATUS.md", st.read_text(encoding="utf-8"))):
@@ -50,7 +50,7 @@ def fill(dest):
     old = "はじめに: このフォルダで claude を起動し「セットアップして」と入力してください。"
     txt = t.read_text(encoding="utf-8")
     old in txt or sys.exit("desk/TODAY.md に『はじめに』の文がありません。prep.py の fill と /setup 手順3を揃えてください")
-    t.write_text(txt.replace(old, f"準備ができました: 次は {a['業務名']} の作業地図づくりです。"), encoding="utf-8")
+    t.write_text(txt.replace(old, f"準備ができました: 次は {a['業務名']} の作業地図づくりです。「相談したい」と話しかけてください。"), encoding="utf-8")
 def apply_pack(dest, name):  # /setup 手順4と同じ規則
     src = dest / "packs" / name
     for f in sorted(src.rglob("*")):
@@ -70,8 +70,10 @@ def apply_pack(dest, name):  # /setup 手順4と同じ規則
             lines.insert(i, l)
     p.write_text("\n".join(lines) + "\n", encoding="utf-8")
 NOTES = "# 作業ノート\n\n> 架空データ。回帰テスト用。\n\n" + "".join(f"## {n}回目\n手順: 請求書を確認し、宛先を照合し、PDFを書き出して送付する\n\n" for n in ("1", "2"))
-def pad_status(dest):  # K05b: STATUS を 9,000B にする
-    st = dest / "work/STATUS.md"; b = st.read_bytes(); st.write_bytes(b + b"<!--" + b"x" * (9000 - len(b) - 8) + b"-->\n")
+def pad_status(dest):  # K05b: STATUS を 9,000B にする。詰め物の行は製品の最終行(人間への依頼は…)の直前に入れ、最終行を製品の行のまま残す(/wrap-up は末尾の1行を残すため)
+    st = dest / "work/STATUS.md"; rows = st.read_text(encoding="utf-8").splitlines()
+    base = "\n".join(rows[:-1] + ["<!---->"] + rows[-1:]) + "\n"; n = 9000 - len(base.encode())
+    st.write_text("\n".join(rows[:-1] + ["<!--" + "x" * n + "-->"] + rows[-1:]) + "\n", encoding="utf-8")
 def place(case, dest, today):
     g = json.loads((FIX / "setup_answers.json").read_text(encoding="utf-8"))["業務名"] if case != "blank" else ""
     for fx, to in PLACE.get(case, []):
@@ -88,7 +90,7 @@ def stage2(dest):
         h = ls.index("## 回答")
         ix = {k: next((n for n in range(h, len(ls)) if ls[n].startswith(k)), None) for k in ("Q1:", "ひとこと:")}
         if ix["Q1:"] is not None:
-            for k, v in (("Q1:", "Q1: はい"), ("ひとこと:", "ひとこと: 送信しました")): ix[k] is None or ls.__setitem__(ix[k], v)
+            for k, v in (("Q1:", "Q1: はい"), ("ひとこと:", "ひとこと: 実行済み(送信しました)")): ix[k] is None or ls.__setitem__(ix[k], v)
             f.write_text("\n".join(ls), encoding="utf-8")
             return commit(dest, "test: prep K06 stage2")
     sys.exit("承認の票が desk/ にありません")

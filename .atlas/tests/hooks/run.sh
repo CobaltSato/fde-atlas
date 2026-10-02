@@ -1,6 +1,6 @@
 #!/bin/sh
 # hook 3本の単体テスト。cases.json を1件ずつ実行して判定する。一時ファイルは mktemp -d の下だけ。使い方: sh .atlas/tests/hooks/run.sh
-# 出力: PASS|FAIL <ケースID> <説明>(仕様の H<nn> 表記は本書 10章の <ケースID> が優先)。FAIL があれば exit 1。
+# 出力: PASS|FAIL <ケースID> <説明>(仕様の H<nn> 表記は .atlas/design/blueprint-v2.md 10章の <ケースID> が優先)。FAIL があれば exit 1。
 # FAIL の行があれば、その ID を cases.json で探し、← の後ろが理由。stdin = hook に渡す入力、exit = 終了コード、staged = git add 済みの変更。
 # stdin の中身は cases.json の stdin 欄にそのまま書く(tool 欄は、入力なし(/dev/null)で動かす session-start / staged の判別にだけ使う)。
 # 含む/含まない判定は stdout と stderr を合わせた文字列に対して行う。各ケースは perl の alarm で 5秒に制限し、超えたら FAIL。max_seconds があれば、その秒数を超えても FAIL。
@@ -104,7 +104,7 @@ def exec_hook(case, wd, stdin):
     return subprocess.run(cmd, cwd=wd, capture_output=True, env=env, timeout=30, **kw)
 def judge(case, p, so, se):
     errs, out = [], so + se
-    cap = case.get("stderr_max_bytes", 10**9)  # 上限は cases.json で指定(G01〜G17 は 200B)
+    cap = case.get("stderr_max_bytes", 10**9)  # 上限は cases.json で指定(guard-bash の止めるケースは全て 200B)
     if p.returncode in (142, -14): errs.append("時間切れ(5秒)")
     if len(p.stderr) > cap: errs.append("stderr %dB > 上限 %dB" % (len(p.stderr), cap))
     if p.returncode != case.get("expect_exit", 0):

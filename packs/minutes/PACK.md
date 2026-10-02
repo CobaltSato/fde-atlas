@@ -17,4 +17,4 @@ version: 1.0
 会議の議事録も扱いますか?(はい / いいえ)
 
 ## 外し方
-.claude/skills/minutes/ と、AGENTS.md 7節に足した1行(- 会議メモ・書き起こし → /minutes)を消して commit(セーブ)する。削除なので、先に票(判断をお願いする紙)で承認を得る。AI に「minutes パックを外して」と頼んでもよい。
+AI に「minutes パックを外して」と頼む。AI は `mkdir -p` のあと .claude/skills/minutes/ を work/ の下の archive/packs/ へ `git mv` で移し(消さない)、AGENTS.md 7節に足した1行(- 会議メモ・書き起こし → /minutes)を外して commit(セーブ)する。

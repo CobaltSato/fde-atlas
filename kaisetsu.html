@@ -403,7 +403,7 @@ p{text-wrap:pretty}
     <div>
       <div class="hero-lines">
         <p>作業フォルダ(AI が作業し記録を残す場所)の中で、AI(Claude Code)があなたの業務を進めます。</p>
-        <p>基本は AI が判断して進めます。止まるのは、上流の判断(目的・評価軸)・外に影響する戻せない操作・機密のときです。送信・支払・削除などは、あなたの承認なしには実行せず、手前で止まり、票(判断をお願いする紙)で確かめます。</p>
+        <p>基本は AI が判断して進めます。止まるのは、上流の判断(目的・評価軸)・外に影響する戻せない操作・機密のときです。送信・支払・削除などは、手前で止まり、票(判断をお願いする紙)で確かめます。承認のあと誰が行うかは、票の「はいなら:」に書かれます。削除とメール送信は、承認のあともあなたが行います。</p>
         <p>中身は、AI への規則・手順・門番と、作業の置き場だけ。足りない道具は、あとから足します。</p>
       </div>
       <p class="thesis">あなたが見るのは<br><code>desk/</code> と <code>docs/</code> だけ。</p>
@@ -439,8 +439,8 @@ p{text-wrap:pretty}
       <p>次のどれかで、このフォルダを手元に置く。</p>
       <ul class="opts">
         <li><b>Download ZIP</b>GitHub の「Code → Download ZIP」で展開する(いちばん簡単)。</li>
-        <li><b>git clone</b><code>git clone &lt;URL&gt;</code>(git を使う人向け)。</li>
-        <li><b>Use this template</b>「Use this template」で自分用を作る(作ったあと、その自分用から ZIP か clone で手元に置く)。</li>
+        <li><b>git clone</b><code>git clone &lt;URL&gt;</code>。</li>
+        <li><b>Use this template</b>「Use this template」で自分用を作り、そこから ZIP か clone で手元に置く。</li>
       </ul>
     </li>
     <li>
@@ -453,7 +453,7 @@ p{text-wrap:pretty}
     </li>
     <li>
       <h3>信頼の確認に「はい」</h3>
-      <p>「このフォルダを信頼しますか」という確認(英語で表示されることがあります)には、はい(Yes)を選ぶ。</p>
+      <p>「このフォルダを信頼しますか」という確認(英語のこともあります)には、はい(Yes)を選ぶ。</p>
     </li>
     <li>
       <h3>「セットアップして」と入力する</h3>
@@ -471,7 +471,7 @@ p{text-wrap:pretty}
       </div>
     </li>
   </ol>
-  <p class="note">起動時に「git がありません」と出たら、「セットアップして」と言います。</p>
+  <p class="note">起動時の表示は、AI が読むだけで、あなたの画面には出ません。git が無いときや記入欄が未記入のときは、AI が最初の返事でそう伝え、「セットアップして」と言うよう案内します。</p>
 </section>
 
 <section id="overview" class="sec" aria-labelledby="overview-h">
@@ -505,8 +505,10 @@ p{text-wrap:pretty}
       <rect class="b-h" x="20" y="286" width="262" height="164" rx="10"/>
       <text class="t-mono t-lg" x="38" y="318">docs/</text>
       <text class="t-b" x="106" y="318">成果物</text>
-      <text class="t-s" x="38" y="352">冒頭が「状態: 案」なら確定前</text>
-      <text class="t-s" x="38" y="378">AI が置き、あなたが読む</text>
+      <text class="t-s" x="38" y="346">HTML をブラウザで開く</text>
+      <text class="t-s" x="38" y="370">AI が置き、あなたが読む</text>
+      <text class="t-s" x="38" y="398">議事録・設計書(パック)は</text>
+      <text class="t-s" x="38" y="420">1行目が「状態: 案」なら確定前</text>
 
       <rect class="band" x="408" y="50" width="452" height="66" rx="8"/>
       <text class="t-role" x="426" y="91">規則</text>
@@ -562,11 +564,12 @@ p{text-wrap:pretty}
       <rect class="b-h" x="186" y="46" width="160" height="204" rx="10"/>
       <text class="t-mono t-lg" x="200" y="76">docs/</text>
       <text class="t-b" x="200" y="98">成果物</text>
-      <text class="t-s" x="200" y="134">冒頭が</text>
-      <text class="t-s" x="200" y="154">「状態: 案」なら</text>
-      <text class="t-s" x="200" y="174">確定前</text>
-      <text class="t-s" x="200" y="206">AI が置き、</text>
-      <text class="t-s" x="200" y="226">あなたが読む</text>
+      <text class="t-s" x="200" y="126">ブラウザで開く</text>
+      <text class="t-s" x="200" y="146">AI が置き、</text>
+      <text class="t-s" x="200" y="166">あなたが読む</text>
+      <text class="t-s" x="200" y="194">議事録・設計書は</text>
+      <text class="t-s" x="200" y="214">1行目が「状態: 案」</text>
+      <text class="t-s" x="200" y="234">なら確定前</text>
 
       <g class="ar-a"><line x1="48" y1="298" x2="48" y2="262"/><path d="M48 252 L41 264 L55 264 Z"/></g>
       <text class="t-ar t-ar-a" x="58" y="285">票を置く</text>
@@ -622,13 +625,13 @@ p{text-wrap:pretty}
       <span class="d-n">1</span>
       <h3>起動</h3>
       <p class="d-you">初日と同じ <code>cd</code> のあと、<code>claude</code> で起動する。</p>
-      <p class="d-ai"><span class="who">AI</span>今日の日付・未回答の票の枚数・進み具合のメモ・直近のセーブを表示する。</p>
+      <p class="d-ai"><span class="who">AI</span>今日の日付・未回答の票の枚数・進み具合のメモ・直近のセーブを読む。画面には出ない。伝えるのは、最初の返事のとき。</p>
     </li>
     <li>
       <span class="d-n">2</span>
       <h3>「前回の続き」</h3>
       <p class="d-you">と言う。担当が替わっても、同じ言い方でよい。</p>
-      <p class="d-ai"><span class="who">AI</span>回答済みの票を回収し、今日の日付・業務・次の一手・未回答の票の数を伝えてから再開する。</p>
+      <p class="d-ai"><span class="who">AI</span>回答済みの票を回収し、今日の日付・業務・次の一手・未回答の票の数と、起動時の注意を伝えてから再開する。作業は work/&lt;業務&gt;/ に置き、ほかの業務のフォルダは触らない。</p>
     </li>
     <li>
       <span class="d-n">3</span>
@@ -639,14 +642,14 @@ p{text-wrap:pretty}
     <li>
       <span class="d-n">4</span>
       <h3>票に答える</h3>
-      <p class="d-you">票のいちばん下の「回答」の <code>Q1:</code> に はい/いいえ を書いて保存する。会話で伝えてもよい。</p>
+      <p class="d-you">票のいちばん下の「回答」に書いて保存し、「票に答えた」と言う。会話で答えてもよい。</p>
       <p class="d-ai"><span class="who">AI</span>会話で聞いた答えは、票に書き写してから進める。</p>
     </li>
     <li>
       <span class="d-n">5</span>
       <h3>「しめて」</h3>
       <p class="d-you">と言う。</p>
-      <p class="d-ai"><span class="who">AI</span>記録と commit(セーブ)まで行う。push(共有先へ送り出すこと)はしない。</p>
+      <p class="d-ai"><span class="who">AI</span>記録と commit(セーブ)まで行う。desk/TODAY.md のお知らせに「AI が決めたこと」を書く。push(共有先へ送り出すこと)はしない。</p>
     </li>
   </ol>
 
@@ -659,6 +662,7 @@ p{text-wrap:pretty}
       <p>- 2026-10-07 まで <span class="lnk">B社への日程調整メールを、この下書きのまま送るか</span>(承認)</p>
       <h4>お知らせ</h4>
       <p>記入欄の未定: 責任者</p>
+      <p>AI が決めたこと: 候補日は予定表と照合し、3つにした</p>
       <h4>業務の現在地</h4>
       <p>B社との打ち合わせ準備は、下書きができて、送る承認を待っている。</p>
       <p class="mini-flow" aria-hidden="true"><span>下書き</span>→<span class="on">承認待ち</span>→<span>送信</span></p>
@@ -667,10 +671,11 @@ p{text-wrap:pretty}
     </article>
     <div class="today-notes">
       <p><b>desk/TODAY.md(今日の机)が入口です。</b>返事が要る票は「判断待ち」に、期限の早い順に並びます。</p>
-      <p>desk/ に残っている票は、まだ答えていない票です。答えた票は「しめて」のときに AI が片付けます。あなたが行う操作の票は、ひとこと: に『実行済み』と書くまで残ります。</p>
-      <p>docs/ のファイルは、冒頭が <code>状態: 案</code> なら確定前です。</p>
+      <p>desk/ の票は、答えたあとも「しめて」までは残ります。「しめて」のときに AI が片付けます。あなたが行う操作の票は、ひとこと: に『実行済み』と書くまで残ります。</p>
+      <p>docs/ の成果物は HTML です。ブラウザで開いて読みます。議事録・設計書(パックの成果物)だけは当面 md で、1行目が <code>状態: 案</code> なら確定前です。</p>
       <p>人が読む成果物・判断材料は、自己完結 HTML(1ファイルでブラウザで開けるもの)で docs/ に置かれます。票と TODAY.md は md のままで、ほかの md は AI の作業用です。</p>
-      <p>AI が止まって質問するのは正常です。承認が要る操作と、分からないことがあるときに止まる作りです。止まったら、画面の最後のメッセージを読みます。判断待ちの票は desk/ にあります。</p>
+      <p>L3(既定)では、AI が自分で決めて進めた分を、あとから見直します。見る場所は desk/TODAY.md の「お知らせ」です。/wrap-up が「AI が決めたこと: …」を主なもの3行まで書きます。棚卸し(古いメモの整理)をしたときは、票を置かずに「棚卸し: …」と1行で知らせます。</p>
+      <p>AI が止まって質問するのは正常です。承認が要る操作と、目的や元資料が足りないときに止まる作りです。止まったら、画面の最後のメッセージを読みます。判断待ちの票は desk/ にあります。</p>
     </div>
   </div>
 </section>
@@ -703,7 +708,9 @@ p{text-wrap:pretty}
     <li><span>フォルダの中のファイル編集・コマンド</span><span class="to">確認なしで進める</span></li>
     <li><span>承認線に並ぶ操作</span><span class="to">票を desk/ に置いて止まる</span></li>
     <li><span>curl・wget・ssh・scp・push の5つの命令</span><span class="to">実行の前にあなたへ確認</span></li>
-    <li><span>削除・過去のセーブの書き換え・強制 push・メール送信</span><span class="to">門番が止める。ファイルは削除せず archive/ へ移す</span></li>
+    <li><span>英語で実行の許可を聞かれたとき: 調べものの Web 検索・閲覧は Yes(はい)、票で はい と答えた push も Yes、頼んでいない送信・共有は No(いいえ)。迷ったら No。「次から聞かない」は選ばない</span><span class="to">あなたが答える</span></li>
+    <li><span>削除・過去のセーブの書き換え・強制 push・メール送信(門番が止めるのは、命令の名前で分かるものだけ)</span><span class="to">門番が止める</span></li>
+    <li><span>ファイルを消したいとき(削除は承認の票のあと、あなたが行う)</span><span class="to">AI は archive/ へ移す</span></li>
     <li><span>sudo と、鍵・.env ファイルの読み取り</span><span class="to">禁止</span></li>
   </ul>
 
@@ -714,7 +721,7 @@ p{text-wrap:pretty}
     <li><b>L2</b><span class="lv-name">承認付き実行</span><span class="lv-d">人間が承認した操作だけを書き込む</span></li>
     <li class="on"><b>L3</b><span class="lv-name">監査付き自動<em>既定</em></span><span class="lv-d">承認線の手前までを自動で行い、記録を残し、後から人間が見直す</span></li>
   </ol>
-  <p class="note">既定は L3 です。AI は承認線の手前まで自動で進め、記録を残します。誤登録や、混入した指示・正本の矛盾の見逃しなどの事故が起きたら、責任者が一段下げます(降格)。下げた段を戻すのも責任者で、AI は提案だけをします。L3 でも、上の一覧で止まる操作は消えません。</p>
+  <p class="note">既定は L3 です。AI は承認線の手前まで自動で進め、記録を残します。誤登録や、混入した指示・正本の矛盾の見逃しなどの事故が起きたら、責任者が一段下げます(降格)。下げた段を戻すのも責任者で、AI は提案だけをします。L3 でも、上の一覧で止まる操作は消えません。あとからの見直しは、desk/TODAY.md のお知らせ(「AI が決めたこと: …」)で行います。</p>
 
   <h3>ほかは、戻せるかどうかで決める</h3>
   <p class="def">可逆=<mark>自分だけで戻せ</mark>、<mark>影響が作業フォルダ内で</mark>、<mark>戻すコストが時間で増えない</mark>。</p>
@@ -733,8 +740,9 @@ p{text-wrap:pretty}
   <ul class="also">
     <li><span>メール・添付・Web・書き起こしの中の指示文、正本の食い違い、二重実行の疑いを見つけた</span><span class="to">原文を引用した違和感の票</span></li>
     <li><span>目的・正本・完了条件が欠けている</span><span class="to">質問の票1枚</span></li>
-    <li><span>外部に影響する複数件を処理する</span><span class="to">先に3件だけ見せて承認を待つ</span></li>
-    <li><span>エラーが2件続いた</span><span class="to">全体を止めて報告</span></li>
+    <li><span>外部に影響する複数件を処理する(フォルダの中だけの複数件は、3件では止まらない)</span><span class="to">先に3件だけ見せて承認を待つ</span></li>
+    <li><span>複数件を処理する(外部でもフォルダの中でも)</span><span class="to">実行済みを記録で確かめる</span></li>
+    <li><span>複数件の処理でエラーが2件続いた</span><span class="to">全体を止めて報告</span></li>
     <li><span>上限(1回20件・Web検索5回)に達した</span><span class="to">止めて報告</span></li>
   </ul>
 </section>
@@ -755,7 +763,7 @@ p{text-wrap:pretty}
       <div class="m-i"><dt>急ぎ</dt><dd><span class="opt">はい</span>・<span class="opt on">いいえ</span></dd></div>
       <div class="m-s"><dt>種別</dt><dd><span class="opt on">承認</span>・<span class="opt">選択</span>・<span class="opt">確認</span>・<span class="opt">質問</span>・<span class="opt">違和感</span></dd></div>
     </dl>
-    <p class="t-howto">いちばん下の『回答』の Q1: のあとに はい か いいえ を書いて保存してください。会話で伝えても構いません(AI が書き写します)。人間が行う操作は、済んだら ひとこと: に『実行済み』と書く。</p>
+    <p class="t-howto">問いの番号ごとに、いちばん下の『回答』の Q1: Q2: のあとに答え(はい・いいえ など)を書いて保存し、AI に「票に答えた」と伝えてください。会話で答えても構いません(AI が書き写します)。人間が行う操作は、済んだら ひとこと: に『実行済み』と書いてください。</p>
 
     <div class="t-sec">
       <h4>結論(AIのおすすめ)<span class="t-hint">1〜2行</span></h4>
@@ -763,13 +771,13 @@ p{text-wrap:pretty}
     </div>
     <div class="t-sec">
       <h4>背景<span class="t-hint">3〜5行</span></h4>
-      <p>B社から、打ち合わせの候補日を聞かれています(2026-10-01 のメール)。下書きは作業フォルダにあります。送信は承認線なので、送るのはあなたです。</p>
+      <p>B社から、打ち合わせの候補日を聞かれています(2026-10-01 のメール)。下書きは docs/ にあります。送信は承認線なので、送るのはあなたです。</p>
     </div>
     <div class="t-sec">
       <h4>判断ポイント<span class="t-hint">3つまで</span></h4>
       <ol>
-        <li>候補日に 2026-10-14 を入れるか。社内の定例と同じ日です。<span class="yn">はいなら: 3つのまま送る / いいえなら: 2つに減らす</span></li>
-        <li>CC に上長を入れるか。前回のやり取りでは入っていました。<span class="yn">はいなら: CC に入れる / いいえなら: 宛先だけにする</span></li>
+        <li>候補日に 2026-10-14 を入れるか。社内の定例と同じ日です。<span class="yn">はいなら: あなたが3つのまま送る / いいえなら: AI が2つに減らし、あなたが送る</span></li>
+        <li>CC に上長を入れるか。前回のやり取りでは入っていました。<span class="yn">はいなら: AI が CC に入れ、あなたが送る / いいえなら: 宛先だけのまま、あなたが送る</span></li>
       </ol>
     </div>
     <div class="t-sec">
@@ -799,10 +807,10 @@ p{text-wrap:pretty}
       <p class="row"><span class="k">Q2:</span><span class="hand">いいえ</span></p>
       <p class="row"><span class="k">Q3:</span><span></span></p>
       <p class="row"><span class="k">ひとこと:</span><span class="hand">実行済み</span></p>
-      <p class="row"><span class="k">検証用リンク:</span><span class="ai-fill">work/B社打ち合わせ/mail-draft.md</span></p>
+      <p class="row"><span class="k">検証用リンク:</span><span class="ai-fill">docs/B社日程調整メール下書き.html</span></p>
     </div>
   </article>
-  <p class="ticket-note">急ぎ が はい の票は、答えるまで AI が止まっています。「違和感のとき」の節(検知場所・原文の引用・止めた操作)は、種別が違和感の票にだけ残ります。使わない節は、AI が消してから置きます。</p>
+  <p class="ticket-note">急ぎ が はい の票は、答えが出るまで、その業務は進みません。「違和感のとき」の節(検知場所・原文の引用・止めた操作)は、種別が違和感の票にだけ残ります。使わない節は、AI が消してから置きます。</p>
 
   <blockquote class="motto">
     <p class="big">絞るのは判断点の数で、説明は削らない。</p>
@@ -863,7 +871,7 @@ p{text-wrap:pretty}
     <li class="skill"><p class="cmd">/brainstorm</p><p>曖昧な依頼を質問で整理し、作業地図にする。</p><p class="out">残るもの: work/&lt;業務&gt;/map.md(6つの見出しの作業地図)</p></li>
     <li class="skill"><p class="cmd">/research</p><p>安い順に調べ、出典付きでまとめる。</p><p class="out">残るもの: 調査メモ(結論3行と確信度)</p></li>
     <li class="skill"><p class="cmd">/skill-create</p><p>同じ手順や注意の繰り返しを、スキルにする。</p><p class="out">残るもの: 新しいスキルと、別のセッションでの再実行を頼む票。はい の答えが出るまで「未検証」の印が付く</p></li>
-    <li class="skill"><p class="cmd">/wrap-up</p><p>終了・中断時に記録し、desk/ を回収して commit。</p><p class="out">残るもの: その日の記録・作り直した TODAY.md・commit</p></li>
+    <li class="skill"><p class="cmd">/wrap-up</p><p>終了・中断時に記録し、desk/ を回収して commit。</p><p class="out">残るもの: その日の記録・作り直した TODAY.md(お知らせに「AI が決めたこと」)・commit</p></li>
   </ul>
 
   <h3>必要なら足すパック</h3>
@@ -871,14 +879,15 @@ p{text-wrap:pretty}
     <li class="skill pack"><p class="cmd">minutes</p><p>会議メモから決定と宿題を抜き出す。</p><p class="out">コマンド: /minutes</p></li>
     <li class="skill pack"><p class="cmd">si-documents</p><p>書類の台帳と設計書をつくる。</p><p class="out">コマンド: /filing・/design-doc</p></li>
   </ul>
-  <p class="note">「セットアップして」で「会議の議事録も扱いますか?」「書類の台帳・設計書も扱いますか?」と聞かれます。はい と答えると入ります。後から足すときも「セットアップして」と言います。外すときは削除になるので、先に票で承認を得ます。</p>
+  <p class="note">「セットアップして」で「会議の議事録も扱いますか?」「書類の台帳・設計書も扱いますか?」と聞かれます。はい と答えると入ります。後から足すときも「セットアップして」と言います。外すときは「〜パックを外して」と言います。AI は道具のフォルダを work/ の下の archive/packs/ へ移し(削除はしません)、AGENTS.md 7節に足した行を外して commit(セーブ)します。</p>
+  <p class="note">外に出す文書やメールは、docs/ に下書きが置かれます。送るのはあなたで、その前に承認の票で確かめます。</p>
 </section>
 
 <section id="not-included" class="sec" aria-labelledby="not-included-h">
   <header class="sec-head">
     <p class="src">fde-guide.md 10章</p>
     <h2 id="not-included-h">同梱しないもの(フォーク先で足す)</h2>
-    <p class="lede">使うかどうか分からないうちに入れた道具は、ほとんど使われませんでした。だから最初からは入れず、要る業務が出たときに、フォーク(このフォルダを自分用に複製したもの)した先で足します。表の「型は○章」は fde-guide.md の章、AGENTS.md 8節は「この業務の追記」の欄です。</p>
+    <p class="lede">使うかどうか分からないうちに入れた道具は、ほとんど使われませんでした。だから最初からは入れず、要る業務が出たときに足します。ここに無いものが要るときは、AI に「〜を足したい」と頼みます(いま手元にあるフォルダが、あなた自身のフォーク=自分用の複製です)。表の「型は○章」は fde-guide.md の章、AGENTS.md 8節は「この業務の追記」の欄です。</p>
   </header>
   <div class="tbl-wrap">
     <table class="tbl stack">
@@ -892,7 +901,7 @@ p{text-wrap:pretty}
         <tr><td data-label="もの">計測ログ</td><td data-label="足すならどこに">AGENTS.md 8節(置き場のファイルを1行で宣言。例: work/log.md。型は6章)</td></tr>
         <tr><td data-label="もの">棚卸しスキル</td><td data-label="足すならどこに">新しいスキル(型は6章)</td></tr>
         <tr><td data-label="もの">人間だけで業務を回す手順</td><td data-label="足すならどこに">AGENTS.md 8節(型は10章の下)</td></tr>
-        <tr><td data-label="もの">自律度を一段下げて続ける運転</td><td data-label="足すならどこに">AGENTS.md 8節(型は3章 自律度: 一段下げる)</td></tr>
+        <tr><td data-label="もの">自律度を一段下げて続ける運転</td><td data-label="足すならどこに">AGENTS.md 8節(型は3章 自律度 L0〜L3: 一段下げる)</td></tr>
         <tr><td data-label="もの">撤退の回収</td><td data-label="足すならどこに">AGENTS.md 8節(置き場のファイルを1行で宣言。型は8章)</td></tr>
       </tbody>
     </table>
@@ -913,7 +922,7 @@ p{text-wrap:pretty}
   <p class="stance">世話を焼きすぎない。足したいものはフォーク先で足す。</p>
   <ul class="links">
     <li><a href="fde-guide.md">fde-guide.md</a>原則と、同梱しないもの。</li>
-    <li><a href=".atlas/">.atlas/</a>保守者向けの設計書・調査・テスト。業務に使うフォルダでは消してかまいません。</li>
+    <li><a href=".atlas/">.atlas/</a>保守者向けの設計書・調査・テスト。業務では使いません。</li>
     <li><a class="ext" href="https://rmanzoku.net/articles/agents-md-tips/">rmanzoku.net「AGENTS.md/CLAUDE.md、全文公開」</a>上の3つが出てくる記事。</li>
   </ul>
 </section>

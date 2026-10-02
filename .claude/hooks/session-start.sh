@@ -29,6 +29,7 @@ TODAY=$(date +%Y-%m-%d)
   fi
   # 棚卸し(当たったものだけ)
   TAIL="。次回の /wrap-up で退避・整理"
+  TK="。票は動かさない"
   if [ -f work/STATUS.md ]; then
     B=$(wc -c < work/STATUS.md | tr -d ' ')
     [ "${B:-0}" -gt "$STATUS_MAX" ] && echo "[棚卸し] STATUS.md が ${B}B${TAIL}"
@@ -60,8 +61,8 @@ TODAY=$(date +%Y-%m-%d)
       EXP=$((EXP + 1))
     fi
   done
-  [ "$T" -gt "$DESK_MAX" ] && echo "[棚卸し] desk/ の票が ${T}枚${TAIL}"
-  [ "$EXP" -gt 0 ] && echo "[棚卸し] 期限切れの票 ${EXP}枚${TAIL}"
+  [ "$T" -gt "$DESK_MAX" ] && echo "[棚卸し] desk/ の票が ${T}枚${TK}"
+  [ "$EXP" -gt 0 ] && echo "[棚卸し] 期限切れの票 ${EXP}枚${TK}"
   LINE="[机] 未回答 $((T - ANS))枚"
   [ "$ANS" -gt 0 ] && LINE="$LINE / 回答あり:$ANSLIST"
   echo "$LINE"

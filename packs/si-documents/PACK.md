@@ -22,4 +22,4 @@ context/ledger.md と .claude/skills/design-doc/glossary.md は同梱しない�
 原本の置き場は /setup の問い③で聞く。命名は filing/SKILL.md の既定に従う。
 
 ## 外し方
-上の5ファイルと、7節の2行を消して commit する。削除なので、先に票で承認を得る。
+AI に「si-documents パックを外して」と頼む。AI は `mkdir -p` のあと .claude/skills/filing/ と .claude/skills/design-doc/ を work/ の下の archive/packs/ へ `git mv` で移し(消さない)、7節の2行を外して commit する。
