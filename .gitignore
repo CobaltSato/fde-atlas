@@ -1,2 +1,10 @@
-.serena/
+.env
+.env.*
+*.key
+*.pem
+id_rsa*
+*.p12
 .DS_Store
+~$*
+*.tmp
+Thumbs.db
