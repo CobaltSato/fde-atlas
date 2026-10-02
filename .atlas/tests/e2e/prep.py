@@ -15,12 +15,12 @@ PACKS = {"KP1": "si-documents", "KP2": "minutes", "KP3": "si-documents"}
 COPY_ONLY = {"K00", "cold-start"}; CASES = set(PLACE) | COPY_ONLY | {"blank", "K04"}
 def run(dest, *cmd):
     return subprocess.run(cmd, cwd=dest, check=True, capture_output=True, text=True).stdout
-KEEP = {"desk/TODAY.md", "work/STATUS.md"}  # desk/ work/ は出荷物の2枚だけ
+KEEP = {"desk/TODAY.md", "work/STATUS.md", "docs/.gitkeep"}  # desk/ work/ docs/ は製品に含まれるファイルだけ
 def copy_root(case, dest):
-    out = (".git/", ".atlas/", "template/", "scripts/", ".claude/settings.local.json")
+    out = (".git/", ".atlas/", ".github/", ".claude/settings.local.json")
     ls = run(ROOT, "git", "ls-files", "--cached", "--others", "--exclude-standard", "-z")
     for rel in sorted(set(ls.split("\0")) - {""}):
-        if not (rel.startswith(out) or not (ROOT / rel).is_file() or (rel.startswith(("desk/", "work/")) and rel not in KEEP)):
+        if not (rel.startswith(out) or not (ROOT / rel).is_file() or (rel.startswith(("desk/", "work/", "docs/")) and rel not in KEEP)):
             (dest / rel).parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(ROOT / rel, dest / rel)
 def write_base(case, dest):
@@ -43,6 +43,8 @@ def fill(dest):
     rows[0] = f"次の一手: 「壁打ちしたい」と頼み {a['業務名']} の作業地図を作る"
     st.write_text("\n".join(rows) + "\n", encoding="utf-8")
     t = dest / "desk/TODAY.md"
+    for n, x in (("AGENTS.md 1節", ag.read_text(encoding="utf-8").split("## 1.")[1].split("\n## ")[0]), ("work/STATUS.md", st.read_text(encoding="utf-8"))):
+        "<未設定>" in x and sys.exit(f"fill 後も {n} に <未設定> が残っています")
     old = "はじめに: このフォルダで claude を起動し「セットアップして」と入力してください。"
     txt = t.read_text(encoding="utf-8")
     old in txt or sys.exit("desk/TODAY.md に『はじめに』の文がありません。prep.py の fill と /setup 手順3を揃えてください")
@@ -97,8 +99,7 @@ def check(case, dest, today, stage):
         stage == 2 or (FIX / fx).exists() or sys.exit(f"fixture がありません: {fx}")
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument("case"); ap.add_argument("dest"); ap.add_argument("--today", required=True)
-    ap.add_argument("--stage", type=int, choices=[1, 2], default=1)
-    a = ap.parse_args(); dest = Path(a.dest).resolve(); check(a.case, dest, a.today, a.stage)
+    ap.add_argument("--stage", type=int, choices=[1, 2], default=1); a = ap.parse_args(); dest = Path(a.dest).resolve(); check(a.case, dest, a.today, a.stage)
     if a.stage == 2: return stage2(dest)
     copy_root(a.case, dest)
     if a.case in COPY_ONLY: return write_base(a.case, dest)

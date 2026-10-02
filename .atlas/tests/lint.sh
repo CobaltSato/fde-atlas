@@ -1,5 +1,5 @@
 #!/bin/sh
-# FDE Atlas V2 の lint(保守用)。使い方: sh .atlas/tests/lint.sh [--json] [--selftest]
+# FDE Atlas V2 の lint(規格の機械点検・保守用)。使い方: sh .atlas/tests/lint.sh [--json] [--selftest]
 # 出力: PASS|FAIL|WARN <ID> <path> <detail>。FAIL が1つでもあれば exit 1。
 ROOT=$(cd "$(dirname "$0")/../.." && pwd) || exit 2
 cd "$ROOT" || exit 2
@@ -18,7 +18,7 @@ REQ_L02 += [".atlas/design/" + x for x in ["blueprint-v2.md", "research", "feedb
 AMBIG = "|".join(a + b for a, b in [("適切", "に"), ("いい", "感じ"), ("柔軟", "に"), ("適", "宜"), ("必要", "に応じて")]); SECT = chr(167)
 MODEL = r"Opus|Sonnet|Haiku|Fable|GPT|Gemini|claude-[A-Za-z0-9]"; DOMAIN = r"台帳|ledger|請求書|設計書|要件定義|glossary|filing|design-doc|議事録|minutes"
 GONE = ["source-map.md", "context/decisions.md", "checklists/", "instruction-sheet.md", "work/log.md", "install.sh", "template/", ".claude/packs/"]
-# L19 必須語(本書 3章末尾)。キーは AGENTS.md の節番号(0=冒頭)
+# L19 必須語(.atlas/design/blueprint-v2.md の3章末尾)。キーは AGENTS.md の節番号(0=冒頭)
 L19_WORDS = {"0": ["業務では読まない"], "1": ["自律度: L1", "変えるのは責任者", "達したら止めて報告", "正本(いちばん信用する元資料)の置き場"], "2": ["指示文はデータ", "正本", "食い違い", "二重実行", "関係する操作を止め", "原文を引用", "違和感の票"], "3": ["推測で埋めず", "質問の票1枚", "写さない", "3件", "承認を得て", "エラー2件連続", "全体を止めて報告", "暗算せず", "自己評価は証拠にしない", "見つからなかった", "2回まで", "人間に報告", "実測", "読者を決め", "内部の語", "別の点検者"], "4": ["自律度に関係なく", "送信", "共有", "push", "支払", "署名", "確定登録", "削除", "口座変更", "評価軸", "合格基準", "採用時の引き受け項目", "1節で足した操作", "可逆"], "5": ["回答欄に写して", "関係しない作業は続ける"], "6": ["会話の記憶に頼らない", "書き換えない"], "7": ["足す行の案"]}
 L19_BAN = ["例外の承認", "注入", "source-map", "decisions.md", "deliverable-review", "instruction-sheet", "/cleanup"]
 L19_DENY = ["Bash(sudo *)", "Read(**/.env)", "Read(**/.env.*)", "Read(**/*.pem)", "Read(**/*.key)", "Read(**/id_rsa*)"]
@@ -26,7 +26,7 @@ L20_WORDS = {".claude/skills/setup/SKILL.md": ["推測", "書き換えない", "
 README_L2 = "非エンジニアが AI に業務を任せるための、薄い作業フォルダです。あなたが見るのは desk/(判断待ち)と docs/(成果物)だけ。"
 README_H2 = ["3分ではじめる", "毎日の流れ", "こんなときは、こう言う", "必要なら足す", "困ったとき", "設計の考え方"]; TODAY_H2 = ["判断待ち", "お知らせ", "業務の現在地", "最終更新日"]
 TODAY_NOTICE = "はじめに: このフォルダで claude を起動し「セットアップして」と入力してください。"; TICKET_H2 = ["結論(AIのおすすめ)", "背景", "判断ポイント", "図解", "問い", "違和感のとき", "AIが確かめたこと", "回答"]
-SKILL_H2 = ["いつ使うか", "手順", "止まる線", "出力"]; M = {}
+SKILL_H2 = ["いつ使うか", "手順", "止まる線", "出力"]; M = {}; STATUS1 = "次の一手: <未設定>"
 def rd(R, p): return (R / p).read_text(encoding="utf-8") if (R / p).is_file() else ""
 def nb(s): return len(s.encode())
 def est(s): a = nb(s) - sum(len(c.encode()) for c in s if ord(c) > 127); return -(-a // 4) + sum(1 for c in s if ord(c) > 127)
@@ -67,8 +67,8 @@ def L01(R):
     return res("L01", b, ".", "コア17パス")
 def L02(R): return res("L02", [(p, "無い") for p in REQ_L02 if not (R / p).exists()], ".", "必須ファイルあり")
 def ss_out(t, e): return subprocess.run(["sh", ".claude/hooks/session-start.sh"], cwd=t, env=e, stdin=subprocess.DEVNULL, capture_output=True).stdout.decode("utf-8", "replace")
-def fill1(t):  # AGENTS.md 1節を setup_answers で埋める(<未設定> を答えに置換)
-    a = json.loads(rd(R0, T + "fixtures/setup_answers.json")); out = []
+def fill1(t, R):  # AGENTS.md 1節を setup_answers で埋める(<未設定> を答えに置換)
+    a = json.loads(rd(R, T + "fixtures/setup_answers.json")); out = []
     for l in rd(t, "AGENTS.md").splitlines():
         k = l[2:].split(":")[0] if l.endswith(": <未設定>") else ""
         if k.startswith("正本"): l = "- %s: %s" % (k, "、".join("%s: %s(確かめ方: %s)" % (x["情報"], x["場所"], x["確かめ方"]) for x in a["正本"]))
@@ -76,14 +76,13 @@ def fill1(t):  # AGENTS.md 1節を setup_answers で埋める(<未設定> を答
         out.append(l)
     (t / "AGENTS.md").write_text("\n".join(out) + "\n", encoding="utf-8")
 def L03(R):
-    global R0
-    R0 = R; t0 = Path(tempfile.mkdtemp(prefix="lint-l03-")); t = t0 / "w"
+    t0 = Path(tempfile.mkdtemp(prefix="lint-l03-")); t = t0 / "w"
     try:
         e = dict(os.environ, CLAUDE_PROJECT_DIR=str(t), GIT_AUTHOR_NAME="lint", GIT_AUTHOR_EMAIL="l@example.com", GIT_COMMITTER_NAME="lint", GIT_COMMITTER_EMAIL="l@example.com")
         prep = [sys.executable, str(R / T / "e2e/prep.py"), "blank", str(t), "--today", "2026-01-15"]; r = subprocess.run(prep, capture_output=True, text=True, env=e)
         if r.returncode: return [("FAIL", "L03", T + "e2e/prep.py", "blank の写しが作れない")]
         g = lambda *a: subprocess.run(["git", *a], cwd=t, env=e, capture_output=True); g("init", "-q"); fresh = ss_out(t, e); ag0 = rd(t, "AGENTS.md")
-        fill1(t); ag1 = rd(t, "AGENTS.md")
+        fill1(t, R); ag1 = rd(t, "AGENTS.md")
         first = (rd(t, "work/STATUS.md").splitlines() or ["次の一手: lint"])[0]; tpl = rd(R, "templates/review-ticket.md")
         (t / "desk").mkdir(exist_ok=True); (t / "work").mkdir(exist_ok=True)
         (t / "work/STATUS.md").write_text(first + "\n" + "memo " * 120 + "\n", encoding="utf-8")
@@ -131,9 +130,8 @@ def L07(R):
         last = [l for l in sec(s, "出力").splitlines() if l.strip()]
         if not last or not last[-1].startswith("失敗時:"): b.append((p, "出力節の最終行が 失敗時: で始まらない"))
     return res("L07", b, ".", "8本")
-def L08(R): return res("L08", scan(R, scope(R) + ["fde-guide.md"], AMBIG, True), ".", "0件")
-def L09(R): return res("L09", scan(R, scope(R) + ["fde-guide.md"], SECT), ".", "0件")
-def L10(R): return res("L10", scan(R, scope(R) + ["fde-guide.md"], MODEL), ".", "0件")
+def word_check(i, pat, allow=False): return lambda R: res(i, scan(R, scope(R) + ["fde-guide.md"], pat, allow), ".", "0件")
+L08, L09, L10 = word_check("L08", AMBIG, True), word_check("L09", SECT), word_check("L10", MODEL)
 def L11(R): return res("L11", scan(R, [p for p in core(R) if p != "README.md"], DOMAIN), ".", "0件")
 def L12(R):
     b = []
@@ -144,10 +142,9 @@ def L12(R):
         if p == "work/STATUS.md": s = "\n".join(s.splitlines()[1:])
         if "<未設定>" in s: b.append((p, "<未設定> の置き場が違う"))
     return res("L12", b, ".", "2か所だけ")
-SKIP_MD = {"SKILL.md", "PACK.md", "STATUS.md", "TODAY.md"}; LATER_NAMES = {"glossary.md", "ledger.md", "map.md"}; LATER = ("docs/review", ".claude/skills/design-doc/glossary.md", "work/status-archive-")
+SKIP_MD = {"SKILL.md", "PACK.md", "STATUS.md", "TODAY.md", "kaisetsu.html"}; LATER_NAMES = {"glossary.md", "ledger.md", "map.md"}; LATER = ("docs/review", ".claude/skills/design-doc/glossary.md", "work/status-archive-")
 def L13(R):
-    b = []; px = re.compile(r"(?<![\w/.\-])((?:templates|desk|docs|work|\.claude|\.atlas|packs)/[^\s`'\"()\[\]{}$、。,|]*)")
-    mx = re.compile(r"(?<![\w/.\-])([A-Za-z][\w\-]*\.md)(?![\w/])")
+    b = []; px = re.compile(r"(?<![\w/.\-])((?:templates|desk|docs|work|\.claude|\.atlas|\.github|packs)/[^\s`'\"()\[\]{}$、。,|]*)"); mx = re.compile(r"(?<![\w/.\-])([A-Za-z][\w\-]*\.(?:md|html))(?![\w/])")
     for p in scope(R):
         s = rd(R, p)
         for g in GONE:
@@ -196,16 +193,16 @@ def L17(R):
     if nl(s) > 60 or nb(s) > 4000: b.append(("README.md", "%d行・%dB(上限 60行・4,000B)" % (nl(s), nb(s))))
     if h2s(s) != README_H2: b.append(("README.md", "H2 が仕様の順でない: %s" % h2s(s)))
     b += [("README.md", "書いてはいけない語: " + w) for w in ("chmod", "install.sh") if w in s]
-    for m in re.finditer(r"!\[([^\]]*)\]\(([^)]*)\)", s):
-        if not m.group(2).endswith("image.png") and (re.search(r"\d", m.group(1)) or re.search(r"\d", m.group(2))):
-            b.append(("README.md", "数値入りのバッジ"))
+    refs = dict(re.findall(r"^\s*\[([^\]]+)\]:\s*(\S+)", s, re.M)); imgs = re.findall(r"!\[[^\]]*\]\([^)]*\)|<img[^>]*>", s) + [m.group(0) + refs.get(m.group(1), "") for m in re.finditer(r"!\[[^\]]*\]\[([^\]]*)\]", s)]
+    b += [("README.md", "数値入りのバッジ") for x in imgs if "image.png" not in x and re.search(r"\d", x)]
     M["readme"] = {"lines": nl(s), "bytes": nb(s)}
     return res("L17", b, "README.md", "%d行・%dB" % (nl(s), nb(s)))
 def L18(R):
     b = []
     if rd(R, "CLAUDE.md") != "@AGENTS.md\n": b.append(("CLAUDE.md", "中身が @AGENTS.md と改行だけでない"))
     b += [("README.md", x) for x in readme_head(rd(R, "README.md"))]
-    if not rd(R, "work/STATUS.md").startswith("次の一手: "): b.append(("work/STATUS.md", "1行目が 次の一手: で始まらない"))
+    st = (rd(R, "work/STATUS.md").split("\n") or [""])[0]; fresh = "- 業務名: <未設定>" in rd(R, "AGENTS.md").splitlines()  # 未記入の写しは1行目を完全一致で見る
+    if (st != STATUS1) if fresh else not st.startswith("次の一手: "): b.append(("work/STATUS.md", "1行目が %s でない" % (STATUS1 if fresh else "次の一手: で始まるもの")))
     td = rd(R, "desk/TODAY.md")
     if not td.startswith("# 今日の机\n") or h2s(td) != TODAY_H2: b.append(("desk/TODAY.md", "1行目か H2 の順が違う"))
     if TODAY_NOTICE not in td.splitlines(): b.append(("desk/TODAY.md", "初期のお知らせ行が違う"))
@@ -226,50 +223,51 @@ def L19(R):
     except Exception: return res("L19", b + [(".claude/settings.json", "読めない")])
     b += [(".claude/settings.json", "deny に無い: " + w) for w in L19_DENY if w not in pm.get("deny", [])]
     if "Bash(git push*)" not in pm.get("ask", []): b.append((".claude/settings.json", "ask に Bash(git push*) が無い"))
-    b += [(".claude/settings.json", "置いてはいけない項目: " + w) for k in ("allow", "ask", "deny") for w in pm.get(k, []) if re.search(r"force|mail|mutt", w) or (k == "deny" and re.match(r"(Edit|Write)\(", w))]
-    cs = rd(R, T + "hooks/cases.json")
-    b += [(T + "hooks/cases.json", "ケースが無い: G%02d" % i) for i in range(1, 18) if not re.search(r"\bG%02d\b" % i, cs)]
+    b += [(".claude/settings.json", "置いてはいけない項目: " + w) for k in ("allow", "ask", "deny") for w in pm.get(k, []) if re.search(r"force|\bmail\b|sendmail|mutt", w) or (k == "deny" and re.match(r"(Edit|Write)\(", w))]
+    try: cs = {c.get("id"): c for c in json.loads(rd(R, T + "hooks/cases.json")) if isinstance(c, dict)}
+    except Exception: return res("L19", b + [(T + "hooks/cases.json", "json として読めない")])
+    stop = lambda c: c.get("hook") == "guard-bash" and c.get("expect_exit") == 2 and "止めました" in c.get("expect_contains", [])
+    b += [(T + "hooks/cases.json", "ケースが無いか止めるケースでない: G%02d" % i) for i in range(1, 18) if not stop(cs.get("G%02d" % i, {}))]
     return res("L19", b, ".", "停止線あり")
 def L20(R):
     b = []
     for p, ws in L20_WORDS.items():
         body = norm(sec(rd(R, p), "止まる線")); b += [(p, "止まる線に必須語が無い: " + w) for w in ws if norm(w) not in body]
     return res("L20", b, ".", "必須語あり")
-
 CHECKS = {"L%02d" % i: f for i, f in enumerate([L01, L02, L03, L04, L05, L06, L07, L08, L09, L10, L11, L12, L13, L14, L15, L16, L17, L18, L19, L20], 1)}
 def app(s): return lambda R, p: (R / p).open("a", encoding="utf-8").write(s)
 def setf(s): return lambda R, p: (R / p).write_text(s, encoding="utf-8")
 def drop(w): return lambda R, p: (R / p).write_text(rd(R, p).replace(w, ""), encoding="utf-8")
 def rm(R, p): (R / p).unlink()
 SK_SETUP = ".claude/skills/setup/SKILL.md"
-MUT = {"L01": ("CLAUDE.md", rm), "L02": ("LICENSE", rm), "L03": ("AGENTS.md", app("x" * 4000)),
-       "L04": ("AGENTS.md", setf("a" * 4500 + "\n")), "L05": ("README.md", app("x" * 30000)),
-       "L06": ("fde-guide.md", app("\n" * 400)), "L07": (SK_SETUP, app("x\n" * 45)),
-       "L08": ("AGENTS.md", app("\n" + "適切" + "に\n")), "L09": ("AGENTS.md", app("\n" + SECT + "\n")),
-       "L10": ("AGENTS.md", app("\nOpus\n")), "L11": ("AGENTS.md", app("\n台帳\n")),
-       "L12": ("README.md", app("\n<未設定>\n")), "L13": ("AGENTS.md", app("\n`work/no-such-file.md`\n")),
-       "L14": (".claude/hooks/guard-bash.sh", app("\nif then\n")), "L15": ("AGENTS.md", app("\n8192\n")),
-       "L16": (T + "hooks/run.sh", setf("exit 1\n")), "L17": ("README.md", app("x\n" * 70)),
-       "L18": ("CLAUDE.md", setf("x\n")), "L19": ("AGENTS.md", app("\n/cleanup\n")), "L20": (SK_SETUP, drop("推測"))}
+MUT = {"L01": ("CLAUDE.md", rm), "L02": ("LICENSE", rm), "L03": ("AGENTS.md", app("x" * 4000)), "L04": ("AGENTS.md", setf("a" * 4500 + "\n")), "L05": ("README.md", app("x" * 30000)),
+       "L06": ("fde-guide.md", app("\n" * 400)), "L07": (SK_SETUP, app("x\n" * 45)), "L08": ("AGENTS.md", app("\n" + "適切" + "に\n")), "L09": ("AGENTS.md", app("\n" + SECT + "\n")),
+       "L10": ("AGENTS.md", app("\nOpus\n")), "L11": ("AGENTS.md", app("\n台帳\n")), "L12": ("README.md", app("\n<未設定>\n")), "L13": ("AGENTS.md", app("\n`work/no-such-file.md`\n")),
+       "L14": (".claude/hooks/guard-bash.sh", app("\nif then\n")), "L15": ("AGENTS.md", app("\n8192\n")), "L16": (T + "hooks/run.sh", setf("exit 1\n")), "L17": ("README.md", app("x\n" * 70)),
+       "L18": ("CLAUDE.md", setf("x\n")), "L19": ("AGENTS.md", app("\n/cleanup\n")), "L19b": (T + "hooks/cases.json", lambda R, p: (R / p).write_text(rd(R, p).replace('"expect_exit": 2', '"expect_exit": 0', 1), encoding="utf-8")), "L20": (SK_SETUP, drop("推測"))}
 def selftest():
     out = []
     for i, (p, fn) in MUT.items():
         d = Path(tempfile.mkdtemp(prefix="lint-self-")) / "w"
         try:
             shutil.copytree(ROOT, d, ignore=shutil.ignore_patterns(".git", "image.png", "__pycache__"))
+            (d / ".github").mkdir(exist_ok=True); (d / ".github/image.png").write_bytes(b"x")
             ge = dict(os.environ, GIT_AUTHOR_NAME="lint", GIT_AUTHOR_EMAIL="l@example.com", GIT_COMMITTER_NAME="lint", GIT_COMMITTER_EMAIL="l@example.com")
             for c in (["init", "-q"], ["add", "-A"], ["-c", "commit.gpgsign=false", "commit", "-qm", "base"]): subprocess.run(["git", *c], cwd=d, env=ge, capture_output=True)
-            base = [x for x in CHECKS[i](d) if x[0] == "FAIL"]
+            base = [x for x in CHECKS[i[:3]](d) if x[0] == "FAIL"]
             if base: out.append(("FAIL", i, "selftest", "selftest 前提が FAIL: %s %s" % (base[0][2], base[0][3]))); continue
-            fn(d, p); r = CHECKS[i](d); ok = any(x[0] == "FAIL" for x in r)
+            fn(d, p); r = CHECKS[i[:3]](d); ok = any(x[0] == "FAIL" for x in r)
         except Exception as ex:
             ok, r = False, [("", "", "", "例外: %s" % ex)]
         finally:
             shutil.rmtree(d.parent, ignore_errors=True)
         out.append(("PASS" if ok else "FAIL", i, "selftest", "壊した写しで FAIL を確認" if ok else "壊しても FAIL にならない"))
     return out
+def safe(i, f):
+    try: return f(ROOT)
+    except Exception as ex: return [("FAIL", i, ".", "検査が例外で止まった: %s %s" % (type(ex).__name__, str(ex)[:60]))]
 def main():
-    a = sys.argv[1:]; rows = selftest() if "--selftest" in a else [x for f in CHECKS.values() for x in f(ROOT)]; rows = [(*x[:3], " ".join(str(x[3]).split())) for x in rows]
+    a = sys.argv[1:]; rows = selftest() if "--selftest" in a else [x for i, f in CHECKS.items() for x in safe(i, f)]; rows = [(*x[:3], " ".join(str(x[3]).split())) for x in rows]
     if "--json" in a:
         print(json.dumps({"checks": [dict(zip(("status", "id", "path", "detail"), x)) for x in rows], "metrics": M}, ensure_ascii=False, indent=1))
     else:

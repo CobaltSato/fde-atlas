@@ -38,7 +38,8 @@ fde-atlas/                    # リポジトリのルート=そのまま作業�
 ├── .claude/settings.json  .claude/hooks/{session-start,guard-bash,secret-guard}.sh             # コア
 ├── .claude/skills/{setup,brainstorm,research,wrap-up,skill-create}/SKILL.md # コア(ここまで17)
 ├── fde-guide.md              # 原則集 v3 ≤300行。人間が読む(AI の規則ではない)
-├── LICENSE  CONTRIBUTING.md  image.png  .github/ISSUE_TEMPLATE/
+├── kaisetsu.html             # 図で見る解説(自己完結 HTML。ブラウザでローカルに開く。コアの17には数えない)
+├── LICENSE  CONTRIBUTING.md  .github/{ISSUE_TEMPLATE/,image.png}   # README の画像は .github/ に置く(.atlas/ を消しても残る)
 ├── packs/                    # /setup で「はい」と答えたときだけ作業フォルダへ写す
 │   ├── minutes/       PACK.md  .claude/skills/minutes/SKILL.md
 │   └── si-documents/  PACK.md  .claude/skills/filing/SKILL.md
@@ -1359,6 +1360,7 @@ cd "$D" && perl -e 'alarm 480; exec @ARGV' claude -p "$PROMPT" --model sonnet --
 
 ## 11. 未決と注記
 
+00. (2026-10-02 追加) ユーザーの依頼で kaisetsu.html(V2 の図解・外部読み込みなし)をルートに置く。README の `設計の考え方` からリンクする。settings.json に defaultMode は置かない(ファイル編集の確認は利用者がセッションごとに許可する。README の困ったときに1行)。.gitignore に `__pycache__/` を足す(python3 の実行で生じるため)。
 0. (追跡批評 2026-10-02 への対応) 弱体化のうち R9・R11・R12・R15・R23・D21・FB26・FB29 は AGENTS.md に反映した(3章)。R3(触る前に分類)は各軸を中核則1・2節・3節3・4節へ分けたので統合のまま。R16・R19 は削除(ガイド7章に型)。R22 の「関係する操作を止め」は v2.5 の原文と同じ範囲で、作業全体の停止は急ぎ: はい で表す。FB11/FB18(人間が実行する操作の票を実行済みまで残す)は review-ticket と wrap-up の仕様に反映。FB13・FB17 は wrap-up 手順5・skill-create いつ使うか に反映。FB4・FB5・FB20・FB22〜24 は fde-guide.md の仕様に反映。常時読み込みの指標はバイト数から推定トークンへ改めた(1章)。
 
 1. (決定済み) settings.json deny の `Edit(...)`/`Write(...)` 4件は置かない。Bash(python3 *) が許可されている以上、Edit の拒否はファイル書き換えの防止にならず、hooks を直す保守セッションを阻むだけだった。

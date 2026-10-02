@@ -18,7 +18,8 @@
       "Bash(sh .claude/hooks/secret-guard.sh --staged)",
       "Bash(python3 *)",
       "Bash(git init*)",
-      "Bash(git config user.name *)"
+      "Bash(git config user.name *)",
+      "Bash(git config user.email *)"
     ],
     "ask": [
       "Bash(curl *)",
