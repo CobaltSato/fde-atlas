@@ -207,6 +207,7 @@ guard-bash.sh(PreToolUse Bash。唯一の機械層):
 - `;` `&&` `||` `|` で区切り、区切りごとに判定。git の後の `-C <dir>` `-c k=v` は飛ばす
 - 止める(exit 2): rm の再帰+強制(`-rf` `-fr` `-Rf`、分離 `-r -f`、長い形 `--recursive --force`、混在)/git push に `-f` `--force` `--force-with-lease[=…]` か `+<ref>`/`git reset --hard`/git clean に f を含むフラグか `--force`/`git commit --amend`/`git rebase`/区切りの先頭語が `mail` `sendmail` `mutt`
 - stderr 1行 ≤200B: `止めました: <種類>。戻せない操作です。必要なら desk/ に承認の票を置いて人間の判断を待つか、人間が直接実行してください。` コマンド全文は出さない
+- 決して止まらない(ハングしない): 引数を2つ飛ばす箇所(`-C <dir>`・`-c k=v`・`-n`)は残りの引数が2つ以上あるときだけ `shift 2` し、無ければ `shift` 1回で抜ける(2026-10-02 に `git -C` で終わるコマンドで無限ループが起き、hook が時間切れで無言で止まった)。入力1件の処理は1秒以内
 
 secret-guard.sh(PreToolUse Write|Edit と `--staged`):
 - 引数なし: `tool_input.file_path` と `tool_input.content`(Write)または `tool_input.new_string`(Edit)を guard-bash と同じ型の sed 式で取り出して検査。どちらも取れなければ stdin 全体を検査。old_string は見ない(鍵を消す編集を止めないため)
@@ -459,7 +460,8 @@ WF-C の `args.specs` にこの配列をそのまま渡す。1アイテム=1フ�
    "同じく exit 2: 区切りの先頭語が mail・sendmail・mutt",
    "stderr は1行・≤200B:「止めました: <種類>。戻せない操作です。必要なら desk/ に承認の票を置いて人間の判断を待つか、人間が直接実行してください。」。コマンド全文を出さない",
    "それ以外は exit 0。push 自体の確認は settings.json の ask が担当する。python3 の中身は見ない(本書 11章 未決3)",
-   ".atlas/tests/hooks/cases.json の guard-bash ケースをすべて通す"
+   ".atlas/tests/hooks/cases.json の guard-bash ケースをすべて通す",
+   "決して止まらない: `-C <dir>`・`-c k=v`・`-n` の読み飛ばしは残りの引数が2つ以上あるときだけ `shift 2`(無ければ `shift` 1回)。末尾が `git -C` でも1秒以内に exit 0。G33〜G36 を通す"
   ],
   "sources": [
    "v1.0:template/.claude/hooks/guard-bash.sh",
@@ -883,7 +885,8 @@ WF-C の `args.specs` にこの配列をそのまま渡す。1アイテム=1フ�
    "stdout と stderr に、検知したトークン文字列が含まれていないことも毎回検査する",
    "各状態の session-start 出力バイト数を表で出す(L03 と cold-start の記録に使う)",
    "出力は `PASS|FAIL H<nn> <説明>`。FAIL があれば exit 1。終わったら一時ディレクトリを消す",
-   "出力は `PASS|FAIL <ケースID> <説明>`。Bash/Write/Edit の stdin の形を cases.json の `tool` 欄で切り替える。`setup: git-staged` のケースは一時リポジトリに staged を作ってから `--staged` を呼ぶ"
+   "出力は `PASS|FAIL <ケースID> <説明>`。Bash/Write/Edit の stdin の形を cases.json の `tool` 欄で切り替える。`setup: git-staged` のケースは一時リポジトリに staged を作ってから `--staged` を呼ぶ",
+   "各ケースを `perl -e 'alarm 5; exec @ARGV' sh <hook>` で包み、時間切れ(exit 142 など)は FAIL と報告する"
   ],
   "sources": [
    "wfb-proposal-1(最小主義) hooks テスト案",
@@ -904,7 +907,8 @@ WF-C の `args.specs` にこの配列をそのまま渡す。1アイテム=1フ�
    "stdin は PreToolUse の実形式 `{\"tool_name\":...,\"tool_input\":{\"command\":...,\"description\":...}}` を使う",
    "実在する鍵・メールアドレスを置かない(example.com のみ。トークンは run.sh が連結で作るためプレースホルダで書く)",
    "session-start のケースは max_bytes を持つ(既定1000、導入直後は600)",
-   "ケースに `tool`(Bash|Write|Edit|staged|session-start)を持たせる。S14 `task-assignment-and-review-workflow` → 0 を含める。G01〜G17 に `stderr_max_bytes: 200`"
+   "ケースに `tool`(Bash|Write|Edit|staged|session-start)を持たせる。S14 `task-assignment-and-review-workflow` → 0 を含める。G01〜G17 に `stderr_max_bytes: 200`",
+   "ハングしないことの確認: G33 `git -C`、G34 `echo -n`、G35 `find . -name x -exec`、G36 `git -c` はいずれも exit 0"
   ],
   "sources": [
    "本書 10章",
@@ -1303,7 +1307,7 @@ WF-C2 の Prune が全生成の後に1体だけで実行する(`mkdir -p` → `g
 
 - run.sh の出力は `PASS|FAIL <ケースID> <説明>`。stdin の形: Bash は `{"tool_input":{"command":…,"description":…}}`、Write は `{"tool_input":{"file_path":…,"content":…}}`、Edit は `{"tool_input":{"file_path":…,"old_string":…,"new_string":…}}`。S11〜S13 は `setup: git-staged` で一時リポジトリに staged を作ってから `--staged` を呼ぶ。G01〜G17 の stderr は ≤200B
 - guard-bash 止める(exit 2): G01 `rm -rf work`/G02 `rm -fr x`/G03 `rm -r -f x`/G04 `rm --recursive --force x`/G05 `rm -R --force x`/G06 `git push origin main --force`/G07 `git push --force-with-lease`/G08 `git push origin +main`/G09 `git -C sub push -f`/G10 `git reset --hard HEAD~1`/G11 `git clean -fd`/G12 `git commit --amend -m x`/G13 `git rebase main`/G14 `mail -s t a@example.com`/G15 `cat x \| sendmail b@example.com`/G16 `echo ok && mutt`/G17 エスケープ引用符 `echo \"x\"; rm -rf y`。どれも stderr に「止めました」を含み、コマンド全文を含まない
-- guard-bash 通す(exit 0): G20 `git status`/G21 `rm file.txt`/G22 `rm -r emptydir`/G23 `git push origin main`(確認は ask)/G24 `git commit -m fix`/G25 `grep mail log.txt`/G26 `echo mail`/G27 command が `git status` で description に「rm -rf を使わず確認」/G28 `echo \"a\" && git status`/G29 command キーが無い入力/G30 `git log --format=%s \| grep force`/G31 `git init`/G32 `python3 -c "print(1)"`
+- guard-bash 通す(exit 0、各ケース2秒以内で終わること。run.sh は `perl -e 'alarm 5; exec @ARGV'` で包み、時間切れは FAIL): G33 `git -C`(末尾が -C)/G34 `echo -n`/G35 `find . -name x -exec`/G36 `git -c`/G20 `git status`/G21 `rm file.txt`/G22 `rm -r emptydir`/G23 `git push origin main`(確認は ask)/G24 `git commit -m fix`/G25 `grep mail log.txt`/G26 `echo mail`/G27 command が `git status` で description に「rm -rf を使わず確認」/G28 `echo \"a\" && git status`/G29 command キーが無い入力/G30 `git log --format=%s \| grep force`/G31 `git init`/G32 `python3 -c "print(1)"`
 - secret-guard: S01 Write の content に AKIA → 2(stderr にファイル名と行番号、トークンは無い)/S02 Edit の new_string に ghp_ → 2/S03 PRIVATE KEY → 2/S04 github_pat_ → 2/S05 sk- → 2/S06 xoxb- → 2/S07 クリーン → 0/S08 file_path が `.claude/hooks/secret-guard.sh` → 0/S09 file_path が `templates/x.md` で AKIA → 2(templates 除外が無いこと)/S10 old_string にだけ AKIA → 0/S11 `--staged` で `.env` が staged → 2/S12 `--staged` で追加行に ghp_ → 2(`<ファイル>:<行>`)/S13 `--staged` クリーン → 0/S14 content が `task-assignment-and-review-workflow` → 0(語の途中の `sk-` に当てない)。全ケースで stdout・stderr にトークン文字列が無い
 - session-start(すべて exit 0。作業フォルダは prep.py で作る): T01 K00 の写し(.git なし)→ `[注意] git がありません` と `[要記入]`/T02 blank(導入直後)→ `[要記入]` と `[机] 未回答 0枚`、≤600B/T03 1節を埋め8節は `(まだ無し)` → `[要記入]` 無し/T04 1節を埋め STATUS 1行目は `<未設定>` のまま → `[要記入]` 無し/T05 未commit 1件 → `[注意] 未commit` が `[STATUS]` より前/T06 STATUS 9,000B+未commit → `[棚卸し]` と `[注意]` が両方あり ≤1,000B/T07 work/a に51ファイル → `[棚卸し]` に work/a と `次回の /wrap-up で退避・整理`/T08 票8枚 → `[棚卸し]`/T09 期限 2026-01-01 の票 → 期限切れ 1枚/T10 回答済み4枚 → `回答あり:` は3件まで/T11 normal → バイト数を記録(L03)/T12 worst → ≤1,000B(L03)/T13 stdin が JSON でも /dev/null でも同じ出力/T14 どの状態でも出力に `/cleanup` を含まない
 - 回答判定(desk/ に1枚置いて `[机]` で見る): A01 ticket_answered → 回答あり/A02 ticket_open → 未回答/A03 `ひとこと: 了解` だけ → 回答あり/A04 `Q1:` の後が全角空白だけ → 未回答/A05 `## 問い` に `Q1: 送ってよいですか?` があり回答欄は空 → 未回答/A06 `検証用リンク:` だけ埋まる → 未回答/A07 `Q2: いいえ` だけ → 回答あり/A08 `Q1:はい`(全角コロン)→ 回答あり
