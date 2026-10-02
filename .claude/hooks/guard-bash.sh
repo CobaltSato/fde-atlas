@@ -1,23 +1,23 @@
 #!/bin/sh
-# PreToolUse(Bash)=Bash 実行前。戻せない操作を exit 2 で止める。不明なら exit 0
+# PreToolUse(Bash)。戻せない操作を exit 2 で止める
 CMD=$(tr '\n' ' ' | sed -nE 's/.*"command"[[:space:]]*:[[:space:]]*"(([^"\\]|\\.)*)".*/\1/p')
 [ -z "$CMD" ] && exit 0
 stop() {
  echo "止めました: $1。戻せない操作です。必要なら desk/ に承認の票を置いて人間を待つか、人間が実行してください。" >&2
  exit 2
 }
-# -c の中身は残し、他の引用符の中身は Q にする
+# -c の中身は残し、他の引用符の中身は Q
 P='(^|[ ;&|(/])((ba|z)?sh) -c '
 SEGS=$(printf '%s\n' "$CMD" | sed -E -e 's/\\n/;/g' -e "s/$P'([^']*)'/\\1\\2 -c ;\\4;/g" -e "s/$P\\\\\"(([^\\\\]|\\\\[^\"])*)\\\\\"/\\1\\2 -c ;\\4;/g" -e 's/\\"(\+[^ \\]*)\\"/\1/g' -e "s/'[^']*'|\\\\\"([^\\\\]|\\\\[^\"])*\\\\\"/Q/g" | sed 's/[;&|()`]/\
 /g')
 set -f
-# このループは最後
 printf '%s\n' "$SEGS" | while IFS= read -r SEG; do
  set -- $SEG
  while [ $# -gt 0 ]; do
  case "$1" in
- -n) [ $# -ge 2 ] && shift 2 || shift ;;
- *=*|-*|sudo|env|command|exec|nohup|time|nice|xargs|bash|sh|zsh) shift ;;
+ -n|-s|-k|-o|-e) [ $# -ge 2 ] && shift 2 || shift ;;
+ [0-9]*) shift ;;
+ *=*|-*|timeout|sudo|env|command|exec|nohup|time|nice|xargs|bash|sh|zsh|do|then|else|elif|if|while|until|!|{|builtin|stdbuf|caffeinate|eval) shift ;;
  find) shift; while [ $# -gt 0 ]; do case "$1" in -exec*) break ;; esac; shift; done; [ $# -gt 0 ] && shift ;;
  *) break ;;
  esac
@@ -35,7 +35,7 @@ printf '%s\n' "$SEGS" | while IFS= read -r SEG; do
  case "$S:$A" in
  push:--force*|push:-f*|push:-[!-]*f*|push:+?*) stop "git push の強制" ;;
  reset:--har*) stop "git reset --hard" ;;
- clean:--force|clean:-f*|clean:-[!-]*f*) stop "git clean の強制" ;;
+ clean:--f*|clean:-f*|clean:-[!-]*f*) stop "git clean の強制" ;;
  commit:--am*) stop "git commit --amend" ;;
  esac
  done; if [ "$S" = rebase ]; then stop "git rebase"; fi ;;

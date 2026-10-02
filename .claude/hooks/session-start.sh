@@ -6,6 +6,7 @@ WORK_MAX=50
 DESK_MAX=7
 STATUS_HEAD=500
 OUT_MAX=1000
+cut8() { iconv -c -f UTF-8 -t UTF-8 2>/dev/null || cat; } # 切り詰めで割れた末尾の文字を落とす
 cd "${CLAUDE_PROJECT_DIR:-.}" 2>/dev/null || exit 0
 TODAY=$(date +%Y-%m-%d)
 {
@@ -48,28 +49,27 @@ TODAY=$(date +%Y-%m-%d)
     [ "$f" = "desk/TODAY.md" ] && continue
     T=$((T + 1))
     D=$(head -5 "$f" | sed -n 's/.*期限: *\([0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]\).*/\1/p' | head -1)
-    if [ -n "$D" ] && awk -v a="$D" -v b="$TODAY" 'BEGIN{exit !(a<b)}'; then
-      EXP=$((EXP + 1))
-    fi
     # 回答あり: ## 回答 より後の Q<数字>: か ひとこと: の行で、コロンの後に空白以外がある
     if awk '/^## 回答/{r=1;next} r&&/^(Q[0-9]+|ひとこと)(:|：)/{sub(/^(Q[0-9]+|ひとこと)(:|：)/,"");gsub(/[ \t]/,"");gsub(/　/,""); if(length($0)>0)found=1} END{exit !found}' "$f"; then
       ANS=$((ANS + 1))
       [ "$ANS" -le 3 ] && ANSLIST="$ANSLIST ${f#desk/}"
+    elif [ -n "$D" ] && awk -v a="$D" -v b="$TODAY" 'BEGIN{exit !(a<b)}'; then
+      EXP=$((EXP + 1))
     fi
   done
   [ "$T" -gt "$DESK_MAX" ] && echo "[棚卸し] desk/ の票が ${T}枚${TAIL}"
   [ "$EXP" -gt 0 ] && echo "[棚卸し] 期限切れの票 ${EXP}枚${TAIL}"
-  LINE="[机] 未回答 ${T}枚"
+  LINE="[机] 未回答 $((T - ANS))枚"
   [ "$ANS" -gt 0 ] && LINE="$LINE / 回答あり:$ANSLIST"
   echo "$LINE"
   if [ -f work/STATUS.md ]; then
     echo "[STATUS] work/STATUS.md 先頭:"
-    head -c "$STATUS_HEAD" work/STATUS.md
+    head -c "$STATUS_HEAD" work/STATUS.md | cut8
     echo ""
   fi
   if [ "$GIT" = 1 ]; then
     echo "[セーブ] 直近の commit:"
     git log --oneline -3
   fi
-} 2>/dev/null | head -c "$OUT_MAX"
+} 2>/dev/null | head -c "$OUT_MAX" | cut8
 exit 0

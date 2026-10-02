@@ -11,6 +11,8 @@
       "Bash(head *)",
       "Bash(tail *)",
       "Bash(grep *)",
+      "Bash(cat *)",
+      "Bash(echo *)",
       "Bash(git add *)",
       "Bash(git commit *)",
       "Bash(git mv *)",
@@ -28,6 +30,9 @@
     ],
     "deny": [
       "Bash(sudo *)",
+      "Bash(*.env*)",
+      "Bash(*id_rsa*)",
+      "Bash(*.pem*)",
       "Read(**/.env)",
       "Read(**/.env.*)",
       "Read(**/*.pem)",
