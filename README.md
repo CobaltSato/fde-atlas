@@ -1,8 +1,6 @@
 # FDE Atlas
 非エンジニアが AI に業務を任せるための、薄い作業フォルダです。あなたが見るのは desk/(判断待ち)と docs/(成果物)だけ。
 
-![FDE Atlas](.github/image.png)
-
 ## 3分ではじめる
 前提: Claude Code(AI に文字で仕事を頼む道具)の `claude` コマンドと、git・python3 が使えること。
 

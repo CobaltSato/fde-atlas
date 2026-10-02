@@ -195,7 +195,7 @@ def L17(R):
     if h2s(s) != README_H2: b.append(("README.md", "H2 が仕様の順でない: %s" % h2s(s)))
     b += [("README.md", "書いてはいけない語: " + w) for w in ("chmod", "install.sh") if w in s]
     refs = dict(re.findall(r"^\s*\[([^\]]+)\]:\s*(\S+)", s, re.M)); imgs = re.findall(r"!\[[^\]]*\]\([^)]*\)|<img[^>]*>", s) + [m.group(0) + refs.get(m.group(1), "") for m in re.finditer(r"!\[[^\]]*\]\[([^\]]*)\]", s)]
-    b += [("README.md", "数値入りのバッジ") for x in imgs if "image.png" not in x and re.search(r"\d", x)]
+    b += [("README.md", "数値入りのバッジ") for x in imgs if re.search(r"\d", x)]
     M["readme"] = {"lines": nl(s), "bytes": nb(s)}
     return res("L17", b, "README.md", "%d行・%dB" % (nl(s), nb(s)))
 def L18(R):
@@ -251,8 +251,7 @@ def selftest():
     for i, (p, fn) in MUT.items():
         d = Path(tempfile.mkdtemp(prefix="lint-self-")) / "w"
         try:
-            shutil.copytree(ROOT, d, ignore=shutil.ignore_patterns(".git", "image.png", "__pycache__"))
-            (d / ".github").mkdir(exist_ok=True); (d / ".github/image.png").write_bytes(b"x")
+            shutil.copytree(ROOT, d, ignore=shutil.ignore_patterns(".git", "__pycache__"))
             ge = dict(os.environ, GIT_AUTHOR_NAME="lint", GIT_AUTHOR_EMAIL="l@example.com", GIT_COMMITTER_NAME="lint", GIT_COMMITTER_EMAIL="l@example.com")
             for c in (["init", "-q"], ["add", "-A"], ["-c", "commit.gpgsign=false", "commit", "-qm", "base"]): subprocess.run(["git", *c], cwd=d, env=ge, capture_output=True)
             base = [x for x in CHECKS[i[:3]](d) if x[0] == "FAIL"]

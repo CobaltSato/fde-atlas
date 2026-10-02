@@ -39,7 +39,7 @@ fde-atlas/                    # リポジトリのルート=そのまま作業�
 ├── .claude/skills/{setup,brainstorm,research,wrap-up,skill-create}/SKILL.md # コア(ここまで17)
 ├── fde-guide.md              # 原則集 v3 ≤300行。人間が読む(AI の規則ではない)
 ├── kaisetsu.html             # 図で見る解説(自己完結 HTML。ブラウザでローカルに開く。コアの17には数えない)
-├── LICENSE  CONTRIBUTING.md  .github/{ISSUE_TEMPLATE/,image.png}   # README の画像は .github/ に置く(.atlas/ を消しても残る)
+├── LICENSE  CONTRIBUTING.md  .github/ISSUE_TEMPLATE/
 ├── packs/                    # /setup で「はい」と答えたときだけ作業フォルダへ写す
 │   ├── minutes/       PACK.md  .claude/skills/minutes/SKILL.md
 │   └── si-documents/  PACK.md  .claude/skills/filing/SKILL.md
@@ -291,7 +291,7 @@ WF-C の `args.specs` にこの配列をそのまま渡す。1アイテム=1フ�
   "budgetLines": 60,
   "purpose": "リポジトリの入口であり、作業フォルダで人間が最初に開く案内。非エンジニアが先に読む",
   "requirements": [
-   "1行目は `# FDE Atlas`。2行目は何かを1行で: `非エンジニアが AI に業務を任せるための、薄い作業フォルダです。あなたが見るのは desk/(判断待ち)と docs/(成果物)だけ。`(lint L18)。続けて `![FDE Atlas](.github/image.png)` の1行だけ(License を含むバッジを置かない。ライセンスへのリンクは末尾の1行)",
+   "1行目は `# FDE Atlas`。2行目は何かを1行で: `非エンジニアが AI に業務を任せるための、薄い作業フォルダです。あなたが見るのは desk/(判断待ち)と docs/(成果物)だけ。`(lint L18)。画像・バッジは置かない(License を含むバッジも。ライセンスへのリンクは末尾の1行)",
    "`## 3分ではじめる`: 前提1行(Claude Code の `claude` コマンドと、git・python3 が使えること)と番号付き4手: ①GitHub の「Code → Download ZIP」で展開する/`git clone <URL>`/「Use this template」で自分用を作り、そこから ZIP か clone で手元に置く、のどれか ②ターミナル(文字で指示する画面)を開き、`cd` のあとフォルダをドラッグして Enter、続けて `claude` と入力 ③「このフォルダを信頼しますか」(英語のこともある)に「はい(Yes)」 ④「セットアップして」と入力し、まとめて出る質問に答える(分からなければ「未定」でよい)",
    "`## 毎日の流れ`: 初日と同じ `cd` のあと `claude` で起動 →「前回の続き」→ 仕事を頼む → desk/ の伺い(判断をお願いする紙)に答える(伺いのいちばん下の「回答」に書いて保存し、「伺いに答えた」と言う。会話で答えても AI が書き写す)→「しめて」(記録と commit(セーブ)まで AI が行う)。続けて1行: docs/ の成果物は HTML で、ブラウザで開く。担当が替わっても「前回の続き」と言うだけ",
    "`## こんなときは、こう言う`: 3列の表 `| 言い方 | 起きること | コマンド |`。行: 「相談したい」「新しい仕事を任せたい」→ /brainstorm/「〜を調べて」→ /research/「いま何をすればいい?」→ 机と STATUS を読んで答える(コマンド欄は —)/「この伺いは はい」→ 伺いに書き写して進める(—)/「これを次も使いたい」→ /skill-create/「しめて」→ /wrap-up/「セットアップして」→ /setup。/コマンドはコマンド列だけに書く",
