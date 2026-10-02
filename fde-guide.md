@@ -44,7 +44,7 @@ AI の注意力では防げない失敗を14の型に分けた。止める仕組
   - 出典: OWASP(Web の安全性を扱う国際団体)の LLM01 プロンプトインジェクション(データに紛れ込ませた指示文。11章)。
 - **型4 機密の写し込み。** 症状: 鍵・パスワード・口座番号を、作業メモや commit(セーブ)に写す。
   - 見えない理由: 写すのは善意に見え、写した値が履歴に残り続けることが見えない。
-  - 止める場所: AGENTS.md 中核則3(パスワード・口座番号・個人情報はこの規則だけが止める)、.claude/hooks/secret-guard.sh(鍵・トークンの形の文字列だけを、書く前と commit の前に止める)、.claude/settings.json の deny(鍵ファイルを読まない)。
+  - 止める場所: AGENTS.md 中核則3(パスワード・口座番号・個人情報はこの規則だけが止める)、.claude/hooks/secret-guard.sh(鍵・トークンの形の文字列だけを、Write・Edit で書く前と /wrap-up の commit の前に止める)、.claude/settings.json の deny(鍵ファイルを読まない)。
   - 出典: OWASP LLM02 機密情報の漏えい(11章)。
 - **型5 二重実行。** 症状: 同じ請求書を2回登録する。同じ相手に2回送る。
   - 見えない理由: 前回の実行は、今のセッション(claude を起動してから終えるまでの1回の作業)の記憶に無い。
@@ -245,7 +245,7 @@ AGENTS.md と README.md で初出に言い換えを付けるときは、次の8�
 
 ## 10. 同梱しないもの(フォーク先で足す)
 
-推測で同梱した資産は死蔵した。台帳の登録は2件だけで、モデルの対応表は使われなかった(FB1 2.10・FB2 2.10)。だからコアに置かず、必要が出た案件で足す。
+推測で同梱した資産は死蔵した。台帳の登録は2件だけで、モデル交代の台帳は使われなかった(FB1 2.10・FB2 2.10)。だからコアに置かず、必要が出た案件で足す。
 
 | もの | なぜコアに無いか | 足すならどこに(型) |
 |---|---|---|
@@ -270,7 +270,7 @@ AGENTS.md と README.md で初出に言い換えを付けるときは、次の8�
 - rmanzoku.net(調査日 2026-10-02。要旨と検証の注記は .atlas/design/research/rmanzoku-harness-principles.md): https://rmanzoku.net/about/ ・ https://rmanzoku.net/articles/ai-harness/ ・ https://rmanzoku.net/articles/agents-md-tips/ ・ https://rmanzoku.net/articles/ai-markov-chain/ ・ https://rmanzoku.net/articles/ai-disillusionment/ ・ https://rmanzoku.net/articles/loop-engineering-conway/
 - 同: https://rmanzoku.net/articles/loop-silos/ ・ https://rmanzoku.net/articles/ai-agents/ ・ https://rmanzoku.net/articles/ai-answer-space-skills/ ・ https://rmanzoku.net/articles/multi-ai-unix-philosophy/ ・ https://rmanzoku.net/articles/painter-without-brush/ ・ https://rmanzoku.net/articles/ai-bpo/
 - rmanzoku の dotfiles(common-rules.md の可逆性3条件と委譲の条件、追加の順序): https://github.com/rmanzoku/dotfiles
-- 注記: 「AGENTS.md は約60行」という目安は記事の要約経由の数値で、原文では確かめていない。agents-md-tips の主張の一部も要約経由である。
+- 注記: 「AGENTS.md は60行」は agents-md-tips の原文で確認した数値(入口ファイルの行数上限を機械検査で固定: AGENTS.md 60行・docs の索引 100行)。調査資料の抽出の一部は要約経由で、その旨は調査資料の検証注記に残している。
 - FB1: .atlas/design/feedback/2026-07-25-field-feedback.md(約1か月・文書中心の業務)。FB2: .atlas/design/feedback/2026-08-03-field-feedback-2.md(数値・分析の業務)。どちらも内部資料。
 - 「作業地図」「回答空間」「自律度」は、この文書が使う実務上のたとえで、外部の定義ではない。
 
