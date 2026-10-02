@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
-<meta name="description" content="FDE Atlas v2 の解説。AI に仕事を安心して任せるための薄い作業フォルダについて、始め方・毎日の流れ・止まる境界・票の読み方をまとめたページ。">
+<meta name="description" content="FDE Atlas v2 の解説。AI に仕事を安心して任せるための薄い作業フォルダについて、始め方・毎日の流れ・止まる境界・伺いの読み方をまとめたページ。">
 <title>FDE Atlas 解説</title>
 <style>
 :root{
@@ -385,7 +385,7 @@ p{text-wrap:pretty}
       <li><a href="#overview">全体像</a></li>
       <li><a href="#daily">毎日の流れ</a></li>
       <li><a href="#stop">止まる境界</a></li>
-      <li><a href="#ticket">票の見本</a></li>
+      <li><a href="#ticket">伺いの見本</a></li>
       <li><a href="#failures">失敗の型</a></li>
       <li><a href="#tools">道具</a></li>
       <li><a href="#not-included">同梱しないもの</a></li>
@@ -403,7 +403,7 @@ p{text-wrap:pretty}
     <div>
       <div class="hero-lines">
         <p>作業フォルダ(AI が作業し記録を残す場所)の中で、AI(Claude Code)があなたの業務を進めます。</p>
-        <p>基本は AI が判断して進めます。止まるのは、上流の判断(目的・評価軸)・外に影響する戻せない操作・機密のときです。送信・支払・削除などは、手前で止まり、票(判断をお願いする紙)で確かめます。承認のあと誰が行うかは、票の「はいなら:」に書かれます。削除とメール送信は、承認のあともあなたが行います。</p>
+        <p>基本は AI が判断して進めます。止まるのは、上流の判断(目的・評価軸)・外に影響する戻せない操作・機密のときです。送信・支払・削除などは、手前で止まり、伺い(判断をお願いする紙)で確かめます。承認のあと誰が行うかは、伺いの「はいなら:」に書かれます。削除とメール送信は、承認のあともあなたが行います。</p>
         <p>中身は、AI への規則・手順・門番と、作業の置き場だけ。足りない道具は、あとから足します。</p>
       </div>
       <p class="thesis">あなたが見るのは<br><code>desk/</code> と <code>docs/</code> だけ。</p>
@@ -416,7 +416,7 @@ p{text-wrap:pretty}
         <li class="you"><span class="nm">docs/</span><span class="ds">成果物<span class="tag">あなたが見る</span></span></li>
         <li class="sep">ほかは AI の作業場</li>
         <li><span class="nm">work/</span><span class="ds">作業中のメモと記録</span></li>
-        <li><span class="nm">templates/</span><span class="ds">票の型</span></li>
+        <li><span class="nm">templates/</span><span class="ds">伺いの型</span></li>
         <li><span class="nm">.claude/</span><span class="ds">手順(スキル)と門番(hook)</span></li>
         <li><span class="nm">AGENTS.md</span><span class="ds">AI の規則</span></li>
         <li><span class="nm">packs/</span><span class="ds">後から足せる追加の道具</span></li>
@@ -484,7 +484,7 @@ p{text-wrap:pretty}
     <p class="legend" aria-hidden="true"><span class="lg-h">人間(あなた)</span><span class="lg-a">AI</span></p>
     <svg class="fig fig-wide" viewBox="0 0 880 470" role="img" aria-labelledby="ovw-t ovw-d">
       <title id="ovw-t">全体像の図</title>
-      <desc id="ovw-d">左は人間が見る場所で、desk/(判断待ち)と docs/(成果物)がある。右は AI の作業場で、規則の AGENTS.md、手順の .claude/skills/、門番の .claude/hooks/ の3層と、work/ と templates/ がある。AI は desk/ に票を置き、回答を回収し、成果物を docs/ に置く。</desc>
+      <desc id="ovw-d">左は人間が見る場所で、desk/(判断待ち)と docs/(成果物)がある。右は AI の作業場で、規則の AGENTS.md、手順の .claude/skills/、門番の .claude/hooks/ の3層と、work/ と templates/ がある。AI は desk/ に伺いを置き、回答を回収し、成果物を docs/ に置く。</desc>
       <rect class="z-h" x="1" y="1" width="300" height="468" rx="16"/>
       <rect class="z-a" x="388" y="1" width="491" height="468" rx="16"/>
       <text class="t-zh" x="22" y="33">人間が見る場所</text>
@@ -498,8 +498,8 @@ p{text-wrap:pretty}
       <text class="t-mono t-sb" x="50" y="124">TODAY.md</text>
       <text class="t-s" x="50" y="148">今日の机。ここだけ見ればよい</text>
       <rect class="b-p" x="36" y="176" width="230" height="74" rx="6"/>
-      <text class="t-b" x="50" y="202">票</text>
-      <text class="t-mono t-xs" x="74" y="202">YYYYMMDD-件名.md</text>
+      <text class="t-b" x="50" y="202">伺い</text>
+      <text class="t-mono t-xs" x="90" y="202">YYYYMMDD-件名.md</text>
       <text class="t-s" x="50" y="230">判断をお願いする紙。1件1枚</text>
 
       <rect class="b-h" x="20" y="286" width="262" height="164" rx="10"/>
@@ -526,7 +526,7 @@ p{text-wrap:pretty}
       <text class="t-role" x="426" y="243">門番</text>
       <text class="t-mono t-sb" x="488" y="222">.claude/hooks/</text>
       <text class="t-dim" x="608" y="222">決まった時点で自動で動く検査</text>
-      <text class="t-s" x="488" y="240">削除・履歴の書き換え・強制 push・メール送信を止める</text>
+      <text class="t-s" x="488" y="240">削除・履歴の書き換え・強制 push を止める</text>
       <text class="t-s" x="488" y="258">鍵の書き込みも止める</text>
 
       <rect class="b-a" x="408" y="286" width="290" height="164" rx="10"/>
@@ -537,11 +537,11 @@ p{text-wrap:pretty}
 
       <rect class="b-a" x="710" y="286" width="150" height="164" rx="10"/>
       <text class="t-mono t-md" x="724" y="318">templates/</text>
-      <text class="t-s" x="724" y="346">票の型</text>
+      <text class="t-s" x="724" y="346">伺いの型</text>
       <text class="t-mono t-xs" x="724" y="372">review-ticket.md</text>
 
       <g class="ar-a"><line x1="386" y1="132" x2="296" y2="132"/><path d="M284 132 L297 125 L297 139 Z"/></g>
-      <text class="t-ar t-ar-a" x="341" y="120" text-anchor="middle">票を置く</text>
+      <text class="t-ar t-ar-a" x="341" y="120" text-anchor="middle">伺いを置く</text>
       <g class="ar-h"><line x1="284" y1="192" x2="374" y2="192"/><path d="M386 192 L373 185 L373 199 Z"/></g>
       <text class="t-ar t-ar-h" x="341" y="215" text-anchor="middle">回答を回収</text>
       <g class="ar-a"><line x1="386" y1="360" x2="296" y2="360"/><path d="M284 360 L297 353 L297 367 Z"/></g>
@@ -549,7 +549,7 @@ p{text-wrap:pretty}
     </svg>
     <svg class="fig fig-tall" viewBox="0 0 360 836" role="img" aria-labelledby="ovt-t ovt-d">
       <title id="ovt-t">全体像の図(縦向き)</title>
-      <desc id="ovt-d">上は人間が見る場所で、desk/(判断待ち)と docs/(成果物)がある。下は AI の作業場で、規則の AGENTS.md、手順の .claude/skills/、門番の .claude/hooks/ の3層と、work/ と templates/ がある。AI は desk/ に票を置き、回答を回収し、成果物を docs/ に置く。</desc>
+      <desc id="ovt-d">上は人間が見る場所で、desk/(判断待ち)と docs/(成果物)がある。下は AI の作業場で、規則の AGENTS.md、手順の .claude/skills/、門番の .claude/hooks/ の3層と、work/ と templates/ がある。AI は desk/ に伺いを置き、回答を回収し、成果物を docs/ に置く。</desc>
       <rect class="z-h" x="1" y="1" width="358" height="264" rx="16"/>
       <text class="t-zh" x="18" y="32">人間が見る場所</text>
       <rect class="b-h" x="14" y="46" width="164" height="204" rx="10"/>
@@ -559,7 +559,7 @@ p{text-wrap:pretty}
       <text class="t-mono t-sb" x="34" y="132">TODAY.md</text>
       <text class="t-s" x="34" y="154">今日の机</text>
       <rect class="b-p" x="24" y="178" width="144" height="60" rx="6"/>
-      <text class="t-b" x="34" y="201">票</text>
+      <text class="t-b" x="34" y="201">伺い</text>
       <text class="t-s" x="34" y="225">判断をお願いする紙</text>
       <rect class="b-h" x="186" y="46" width="160" height="204" rx="10"/>
       <text class="t-mono t-lg" x="200" y="76">docs/</text>
@@ -572,7 +572,7 @@ p{text-wrap:pretty}
       <text class="t-s" x="200" y="234">なら確定前</text>
 
       <g class="ar-a"><line x1="48" y1="298" x2="48" y2="262"/><path d="M48 252 L41 264 L55 264 Z"/></g>
-      <text class="t-ar t-ar-a" x="58" y="285">票を置く</text>
+      <text class="t-ar t-ar-a" x="58" y="285">伺いを置く</text>
       <g class="ar-h"><line x1="150" y1="252" x2="150" y2="288"/><path d="M150 298 L143 286 L157 286 Z"/></g>
       <text class="t-ar t-ar-h" x="160" y="285">回答を回収</text>
       <g class="ar-a"><line x1="266" y1="298" x2="266" y2="262"/><path d="M266 252 L259 264 L273 264 Z"/></g>
@@ -596,7 +596,7 @@ p{text-wrap:pretty}
       <text class="t-mono t-sb" x="84" y="565">.claude/hooks/</text>
       <text class="t-dim" x="84" y="582">決まった時点で自動で動く検査</text>
       <text class="t-s" x="84" y="599">削除・履歴の書き換え・強制 push・</text>
-      <text class="t-s" x="84" y="616">メール送信と鍵の書き込みを止める</text>
+      <text class="t-s" x="84" y="616">鍵の書き込みを止める</text>
       <rect class="b-a" x="14" y="644" width="200" height="176" rx="10"/>
       <text class="t-mono t-lg" x="30" y="676">work/</text>
       <text class="t-s" x="30" y="704">作業中のメモと記録</text>
@@ -606,11 +606,11 @@ p{text-wrap:pretty}
       <text class="t-mono t-xs" x="30" y="800">work/&lt;業務&gt;/</text>
       <rect class="b-a" x="224" y="644" width="122" height="176" rx="10"/>
       <text class="t-mono t-md" x="236" y="676">templates/</text>
-      <text class="t-s" x="236" y="704">票の型</text>
+      <text class="t-s" x="236" y="704">伺いの型</text>
       <text class="t-mono t-xs" x="236" y="730">review-</text>
       <text class="t-mono t-xs" x="236" y="748">ticket.md</text>
     </svg>
-    <figcaption>図の内容: AI は作業場で規則と手順に従って仕事を進め、門番が削除や強制 push などを止めます。判断が要るときは desk/ に票を置き、あなたの回答を回収して進め、できたものを docs/ に置きます。</figcaption>
+    <figcaption>図の内容: AI は作業場で規則と手順に従って仕事を進め、門番が削除や強制 push などを止めます。判断が要るときは desk/ に伺いを置き、あなたの回答を回収して進め、できたものを docs/ に置きます。</figcaption>
   </figure>
 </section>
 
@@ -625,25 +625,25 @@ p{text-wrap:pretty}
       <span class="d-n">1</span>
       <h3>起動</h3>
       <p class="d-you">初日と同じ <code>cd</code> のあと、<code>claude</code> で起動する。</p>
-      <p class="d-ai"><span class="who">AI</span>今日の日付・未回答の票の枚数・進み具合のメモ・直近のセーブを読む。画面には出ない。伝えるのは、最初の返事のとき。</p>
+      <p class="d-ai"><span class="who">AI</span>今日の日付・未回答の伺いの枚数・進み具合のメモ・直近のセーブを読む。画面には出ない。伝えるのは、最初の返事のとき。</p>
     </li>
     <li>
       <span class="d-n">2</span>
       <h3>「前回の続き」</h3>
       <p class="d-you">と言う。担当が替わっても、同じ言い方でよい。</p>
-      <p class="d-ai"><span class="who">AI</span>回答済みの票を回収し、今日の日付・業務・次の一手・未回答の票の数と、起動時の注意を伝えてから再開する。作業は work/&lt;業務&gt;/ に置き、ほかの業務のフォルダは触らない。</p>
+      <p class="d-ai"><span class="who">AI</span>回答済みの伺いを回収し、最初の返事で今日の日付・業務・次の一手・未回答の伺いの数と起動時の注意を伝えてから再開する。作業は work/&lt;業務&gt;/ に置き、ほかの業務のフォルダは触らない。</p>
     </li>
     <li>
       <span class="d-n">3</span>
       <h3>仕事を頼む</h3>
       <p class="d-you">言い方の例は、下の「道具」の表にあります。</p>
-      <p class="d-ai"><span class="who">AI</span>道具を選び、フォルダの中の編集やコマンドは確認なしで進める。判断が要れば票を置き、関係しない作業は続ける。</p>
+      <p class="d-ai"><span class="who">AI</span>道具を選び、フォルダの中の編集やコマンドは確認なしで進める。判断が要れば伺いを置き、関係しない作業は続ける。</p>
     </li>
     <li>
       <span class="d-n">4</span>
-      <h3>票に答える</h3>
-      <p class="d-you">票のいちばん下の「回答」に書いて保存し、「票に答えた」と言う。会話で答えてもよい。</p>
-      <p class="d-ai"><span class="who">AI</span>会話で聞いた答えは、票に書き写してから進める。</p>
+      <h3>伺いに答える</h3>
+      <p class="d-you">伺いのいちばん下の「回答」に書いて保存し、「伺いに答えた」と言う。会話で答えてもよい。</p>
+      <p class="d-ai"><span class="who">AI</span>会話で聞いた答えは、伺いに書き写してから進める。</p>
     </li>
     <li>
       <span class="d-n">5</span>
@@ -670,12 +670,12 @@ p{text-wrap:pretty}
       <p>2026-10-02</p>
     </article>
     <div class="today-notes">
-      <p><b>desk/TODAY.md(今日の机)が入口です。</b>返事が要る票は「判断待ち」に、期限の早い順に並びます。</p>
-      <p>desk/ の票は、答えたあとも「しめて」までは残ります。「しめて」のときに AI が片付けます。あなたが行う操作の票は、ひとこと: に『実行済み』と書くまで残ります。</p>
+      <p><b>desk/TODAY.md(今日の机)が入口です。</b>返事が要る伺いは「判断待ち」に、期限の早い順に並びます。</p>
+      <p>desk/ の伺いは、答えたあとも「しめて」までは残ります。「しめて」のときに AI が片付けます。あなたが行う操作の伺いは、ひとこと: に『実行済み』と書くまで残ります。</p>
       <p>docs/ の成果物は HTML です。ブラウザで開いて読みます。議事録・設計書(パックの成果物)だけは当面 md で、1行目が <code>状態: 案</code> なら確定前です。</p>
-      <p>人が読む成果物・判断材料は、自己完結 HTML(1ファイルでブラウザで開けるもの)で docs/ に置かれます。票と TODAY.md は md のままで、ほかの md は AI の作業用です。</p>
-      <p>L3(既定)では、AI が自分で決めて進めた分を、あとから見直します。見る場所は desk/TODAY.md の「お知らせ」です。/wrap-up が「AI が決めたこと: …」を主なもの3行まで書きます。棚卸し(古いメモの整理)をしたときは、票を置かずに「棚卸し: …」と1行で知らせます。</p>
-      <p>AI が止まって質問するのは正常です。承認が要る操作と、目的や元資料が足りないときに止まる作りです。止まったら、画面の最後のメッセージを読みます。判断待ちの票は desk/ にあります。</p>
+      <p>人が読む成果物・判断材料は、自己完結 HTML(1ファイルでブラウザで開けるもの)で docs/ に置かれます。伺いと TODAY.md は md のままで、ほかの md は AI の作業用です。</p>
+      <p>L3(既定)では、AI が自分で決めて進めた分を、あとから見直します。見る場所は desk/TODAY.md の「お知らせ」です。/wrap-up が「AI が決めたこと: …」を主なもの3行まで書きます。棚卸し(古いメモの整理)をしたときは、伺いを置かずに「棚卸し: …」と1行で知らせます。</p>
+      <p>AI が止まって質問するのは正常です。承認が要る操作と、目的や元資料が足りないときに止まる作りです。止まったら、画面の最後のメッセージを読みます。判断待ちの伺いは desk/ にあります。</p>
     </div>
   </div>
 </section>
@@ -689,7 +689,7 @@ p{text-wrap:pretty}
 
   <div class="line">
     <p class="line-label">承認線</p>
-    <p class="line-lead">自律度に関係なく、次は実行せず承認の票を desk/ に置いて止まる:</p>
+    <p class="line-lead">自律度に関係なく、次は実行せず承認の伺いを desk/ に置いて止まる:</p>
     <ul class="stops">
       <li>送信・共有<small>(共有先へ送り出す push を含む)</small></li>
       <li>支払</li>
@@ -706,11 +706,11 @@ p{text-wrap:pretty}
   <h3>確認なしで進めるところ、止まるところ</h3>
   <ul class="also">
     <li><span>フォルダの中のファイル編集・コマンド</span><span class="to">確認なしで進める</span></li>
-    <li><span>承認線に並ぶ操作</span><span class="to">票を desk/ に置いて止まる</span></li>
-    <li><span>curl・wget・ssh・scp・push の5つの命令</span><span class="to">実行の前にあなたへ確認</span></li>
-    <li><span>英語で実行の許可を聞かれたとき: 調べものの Web 検索・閲覧は Yes(はい)、票で はい と答えた push も Yes、頼んでいない送信・共有は No(いいえ)。迷ったら No。「次から聞かない」は選ばない</span><span class="to">あなたが答える</span></li>
-    <li><span>削除・過去のセーブの書き換え・強制 push・メール送信(門番が止めるのは、命令の名前で分かるものだけ)</span><span class="to">門番が止める</span></li>
-    <li><span>ファイルを消したいとき(削除は承認の票のあと、あなたが行う)</span><span class="to">AI は archive/ へ移す</span></li>
+    <li><span>承認線に並ぶ操作</span><span class="to">伺いを desk/ に置いて止まる</span></li>
+    <li><span>外へ送る・共有する ssh・scp・push の3つの命令(Web の API とやり取りする curl・wget は確認なしで動く。それで送ることも承認線で止まるが、確認の画面は出ない)</span><span class="to">実行の前にあなたへ確認</span></li>
+    <li><span>英語で実行の許可を聞かれたとき: 調べものの Web 検索・閲覧は Yes(はい)、伺いで はい と答えた push も Yes、頼んでいない送信・共有は No(いいえ)。迷ったら No。「次から聞かない」は選ばない</span><span class="to">あなたが答える</span></li>
+    <li><span>削除・過去のセーブの書き換え・強制 push(門番が止めるのは、命令の名前で分かるものだけ)</span><span class="to">門番が止める</span></li>
+    <li><span>ファイルを消したいとき(削除は承認の伺いに答えたあと、あなたが行う)</span><span class="to">AI は archive/ へ移す</span></li>
     <li><span>sudo と、鍵・.env ファイルの読み取り</span><span class="to">禁止</span></li>
   </ul>
 
@@ -731,15 +731,15 @@ p{text-wrap:pretty}
       <thead><tr><td class="corner"></td><th scope="col">フォルダ内</th><th scope="col">外部</th></tr></thead>
       <tbody>
         <tr><th scope="row">可逆</th><td class="go">フォルダ内は diff(変更の差分)を見せてから次へ進む。</td><td class="go">外部は読むだけ、書くのは下書きまで。</td></tr>
-        <tr><th scope="row">不可逆</th><td class="save">フォルダ内は commit(セーブ)してから進める。</td><td class="halt">外部に影響するなら票で止まる。</td></tr>
+        <tr><th scope="row">不可逆</th><td class="save">フォルダ内は commit(セーブ)してから進める。</td><td class="halt">外部に影響するなら伺いで止まる。</td></tr>
       </tbody>
     </table>
   </div>
 
   <h3>ほかにも、ここで止まります</h3>
   <ul class="also">
-    <li><span>メール・添付・Web・書き起こしの中の指示文、正本の食い違い、二重実行の疑いを見つけた</span><span class="to">原文を引用した違和感の票</span></li>
-    <li><span>目的・正本・完了条件が欠けている</span><span class="to">質問の票1枚</span></li>
+    <li><span>メール・添付・Web・書き起こしの中の指示文、正本の食い違い、二重実行の疑いを見つけた</span><span class="to">原文を引用した違和感の伺い</span></li>
+    <li><span>目的・正本・完了条件が欠けている</span><span class="to">質問の伺い1枚</span></li>
     <li><span>外部に影響する複数件を処理する(フォルダの中だけの複数件は、3件では止まらない)</span><span class="to">先に3件だけ見せて承認を待つ</span></li>
     <li><span>複数件を処理する(外部でもフォルダの中でも)</span><span class="to">実行済みを記録で確かめる</span></li>
     <li><span>複数件の処理でエラーが2件続いた</span><span class="to">全体を止めて報告</span></li>
@@ -750,11 +750,11 @@ p{text-wrap:pretty}
 <section id="ticket" class="sec" aria-labelledby="ticket-h">
   <header class="sec-head">
     <p class="src">templates/review-ticket.md</p>
-    <h2 id="ticket-h">票の見本</h2>
-    <p class="lede">判断が要るとき、AI は desk/ に票を1枚置きます。1件1ファイルで、名前は <code>desk/YYYYMMDD-&lt;件名&gt;.md</code>。あなたが書くのは、いちばん下の「回答」だけです。</p>
+    <h2 id="ticket-h">伺いの見本</h2>
+    <p class="lede">判断が要るとき、AI は desk/ に伺いを1枚置きます。1件1ファイルで、名前は <code>desk/YYYYMMDD-&lt;件名&gt;.md</code>。あなたが書くのは、いちばん下の「回答」だけです。</p>
   </header>
 
-  <article class="ticket" aria-label="票の見本。種別は承認">
+  <article class="ticket" aria-label="伺いの見本。種別は承認">
     <p class="t-file"><span>desk/20261002-B社日程調整.md</span><span class="sample">見本</span></p>
     <h3 class="t-title">B社への日程調整メールを、この下書きのまま送るか</h3>
     <dl class="t-meta">
@@ -763,7 +763,7 @@ p{text-wrap:pretty}
       <div class="m-i"><dt>急ぎ</dt><dd><span class="opt">はい</span>・<span class="opt on">いいえ</span></dd></div>
       <div class="m-s"><dt>種別</dt><dd><span class="opt on">承認</span>・<span class="opt">選択</span>・<span class="opt">確認</span>・<span class="opt">質問</span>・<span class="opt">違和感</span></dd></div>
     </dl>
-    <p class="t-howto">問いの番号ごとに、いちばん下の『回答』の Q1: Q2: のあとに答え(はい・いいえ など)を書いて保存し、AI に「票に答えた」と伝えてください。会話で答えても構いません(AI が書き写します)。人間が行う操作は、済んだら ひとこと: に『実行済み』と書いてください。</p>
+    <p class="t-howto">問いの番号ごとに、いちばん下の『回答』の Q1: Q2: のあとに答え(はい・いいえ など)を書いて保存し、AI に「伺いに答えた」と伝えてください。会話で答えても構いません(AI が書き写します)。人間が行う操作は、済んだら ひとこと: に『実行済み』と書いてください。</p>
 
     <div class="t-sec">
       <h4>結論(AIのおすすめ)<span class="t-hint">1〜2行</span></h4>
@@ -810,7 +810,7 @@ p{text-wrap:pretty}
       <p class="row"><span class="k">検証用リンク:</span><span class="ai-fill">docs/B社日程調整メール下書き.html</span></p>
     </div>
   </article>
-  <p class="ticket-note">急ぎ が はい の票は、答えが出るまで、その業務は進みません。「違和感のとき」の節(検知場所・原文の引用・止めた操作)は、種別が違和感の票にだけ残ります。使わない節は、AI が消してから置きます。</p>
+  <p class="ticket-note">急ぎ が はい の伺いは、答えが出るまで、その業務は進みません。「違和感のとき」の節(検知場所・原文の引用・止めた操作)は、種別が違和感の伺いにだけ残ります。使わない節は、AI が消してから置きます。</p>
 
   <blockquote class="motto">
     <p class="big">絞るのは判断点の数で、説明は削らない。</p>
@@ -857,7 +857,7 @@ p{text-wrap:pretty}
         <tr><td data-label="言い方">「相談したい」「新しい仕事を任せたい」</td><td data-label="起きること">質問しながら考えを整理する</td><td class="cmd" data-label="コマンド"><code>/brainstorm</code></td></tr>
         <tr><td data-label="言い方">「〜を調べて」</td><td data-label="起きること">出典つきで調べる</td><td class="cmd" data-label="コマンド"><code>/research</code></td></tr>
         <tr><td data-label="言い方">「いま何をすればいい?」</td><td data-label="起きること">desk/ と work/STATUS.md(進み具合のメモ)を読んで答える</td><td class="cmd" data-label="コマンド">—</td></tr>
-        <tr><td data-label="言い方">「この票は はい」</td><td data-label="起きること">票に書き写して進める</td><td class="cmd" data-label="コマンド">—</td></tr>
+        <tr><td data-label="言い方">「この伺いは はい」</td><td data-label="起きること">伺いに書き写して進める</td><td class="cmd" data-label="コマンド">—</td></tr>
         <tr><td data-label="言い方">「これを次も使いたい」</td><td data-label="起きること">手順を道具として残す</td><td class="cmd" data-label="コマンド"><code>/skill-create</code></td></tr>
         <tr><td data-label="言い方">「しめて」</td><td data-label="起きること">記録と commit まで行う</td><td class="cmd" data-label="コマンド"><code>/wrap-up</code></td></tr>
         <tr><td data-label="言い方">「セットアップして」</td><td data-label="起きること">質問に答えて初期設定をする</td><td class="cmd" data-label="コマンド"><code>/setup</code></td></tr>
@@ -870,7 +870,7 @@ p{text-wrap:pretty}
     <li class="skill"><p class="cmd">/setup</p><p>初回導入。記入欄を質問で埋め、使うパックを入れる。</p><p class="out">残るもの: AGENTS.md 1節の記入と commit</p></li>
     <li class="skill"><p class="cmd">/brainstorm</p><p>曖昧な依頼を質問で整理し、作業地図にする。</p><p class="out">残るもの: work/&lt;業務&gt;/map.md(6つの見出しの作業地図)</p></li>
     <li class="skill"><p class="cmd">/research</p><p>安い順に調べ、出典付きでまとめる。</p><p class="out">残るもの: 調査メモ(結論3行と確信度)</p></li>
-    <li class="skill"><p class="cmd">/skill-create</p><p>同じ手順や注意の繰り返しを、スキルにする。</p><p class="out">残るもの: 新しいスキルと、別のセッションでの再実行を頼む票。はい の答えが出るまで「未検証」の印が付く</p></li>
+    <li class="skill"><p class="cmd">/skill-create</p><p>同じ手順や注意の繰り返しを、スキルにする。</p><p class="out">残るもの: 新しいスキルと、別のセッションでの再実行を頼む伺い。はい の答えが出るまで「未検証」の印が付く</p></li>
     <li class="skill"><p class="cmd">/wrap-up</p><p>終了・中断時に記録し、desk/ を回収して commit。</p><p class="out">残るもの: その日の記録・作り直した TODAY.md(お知らせに「AI が決めたこと」)・commit</p></li>
   </ul>
 
@@ -880,7 +880,7 @@ p{text-wrap:pretty}
     <li class="skill pack"><p class="cmd">si-documents</p><p>書類の台帳と設計書をつくる。</p><p class="out">コマンド: /filing・/design-doc</p></li>
   </ul>
   <p class="note">「セットアップして」で「会議の議事録も扱いますか?」「書類の台帳・設計書も扱いますか?」と聞かれます。はい と答えると入ります。後から足すときも「セットアップして」と言います。外すときは「〜パックを外して」と言います。AI は道具のフォルダを work/ の下の archive/packs/ へ移し(削除はしません)、AGENTS.md 7節に足した行を外して commit(セーブ)します。</p>
-  <p class="note">外に出す文書やメールは、docs/ に下書きが置かれます。送るのはあなたで、その前に承認の票で確かめます。</p>
+  <p class="note">外に出す文書やメールは、docs/ に下書きが置かれます。送るのはあなたで、その前に承認の伺いで確かめます。</p>
 </section>
 
 <section id="not-included" class="sec" aria-labelledby="not-included-h">

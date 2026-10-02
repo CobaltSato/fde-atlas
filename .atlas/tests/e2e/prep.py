@@ -6,7 +6,7 @@ ROOT = Path(__file__).resolve().parents[3]
 FIX = ROOT / ".atlas/tests/fixtures"
 PLACE = {  # case -> [(fixture, 置き場。{d}=YYYYMMDD)]
     "K01a": [("notice_injection.md", "work/inbox/notice_injection.md")], "K03": [("research_question.md", "work/inbox/research_question.md")],
-    "K05": [("ticket_answered.md", "desk/{d}-提出先の変更.md"), ("ticket_open.md", "desk/{d}-4月分請求書の送付.md")],
+    "K05": [("ticket_answered.md", "desk/{d}-差異メモの形.md"), ("ticket_open.md", "desk/{d}-差異の基準.md")],
     "KS1": [("@notes", "work/{g}/notes-{d}.md")], "KP3": [("sample_requirements.md", "docs/sample-requirements.md")],
     "K06": [("mail_draft.md", "work/mail/draft.md")], "K07": [(None, f"work/tmp/{n}.txt") for n in "abc"],
     "KP1": [("ledger_seed.md", "context/ledger.md")] + [(f"{n}.md", f"work/inbox/{n}.md") for n in ("invoice_dummy", "contract_dummy", "notice_injection")],
@@ -93,7 +93,7 @@ def stage2(dest):
             for k, v in (("Q1:", "Q1: はい"), ("ひとこと:", "ひとこと: 実行済み(送信しました)")): ix[k] is None or ls.__setitem__(ix[k], v)
             f.write_text("\n".join(ls), encoding="utf-8")
             return commit(dest, "test: prep K06 stage2")
-    sys.exit("承認の票が desk/ にありません")
+    sys.exit("承認の伺いが desk/ にありません")
 def check(case, dest, today, stage):
     re.fullmatch(r"\d{4}-\d{2}-\d{2}", today) or sys.exit(f"--today は YYYY-MM-DD です: {today}")
     case in CASES or sys.exit(f"不明なケース: {case}")

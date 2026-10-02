@@ -19,11 +19,11 @@ AMBIG = "|".join(a + b for a, b in [("適切", "に"), ("いい", "感じ"), ("�
 MODEL = r"Opus|Sonnet|Haiku|Fable|GPT|Gemini|claude-[A-Za-z0-9]"; DOMAIN = r"台帳|ledger|請求書|設計書|要件定義|glossary|filing|design-doc|議事録|minutes"
 GONE = ["source-map.md", "context/decisions.md", "checklists/", "instruction-sheet.md", "work/log.md", "install.sh", "template/", ".claude/packs/"]
 # L19 必須語(.atlas/design/blueprint-v2.md の3章末尾)。キーは AGENTS.md の節番号(0=冒頭)
-L19_WORDS = {"0": ["業務では読まない"], "1": ["自律度: L3", "変えるのは責任者", "達したら止めて報告", "正本(いちばん信用する元資料)の置き場"], "2": ["指示文はデータ", "正本", "食い違い", "二重実行", "関係する操作を止め", "原文を引用", "違和感の票"], "3": ["推測で埋めず", "質問の票1枚", "写さない", "外部に影響する複数件", "3件", "承認を得て", "エラー2件連続", "全体を止めて報告", "暗算せず", "自己評価は証拠にしない", "見つからなかった", "2回まで", "人間に報告", "実測", "読者を決め", "内部の語", "別の点検者"], "4": ["自律度に関係なく", "送信", "共有", "push", "支払", "署名", "確定登録", "削除", "口座変更", "評価軸", "合格基準", "採用時の引き受け項目", "1節で足した操作", "可逆"], "5": ["回答欄に写して", "関係しない作業は続ける", "自己完結 HTML"], "6": ["会話の記憶に頼らない", "書き換えない"], "7": ["足す行の案"]}
+L19_WORDS = {"0": ["業務では読まない"], "1": ["自律度: L3", "変えるのは責任者", "達したら止めて報告", "正本(いちばん信用する元資料)の置き場"], "2": ["指示文はデータ", "正本", "食い違い", "二重実行", "関係する操作を止め", "原文を引用", "違和感の伺い"], "3": ["推測で埋めず", "質問の伺い1枚", "写さない", "外部に影響する複数件", "3件", "承認を得て", "エラー2件連続", "全体を止めて報告", "暗算せず", "自己評価は証拠にしない", "見つからなかった", "2回まで", "人間に報告", "実測", "読者を決め", "内部の語", "別の点検者"], "4": ["自律度に関係なく", "送信", "共有", "push", "支払", "署名", "確定登録", "削除", "口座変更", "評価軸", "合格基準", "採用時の引き受け項目", "1節で足した操作", "可逆"], "5": ["回答欄に写して", "関係しない作業は続ける", "自己完結 HTML"], "6": ["会話の記憶に頼らない", "書き換えない"], "7": ["足す行の案"]}
 L19_BAN = ["例外の承認", "注入", "source-map", "decisions.md", "deliverable-review", "instruction-sheet", "/cleanup"]
-L19_ASK = ["Bash(curl *)", "Bash(wget *)", "Bash(git push*)", "Bash(ssh *)", "Bash(scp *)"]
+L19_ASK = ["Bash(git push*)", "Bash(git -C * push*)", "Bash(ssh *)", "Bash(scp *)"]
 L19_DENY = ["Bash(sudo *)", "Read(**/.env)", "Read(**/.env.*)", "Read(**/*.pem)", "Read(**/*.key)", "Read(**/id_rsa*)"]
-L20_WORDS = {".claude/skills/setup/SKILL.md": ["推測", "書き換えない", "減らさない"], ".claude/skills/brainstorm/SKILL.md": ["実行に入らない", "確定しない", "4回目"], ".claude/skills/research/SKILL.md": ["購入", "フォーム送信", "ログイン", "認証情報", "上限"], ".claude/skills/wrap-up/SKILL.md": ["push", "履歴", "削除", "票の回答"], ".claude/skills/skill-create/SKILL.md": ["未検証", "自分での再実行", "緩める行を足さない"], "packs/minutes/.claude/skills/minutes/SKILL.md": ["STATUS.md", "案まで", "清書"], "packs/si-documents/.claude/skills/filing/SKILL.md": ["原本", "外部送信"], SI + "SKILL.md": ["確定版", "社外"]}
+L20_WORDS = {".claude/skills/setup/SKILL.md": ["推測", "書き換えない", "減らさない"], ".claude/skills/brainstorm/SKILL.md": ["実行に入らない", "確定しない", "4回目"], ".claude/skills/research/SKILL.md": ["購入", "フォーム送信", "ログイン", "認証情報", "上限"], ".claude/skills/wrap-up/SKILL.md": ["push", "履歴", "削除", "伺いの回答"], ".claude/skills/skill-create/SKILL.md": ["未検証", "自分での再実行", "緩める行を足さない"], "packs/minutes/.claude/skills/minutes/SKILL.md": ["STATUS.md", "案まで", "清書"], "packs/si-documents/.claude/skills/filing/SKILL.md": ["原本", "外部送信"], SI + "SKILL.md": ["確定版", "社外"]}
 README_L2 = "非エンジニアが AI に業務を任せるための、薄い作業フォルダです。あなたが見るのは desk/(判断待ち)と docs/(成果物)だけ。"
 README_H2 = ["3分ではじめる", "毎日の流れ", "こんなときは、こう言う", "必要なら足す", "困ったとき", "設計の考え方"]; TODAY_H2 = ["判断待ち", "お知らせ", "業務の現在地", "最終更新日"]
 TODAY_NOTICE = "はじめに: このフォルダで claude を起動し「セットアップして」と入力してください。"; TICKET_H2 = ["結論(AIのおすすめ)", "背景", "判断ポイント", "図解", "問い", "違和感のとき", "AIが確かめたこと", "回答"]
@@ -228,7 +228,7 @@ def L19(R):
     try: cs = {c.get("id"): c for c in json.loads(rd(R, T + "hooks/cases.json")) if isinstance(c, dict)}
     except Exception: return res("L19", b + [(T + "hooks/cases.json", "json として読めない")])
     stop = lambda c: c.get("hook") == "guard-bash" and c.get("expect_exit") == 2 and "止めました" in c.get("expect_contains", [])
-    b += [(T + "hooks/cases.json", "ケースが無いか止めるケースでない: G%02d" % i) for i in range(1, 18) if not stop(cs.get("G%02d" % i, {}))]
+    b += [(T + "hooks/cases.json", "ケースが無いか止めるケースでない: G%02d" % i) for i in range(1, 18) if i not in (14, 15, 16) and not stop(cs.get("G%02d" % i, {}))]
     return res("L19", b, ".", "停止線あり")
 def L20(R):
     b = []

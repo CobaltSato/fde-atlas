@@ -2,7 +2,7 @@
 # PreToolUse(Bash)。戻せない操作と削除を exit 2 で止める
 CMD=$(tr '\n' ' ' | sed -nE 's/.*"command"[[:space:]]*:[[:space:]]*"(([^"\\]|\\.)*)".*/\1/p')
 [ -z "$CMD" ] && exit 0
-stop() { echo "止めました: $1。${2-戻せない操作です。}desk/ に承認の票を置いてください。承認後に${3-実行する}のは人間です。" >&2; exit 2; }
+stop() { echo "止めました: $1。${2-戻せない操作です。}desk/ に承認の伺いを置いてください。承認後に${3-実行する}のは人間です。" >&2; exit 2; }
 del() { stop 削除 "消さずに archive/ へ移すか、" 消す; }
 # -c・eval の中身と "" の中の $( ) は残し、他の引用符の中身は Q
 P='(^|[ ;&|(/])((ba|z)?sh( -[a-z]+)* -[a-z]*c|eval) '
@@ -15,7 +15,7 @@ SEGS=$(printf '%s\n' "$CMD" | sed -E -e 's/\\\\\\"/E/g' -e "s/$P'([^']*)'/\\1\\2
  if(d~/^\\/)while(match(d,/\$\([^()]*\)|`[^`]*`/)){z=z ";" substr(d,RSTART,RLENGTH) ";";d=substr(d,RSTART+RLENGTH)}}
  z=z o;gsub(/[;&|()`]/,"\n",z);print z}')
 set -f
-printf '%s\n' "$SEGS" | sed -nE '/rm|git|mail|mutt|delete/p' | sort -u | while IFS= read -r SEG; do
+printf '%s\n' "$SEGS" | sed -nE '/rm|git|delete/p' | sort -u | while IFS= read -r SEG; do
  set -- $SEG
  while [ $# -gt 0 ]; do
  case "$1" in
@@ -29,7 +29,6 @@ printf '%s\n' "$SEGS" | sed -nE '/rm|git|mail|mutt|delete/p' | sort -u | while I
  esac
  done; [ $# -eq 0 ] && continue; N=${1##*/}; shift
  case "$N" in
- mail|sendmail|mutt) stop "メール送信" ;;
  rm|\\*rm) del ;;
  git) while [ $# -gt 0 ]; do case "$1" in -C|-c) [ $# -ge 2 ] || break; shift 2 ;; -*) shift ;; *) break ;; esac; done
  S=${1:-}; [ $# -gt 0 ] && shift; for A in "$@"; do

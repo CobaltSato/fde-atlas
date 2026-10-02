@@ -29,13 +29,13 @@ TODAY=$(date +%Y-%m-%d)
   fi
   # 棚卸し(当たったものだけ)
   TAIL="。次回の /wrap-up で退避・整理"
-  TK="。票は動かさない"
+  TK="。伺いは動かさない"
   if [ -f work/STATUS.md ]; then
     B=$(wc -c < work/STATUS.md | tr -d ' ')
     [ "${B:-0}" -gt "$STATUS_MAX" ] && echo "[棚卸し] STATUS.md が ${B}B${TAIL}"
   fi
   A=$(wc -l < AGENTS.md | tr -d ' ')
-  [ "${A:-0}" -gt "$AGENTS_MAX" ] && echo "[棚卸し] AGENTS.md が ${A}行。8節の行を消すか統合する案を票に"
+  [ "${A:-0}" -gt "$AGENTS_MAX" ] && echo "[棚卸し] AGENTS.md が ${A}行。8節の行を消すか統合する案を伺いに"
   BIG=""
   C=0
   for d in work/*/; do
@@ -61,8 +61,8 @@ TODAY=$(date +%Y-%m-%d)
       EXP=$((EXP + 1))
     fi
   done
-  [ "$T" -gt "$DESK_MAX" ] && echo "[棚卸し] desk/ の票が ${T}枚${TK}"
-  [ "$EXP" -gt 0 ] && echo "[棚卸し] 期限切れの票 ${EXP}枚${TK}"
+  [ "$T" -gt "$DESK_MAX" ] && echo "[棚卸し] desk/ の伺いが ${T}枚${TK}"
+  [ "$EXP" -gt 0 ] && echo "[棚卸し] 期限切れの伺い ${EXP}枚${TK}"
   LINE="[机] 未回答 $((T - ANS))枚"
   [ "$ANS" -gt 0 ] && LINE="$LINE / 回答あり:$ANSLIST"
   echo "$LINE"

@@ -21,7 +21,7 @@ TOKENS = {
     "PEM": "-----BEGIN " + "RSA PRIVATE" + " KEY-----",
 }
 STATE = {"T02": "fresh", "T11": "normal", "T12": "worst"}  # バイト表の状態列
-TICKET = "# 票\n種別: 承認\n{due}\n## 問い\nQ1: 送ってよいですか?\n\n## 回答\nQ1:{a}\nQ2:\nひとこと:\n検証用リンク:\n"
+TICKET = "# 伺い\n種別: 承認\n{due}\n## 問い\nQ1: 送ってよいですか?\n\n## 回答\nQ1:{a}\nQ2:\nひとこと:\n検証用リンク:\n"
 def sub(s):  # {{NAME}} {NAME} を実値にする
     if not isinstance(s, str):
         s = json.dumps(s, ensure_ascii=False)
@@ -52,11 +52,11 @@ def apply_op(wd, op):
     elif kind == "workfiles":  # work/<名前> に N ファイル
         name, n = rest.split(":")
         [put(wd, "work/%s/f%03d.md" % (name, i), "x\n") for i in range(int(n))]
-    elif kind == "tickets":  # 未回答の票 N 枚
+    elif kind == "tickets":  # 未回答の伺い N 枚
         [put(wd, "desk/20260101-t%02d.md" % i, TICKET.format(due="", a="")) for i in range(int(rest))]
-    elif kind == "answered":  # 回答済みの票 N 枚
+    elif kind == "answered":  # 回答済みの伺い N 枚
         [put(wd, "desk/20260102-a%02d.md" % i, TICKET.format(due="", a=" はい")) for i in range(int(rest))]
-    elif kind == "expired":  # 期限付きの票 1枚(rest=日付)
+    elif kind == "expired":  # 期限付きの伺い 1枚(rest=日付)
         put(wd, "desk/20260103-e.md", TICKET.format(due="期限: " + rest, a=""))
     elif kind == "fixture":  # fixtures/ticket_<名前>.md を desk/ へ
         shutil.copy(os.path.join(REPO, ".atlas/tests/fixtures/ticket_%s.md" % rest), os.path.join(wd, "desk/20260104-fx.md"))
