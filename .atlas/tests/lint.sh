@@ -178,7 +178,7 @@ def L14(R):
 def L15(R):
     b = []
     for pat, only in [(r"8192|8 ?KB|50 ?(件|ファイル)|7 ?(枚|件)", ".claude/hooks/session-start.sh"),
-                      (r"AKIA\[|ghp_|github_pat_|xox\[", ".claude/hooks/secret-guard.sh"), (r"Web検索5回", "AGENTS.md")]:
+                      (r"AKIA\[|ghp_|github_pat_|xox\[", ".claude/hooks/secret-guard.sh"), (r"Web検索は15回", "AGENTS.md")]:
         b += scan(R, [p for p in scope(R) if p != only], pat)
     return res("L15", b, ".", "正本は1か所")
 def L16(R):
